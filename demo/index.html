@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>api.ai demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .half-panel {
+            border: solid 1px gray;
+            min-height: 20px;
+            height: auto;
+            font-family: monospace;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+
+For more details see browser's console.
+<br/>
+<br/>
+
+<button type="button" onclick="app.open()">Open websocket</button>
+<button type="button" onclick="app.close()">Close websocket</button>
+
+<br/><br/>
+
+<button id="start" type="button" onclick="app.start()">Start</button>
+<button id="stop" type="button" onclick="app.stop()" class="hidden">Stop</button>
+or send json <input id="text" type="text"/>
+<button type="button" onclick="app.sendJson()">Send json</button>
+
+<br/><br/>
+
+<button id="clean" type="button" onclick="app.clean()">Clan dialogue</button>
+<div style="display: flex">
+    <div id="dialogue" class="half-panel" style="white-space: pre-line;width: 50%"></div>
+    <div id="response" class="half-panel" style="white-space: pre;width: 50%;"></div>
+</div>
+
+<script type="text/javascript" src="../src/resampler.js"></script>
+<script type="text/javascript" src="../src/recorderWorker.js"></script>
+<script type="text/javascript" src="../src/recorder.js"></script>
+<script type="text/javascript" src="../src/processors.js"></script>
+<script type="text/javascript" src="../src/vad.js"></script>
+<script type="text/javascript" src="../src/tts.js"></script>
+<script type="text/javascript" src="../src/api.ai.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
