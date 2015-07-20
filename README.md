@@ -1,10 +1,10 @@
-api.ai.js - Javascript SDK for api.ai
+JavaScript SDK for Api.ai
 =====================================
-api.ai.js makes it easy to integrate [api.ai](http://api.ai) natural language processing service into your web application. 
+api.ai.js makes it easy to integrate [Api.ai](http://api.ai) natural language processing service into your web application. 
 
 ## Prepare your agent
 
-You can use [api.ai developer console](https://console.api.ai/) to create your own [agent](http://api.ai/docs/getting-started/5-min-guide/) or
+You can use [Api.ai developer console](https://console.api.ai/) to create your own [agent](http://api.ai/docs/getting-started/5-min-guide/) or
 import our example [Pizza Delivery](https://github.com/sergeyi-speaktoit-com/api.ai.js/blob/master/resources/PizzaDelivery.zip) agent.
 You will also need an [access_token and subscription key](http://api.ai/docs/getting-started/quick-start-api.html#step-1-obtain-an-access-token) to let the client access your agent.
 
