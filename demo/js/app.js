@@ -3,15 +3,12 @@
  */
 
 var app, text, dialogue, response, start, stop;
-var SERVER_DOMAIN, ACCESS_TOKEN;
+var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN;
 
-
-SERVER_DOMAIN = 'dev.api.ai';
-ACCESS_TOKEN = 'f234ec9f1bd747e2a3765f9e74830890';
-
-//SERVER = 'localhost:8080';
-//ACCESS_TOKEN = 'a92632e7312b4ab7afa457a0e0a7a515';
-
+SERVER_PROTO = 'wss';
+SERVER_DOMAIN = 'console.api.ai';
+SERVER_PORT = '4435';
+ACCESS_TOKEN = '00000000000000000000000000000000';
 
 window.onload = function () {
     text = $('text');
@@ -81,7 +78,7 @@ function App() {
          * You can use configuration object to set properties and handlers.
          */
         var config = {
-            server: 'wss://' + SERVER_DOMAIN + ':4435/api/ws/query',
+            server: SERVER_PROTO + '://' + SERVER_DOMAIN + ':' + SERVER_PORT + '/api/ws/query',
             token: ACCESS_TOKEN,// Use Client access token there (see agent keys).
             sessionId: sessionId,
             onInit: function () {

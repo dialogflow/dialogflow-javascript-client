@@ -167,7 +167,7 @@
     ApiAi.prototype.stopListening = function () {
         var _this = this;
 
-        _this.resample_processor.disconnect();
+        _this.resample_processor && _this.resample_processor.disconnect();
 
         // Stop the regular sending of audio
         clearInterval(_this.intervalKey);
