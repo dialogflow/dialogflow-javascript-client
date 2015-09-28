@@ -41,7 +41,7 @@ function App() {
     this.sendJson = function () {
         var query = text.value,
             queryJson = {
-                "v": "20150512",
+                "v": "20150910",
                 "query": query,
                 "timezone": "GMT+6",
                 "lang": "en",
