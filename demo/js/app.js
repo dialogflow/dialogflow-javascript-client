@@ -6,7 +6,7 @@ var app, text, dialogue, response, start, stop;
 var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN;
 
 SERVER_PROTO = 'wss';
-SERVER_DOMAIN = 'console.api.ai';
+SERVER_DOMAIN = 'api.api.ai';
 SERVER_PORT = '4435';
 ACCESS_TOKEN = '00000000000000000000000000000000';
 
