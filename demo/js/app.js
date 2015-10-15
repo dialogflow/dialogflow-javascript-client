@@ -16,6 +16,8 @@ window.onload = function () {
     response = $('response');
     start = $('start');
     stop = $('stop');
+    $('server').innerHTML = SERVER_DOMAIN;
+    $('token').innerHTML = ACCESS_TOKEN;
 
     app = new App();
 };

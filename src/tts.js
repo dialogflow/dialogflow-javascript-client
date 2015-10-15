@@ -27,7 +27,7 @@
         var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
         var xhr = new XHR();
 
-        xhr.open('GET', 'http://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=en-US&text=' + text, true);
+        xhr.open('GET', 'https://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=en-US&text=' + text, true);
         xhr.responseType = 'arraybuffer';
 
         xhr.onload = function (response) {
