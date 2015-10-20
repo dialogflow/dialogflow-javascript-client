@@ -1,12 +1,13 @@
 (function () {
 
-    function TTS(server, access_token, audio_context) {
+    function TTS(server, access_token, audio_context, lang) {
         if (!(server && access_token)) {
             throw 'Illegal TTS arguments: server and access_token are required.';
         }
 
         this.access_token = access_token;
         this.server = server;
+        this.lang = lang;
 
         if (audio_context) {
             this.audio_context = audio_context;
@@ -16,7 +17,7 @@
         }
     }
 
-    TTS.prototype.tts = function (text, onended) {
+    TTS.prototype.tts = function (text, onended, lang) {
         if (!text) {
             return;
         }
@@ -27,7 +28,9 @@
         var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
         var xhr = new XHR();
 
-        xhr.open('GET', 'https://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=en-US&text=' + text, true);
+        lang = lang || _this.lang || 'en-US';
+
+        xhr.open('GET', 'https://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=' + lang + '&text=' + text, true);
         xhr.responseType = 'arraybuffer';
 
         xhr.onload = function (response) {

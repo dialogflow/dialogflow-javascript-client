@@ -83,6 +83,7 @@ function App() {
             server: SERVER_PROTO + '://' + SERVER_DOMAIN + ':' + SERVER_PORT + '/api/ws/query',
             token: ACCESS_TOKEN,// Use Client access token there (see agent keys).
             sessionId: sessionId,
+            lang: 'en',
             onInit: function () {
                 console.log("> ON INIT use config");
             }
@@ -147,7 +148,7 @@ function App() {
 
             speech = data.result.speech;
             // Use Text To Speech service to play text.
-            apiAiTts.tts(speech);
+            apiAiTts.tts(speech, undefined, 'ru-RU');
 
             dialogue.innerHTML += ('user : ' + data.result.resolvedQuery + '\napi  : ' + data.result.speech + '\n\n');
             response.innerHTML = JSON.stringify(data, null, 2);
@@ -172,7 +173,7 @@ function App() {
         /**
          * Initialise Text To Speech service for playing text.
          */
-        apiAiTts = new TTS(SERVER_DOMAIN, ACCESS_TOKEN);
+        apiAiTts = new TTS(SERVER_DOMAIN, ACCESS_TOKEN, undefined, 'en-US');
 
     }
 

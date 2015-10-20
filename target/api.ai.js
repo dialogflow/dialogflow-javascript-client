@@ -560,13 +560,14 @@ function _recorderWorkerJs() {
 
 })();(function () {
 
-    function TTS(server, access_token, audio_context) {
+    function TTS(server, access_token, audio_context, lang) {
         if (!(server && access_token)) {
             throw 'Illegal TTS arguments: server and access_token are required.';
         }
 
         this.access_token = access_token;
         this.server = server;
+        this.lang = lang;
 
         if (audio_context) {
             this.audio_context = audio_context;
@@ -576,7 +577,7 @@ function _recorderWorkerJs() {
         }
     }
 
-    TTS.prototype.tts = function (text, onended) {
+    TTS.prototype.tts = function (text, onended, lang) {
         if (!text) {
             return;
         }
@@ -587,7 +588,9 @@ function _recorderWorkerJs() {
         var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
         var xhr = new XHR();
 
-        xhr.open('GET', 'https://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=en-US&text=' + text, true);
+        lang = lang || _this.lang || 'en-US';
+
+        xhr.open('GET', 'https://' + _this.server + '/api/tts?access_token=' + _this.access_token + '&lang=' + lang + '&text=' + text, true);
         xhr.responseType = 'arraybuffer';
 
         xhr.onload = function (response) {
@@ -669,6 +672,7 @@ function _recorderWorkerJs() {
         _this.server = config.server || '';
         _this.token = config.token || '';
         _this.sessionId = config.sessionId || '';
+        _this.lang = config.lang || 'en';
         _this.contentType = config.contentType || CONTENT_TYPE;
         _this.readingInterval = config.readingInterval || INTERVAL;
 
@@ -766,7 +770,7 @@ function _recorderWorkerJs() {
             _this.stopListening();
         });
 
-        _this.ws.send("{'timezone':'America/New_York', 'lang':'en', 'sessionId':'" + _this.sessionId + "'}");
+        _this.ws.send("{'timezone':'America/New_York', 'lang':'" + _this.lang + "', 'sessionId':'" + _this.sessionId + "'}");
 
         _this.intervalKey = setInterval(function () {
             recorder.export16kMono(function (blob) {

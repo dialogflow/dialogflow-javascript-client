@@ -41,6 +41,7 @@
         _this.server = config.server || '';
         _this.token = config.token || '';
         _this.sessionId = config.sessionId || '';
+        _this.lang = config.lang || 'en';
         _this.contentType = config.contentType || CONTENT_TYPE;
         _this.readingInterval = config.readingInterval || INTERVAL;
 
@@ -138,7 +139,7 @@
             _this.stopListening();
         });
 
-        _this.ws.send("{'timezone':'America/New_York', 'lang':'en', 'sessionId':'" + _this.sessionId + "'}");
+        _this.ws.send("{'timezone':'America/New_York', 'lang':'" + _this.lang + "', 'sessionId':'" + _this.sessionId + "'}");
 
         _this.intervalKey = setInterval(function () {
             recorder.export16kMono(function (blob) {

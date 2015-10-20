@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION='0.1.1'
+VERSION='0.1.2'
 
 echo '/**
  * api.ai.js - Javascript SDK for api.ai
