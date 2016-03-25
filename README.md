@@ -1,12 +1,12 @@
 JavaScript SDK for Api.ai
 =====================================
-api.ai.js makes it easy to integrate [Api.ai](http://api.ai) natural language processing service into your web application. 
+api.ai.js makes it easy to integrate [Api.ai](https://api.ai) natural language processing service into your web application. 
 
 ## Prepare your agent
 
-You can use [Api.ai developer console](https://console.api.ai/) to create your own [agent](http://api.ai/docs/getting-started/5-min-guide/) or
+You can use [Api.ai developer console](https://console.api.ai/) to create your own [agent](https://docs.api.ai/docs/get-started) or
 import our example [Pizza Delivery](https://github.com/sergeyi-speaktoit-com/api.ai.js/blob/master/resources/PizzaDelivery.zip) agent.
-You will also need an [access_token and subscription key](http://api.ai/docs/getting-started/quick-start-api.html#step-1-obtain-an-access-token) to let the client access your agent.
+You will also need an [access_token and subscription key](https://docs.api.ai/docs/authentication) to let the client access your agent.
 
 ## How to use the agent
 
@@ -16,7 +16,7 @@ Add [api.ai.min.js](src/api.ai.min.js) before the main js script in your html fi
 <script type="text/javascript" src="js/main.js"></script>
 ```
 
-To launch your web application, deploy the html file and all scripts using web server. It is important to use web server, as some browsers don't allow access to microphone if an html file is opened using file system (e.g. URL like "file:///C:/Users/I/Projects/api.ai.js/demo/index.html").
+To launch your web application, deploy the html file and all scripts using web server. It is important to use web server, as some browsers don't allow access to microphone if an html file is opened using file system (e.g. URL like "/home/johnny/demo/index.html").
 
 ### Create instance
 There are two options to create instance for api.ai.
@@ -37,7 +37,7 @@ var apiAi = new ApiAi(config);
 Alternatively, assign properties and listeners directly:
 
 ```javascript
-apiAi.sessionId = '1234';
+apiAi.sessionId = 'YOUR_SESSION_ID';
 apiAi.onInit = function () {
     console.log("> ON INIT use direct assignment property");
     apiAi.open();
@@ -87,7 +87,7 @@ apiAi.onResults = function (data) {
 };
 ```
 
-For information about [Response object structure](http://api.ai/docs/reference/#response), please visit our [documentation](http://api.ai/docs/) page.
+For information about [Response object structure](https://docs.api.ai/docs/query#response), please visit our [documentation](https://docs.api.ai/) page.
 
 ## API properties
 
