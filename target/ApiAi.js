@@ -121,6 +121,9 @@ var ApiAi =
 	            'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
 	        };
 	    }
+	    /**
+	     * @todo: deal with Access-Control headers, probably on server-side
+	     */
 	    Request.prototype.perform = function () {
 	        console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
 	        XhrRequest_1.default.sendRequest(this.uri, this.options, this.headers, function (resp) {
@@ -141,7 +144,7 @@ var ApiAi =
 	/**
 	 * quick ts implementation of http://www.quirksmode.org/js/xmlhttp.html
 	 * @todo: test
-	 * @todo: rewrite with promises
+	 * @todo: rewrite with promises and normal ts-flow
 	 * @todo: error handling
 	 */
 	var XhrRequest = (function () {
