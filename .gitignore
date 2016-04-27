@@ -1,0 +1,4 @@
+.idea
+node_modules
+target/ApiAi.js.map
+target/ApiAi.min.js.map
