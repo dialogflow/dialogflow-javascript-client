@@ -2,5 +2,8 @@
   "compilerOptions": {
     "target": "ES5",
     "sourceMap": true
-  }
+  },
+  "files": [
+    "typings/main.d.ts"
+  ]
 }

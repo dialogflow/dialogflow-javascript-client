@@ -1,5 +1,6 @@
 import {Client} from "./Client";
 import XhrRequest from "./XhrRequest";
+
 export default class Request {
 
     private uri;
@@ -20,9 +21,16 @@ export default class Request {
      */
     public perform () {
         console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
-        XhrRequest.sendRequest(this.uri, this.options, this.headers, (resp) => {
+        
+        XhrRequest.post(this.uri, this.options, this.headers)
+            .then(
+                (response) => console.log(response),
+                (response) => console.log(response)
+            );
+        
+        /*XhrRequest.sendRequest(this.uri, this.options, this.headers, (resp) => {
             console.log('server responded with', resp);
-        })
+        })*/
     }
 
 }

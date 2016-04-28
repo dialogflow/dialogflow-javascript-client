@@ -126,9 +126,11 @@ var ApiAi =
 	     */
 	    Request.prototype.perform = function () {
 	        console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
-	        XhrRequest_1.default.sendRequest(this.uri, this.options, this.headers, function (resp) {
+	        XhrRequest_1.default.post(this.uri, this.options, this.headers)
+	            .then(function (response) { return console.log(response); }, function (response) { return console.log(response); });
+	        /*XhrRequest.sendRequest(this.uri, this.options, this.headers, (resp) => {
 	            console.log('server responded with', resp);
-	        });
+	        })*/
 	    };
 	    return Request;
 	}());
@@ -150,32 +152,80 @@ var ApiAi =
 	var XhrRequest = (function () {
 	    function XhrRequest() {
 	    }
-	    XhrRequest.sendRequest = function (url, data, headers, callback) {
-	        var req = XhrRequest.createXMLHTTPObject();
-	        if (!req)
-	            return;
-	        //var method = (postData) ? "POST" : "GET";
-	        var method = 'POST';
-	        req.open(method, url, true);
-	        //req.setRequestHeader('User-Agent','XMLHTTP/1.0');
-	        for (var key in headers) {
-	            req.setRequestHeader(key, headers[key]);
-	        }
-	        req.setRequestHeader('Content-Type', 'application/json');
-	        //if (postData)
-	        //    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	        req.onreadystatechange = function () {
-	            if (req.readyState != 4)
-	                return;
-	            if (req.status != 200 && req.status != 304) {
-	                //          alert('HTTP error ' + req.status);
-	                return;
+	    // Method that performs the ajax request
+	    XhrRequest.ajax = function (method, url, args, headers) {
+	        if (args === void 0) { args = null; }
+	        if (headers === void 0) { headers = null; }
+	        // Creating a promise
+	        return new Promise(function (resolve, reject) {
+	            // Instantiates the XMLHttpRequest
+	            var client = XhrRequest.createXMLHTTPObject();
+	            var uri = url;
+	            var payload = null;
+	            // Add given payload to get request
+	            if (args && (method === XhrRequest.Method.GET)) {
+	                uri += '?';
+	                var argcount = 0;
+	                for (var key in args) {
+	                    if (args.hasOwnProperty(key)) {
+	                        if (argcount++) {
+	                            uri += '&';
+	                        }
+	                        uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
+	                    }
+	                }
 	            }
-	            callback(req);
-	        };
-	        if (req.readyState == 4)
-	            return;
-	        req.send(JSON.stringify(data));
+	            else if (args) {
+	                if (!headers) {
+	                    headers = {};
+	                }
+	                headers['Content-Type'] = 'application/json';
+	                payload = JSON.stringify(args);
+	            }
+	            client.open(method, uri);
+	            // Add given headers
+	            if (headers) {
+	                for (var key in headers) {
+	                    if (headers.hasOwnProperty(key)) {
+	                        client.setRequestHeader(key, headers[key]);
+	                    }
+	                }
+	            }
+	            payload ? client.send(payload) : client.send();
+	            client.onload = function () {
+	                if (this.status >= 200 && this.status < 300) {
+	                    // Performs the function "resolve" when this.status is equal to 2xx
+	                    resolve(this);
+	                }
+	                else {
+	                    // Performs the function "reject" when this.status is different than 2xx
+	                    reject(this);
+	                }
+	            };
+	            client.onerror = function () {
+	                reject(this);
+	            };
+	        });
+	    };
+	    XhrRequest.get = function (url, payload, headers) {
+	        if (payload === void 0) { payload = null; }
+	        if (headers === void 0) { headers = null; }
+	        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers);
+	    };
+	    XhrRequest.post = function (url, payload, headers) {
+	        if (payload === void 0) { payload = null; }
+	        if (headers === void 0) { headers = null; }
+	        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers);
+	    };
+	    XhrRequest.put = function (url, payload, headers) {
+	        if (payload === void 0) { payload = null; }
+	        if (headers === void 0) { headers = null; }
+	        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers);
+	    };
+	    XhrRequest.delete = function (url, payload, headers) {
+	        if (payload === void 0) { payload = null; }
+	        if (headers === void 0) { headers = null; }
+	        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers);
 	    };
 	    XhrRequest.createXMLHTTPObject = function () {
 	        var xmlhttp = null;
@@ -198,6 +248,16 @@ var ApiAi =
 	    ];
 	    return XhrRequest;
 	}());
+	var XhrRequest;
+	(function (XhrRequest) {
+	    (function (Method) {
+	        Method[Method["GET"] = 'GET'] = "GET";
+	        Method[Method["POST"] = 'POST'] = "POST";
+	        Method[Method["PUT"] = 'PUT'] = "PUT";
+	        Method[Method["DELETE"] = 'DELETE'] = "DELETE";
+	    })(XhrRequest.Method || (XhrRequest.Method = {}));
+	    var Method = XhrRequest.Method;
+	})(XhrRequest || (XhrRequest = {}));
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = XhrRequest;
 
