@@ -6,7 +6,6 @@ api.ai.js makes it easy to integrate [Api.ai](https://api.ai) natural language p
 
 You can use [Api.ai developer console](https://console.api.ai/) to create your own [agent](https://docs.api.ai/docs/get-started) or
 import our example [Pizza Delivery](resources/PizzaDelivery.zip) agent.
-You will also need an [access_token and subscription key](https://docs.api.ai/docs/authentication) to let the client access your agent.
 
 ## How to use the agent
 
