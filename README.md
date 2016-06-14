@@ -14,4 +14,23 @@ Command `$ webpack --minify` or `$ webpack -m` compiles ./target/ApiAi.min.js fi
 
 # Usage
 
-Can not be achieved on that stage
+Currently only simple `textRequest` method is available through this SDK
+
+Currently it looks like:
+
+```javascript
+
+var client = new ApiAi.Client('YOUR_ACCESS_TOKEN');
+var promise = client.textRequest(longTextRequest);
+
+promise
+    .then(handleResponse)
+    .catch(heandleError);
+
+function handleResponse(serverResponse) {
+        console.log(serverResponse);
+}
+function heandleError(serverError) {
+        console.log(serverError);
+}
+```
