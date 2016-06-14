@@ -3,6 +3,7 @@ import {IStringMap} from "./interfaces/IStringMap";
  * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
  * with some minor improvements
  * @todo: test (?)
+ * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
  */
 class XhrRequest {
 
