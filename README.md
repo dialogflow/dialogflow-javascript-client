@@ -23,13 +23,14 @@ Currently it looks like:
 var client = new ApiAi.Client('YOUR_ACCESS_TOKEN');
 var promise = client.textRequest(longTextRequest);
 
-promise.then(
-    function (serverResponse) {
+promise
+    .then(handleResponse)
+    .catch(heandleError);
+
+function handleResponse(serverResponse) {
         console.log(serverResponse);
-    }
-).catch(
-    function (serverError) {
+}
+function heandleError(serverError) {
         console.log(serverError);
-    }
-);
+}
 ```
