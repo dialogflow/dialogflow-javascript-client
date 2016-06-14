@@ -1,5 +1,7 @@
 {
-  "ambientDependencies": {
-    "es6-promise": "github:DefinitelyTyped/DefinitelyTyped/es6-promise/es6-promise.d.ts#71b4d6f6087f49891a01c937d2a86eee6f6c9b3a"
+  "globalDependencies": {
+    "es6-promise": "registry:dt/es6-promise#0.0.0+20160614011821",
+    "webaudioapi/waa": "registry:dt/webaudioapi/waa#0.0.0+20160328224055",
+    "webrtc/mediastream": "registry:dt/webrtc/mediastream#0.0.0+20160317120654"
   }
 }

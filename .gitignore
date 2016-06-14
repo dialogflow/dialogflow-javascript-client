@@ -1,4 +1,5 @@
 .idea
+npm-debug.log
 node_modules
 typings
 target/ApiAi.js.map

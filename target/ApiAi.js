@@ -58,12 +58,19 @@ var ApiAi =
 	var Client = (function () {
 	    function Client(accessToken) {
 	        this.accessToken = accessToken;
+	        if (!this.sessionId) {
+	            this.setSessionId(this.guid());
+	        }
 	    }
 	    Client.prototype.textRequest = function (query, options) {
 	        if (query === void 0) { query = ''; }
 	        if (options === void 0) { options = {}; }
 	        options['query'] = query;
 	        return new TextRequest_1.default(this, options).perform();
+	    };
+	    Client.prototype.createStream = function () {
+	        //new StreamClient();
+	        //@todo
 	    };
 	    Client.prototype.getAccessToken = function () {
 	        return this.accessToken;
@@ -76,6 +83,21 @@ var ApiAi =
 	    };
 	    Client.prototype.getApiBaseUrl = function () {
 	        return (this.apiBaseUrl) ? this.apiBaseUrl : Constants_1.default.DEFAULT_BASE_URL;
+	    };
+	    Client.prototype.setSessionId = function (sessionId) {
+	        this.sessionId = sessionId;
+	    };
+	    Client.prototype.getSessionId = function () {
+	        return this.sessionId;
+	    };
+	    /**
+	     * generates new random UUID
+	     * @returns {string}
+	     */
+	    Client.prototype.guid = function () {
+	        var s4 = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
+	        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	            s4() + '-' + s4() + s4() + s4();
 	    };
 	    return Client;
 	}());
@@ -117,6 +139,7 @@ var ApiAi =
 	        this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
 	        this.requestMethod = 'POST';
 	        this.options['lang'] = this.apiAiClient.getApiLang();
+	        this.options['sessionId'] = this.apiAiClient.getSessionId();
 	        this.headers = {
 	            'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
 	        };
@@ -126,11 +149,15 @@ var ApiAi =
 	     */
 	    Request.prototype.perform = function () {
 	        console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
-	        XhrRequest_1.default.post(this.uri, this.options, this.headers)
-	            .then(function (response) { return console.log(response); }, function (response) { return console.log(response); });
-	        /*XhrRequest.sendRequest(this.uri, this.options, this.headers, (resp) => {
-	            console.log('server responded with', resp);
-	        })*/
+	        return XhrRequest_1.default.post(this.uri, this.options, this.headers)
+	            .then(Request.handleSuccess.bind(this))
+	            .catch(Request.handleError.bind(this));
+	    };
+	    Request.handleSuccess = function (xhr) {
+	        return JSON.parse(xhr.responseText);
+	    };
+	    Request.handleError = function (xhr) {
+	        return JSON.parse(xhr.responseText);
 	    };
 	    return Request;
 	}());
@@ -144,10 +171,9 @@ var ApiAi =
 
 	"use strict";
 	/**
-	 * quick ts implementation of http://www.quirksmode.org/js/xmlhttp.html
-	 * @todo: test
-	 * @todo: rewrite with promises and normal ts-flow
-	 * @todo: error handling
+	 * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+	 * with some minor improvements
+	 * @todo: test (?)
 	 */
 	var XhrRequest = (function () {
 	    function XhrRequest() {

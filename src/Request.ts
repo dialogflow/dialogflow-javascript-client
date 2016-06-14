@@ -1,5 +1,6 @@
 import {Client} from "./Client";
 import XhrRequest from "./XhrRequest";
+import {IServerResponse} from "./interfaces/IServerResponse";
 
 export default class Request {
 
@@ -11,6 +12,7 @@ export default class Request {
         this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
         this.requestMethod = 'POST';
         this.options['lang'] = this.apiAiClient.getApiLang();
+        this.options['sessionId'] = this.apiAiClient.getSessionId();
         this.headers = {
             'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
         }
@@ -19,18 +21,23 @@ export default class Request {
     /**
      * @todo: deal with Access-Control headers, probably on server-side
      */
-    public perform () {
+    public perform () : Promise<IServerResponse> {
         console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
         
-        XhrRequest.post(this.uri, this.options, this.headers)
-            .then(
-                (response) => console.log(response),
-                (response) => console.log(response)
-            );
-        
-        /*XhrRequest.sendRequest(this.uri, this.options, this.headers, (resp) => {
-            console.log('server responded with', resp);
-        })*/
+        return XhrRequest.post(this.uri, this.options, this.headers)
+            .then(Request.handleSuccess.bind(this))
+            .catch(Request.handleError.bind(this));
+
+
+
+    }
+
+    private static handleSuccess(xhr: XMLHttpRequest) : IServerResponse {
+        return JSON.parse(xhr.responseText);
+    }
+
+    private static handleError(xhr: XMLHttpRequest) : IServerResponse {
+        return JSON.parse(xhr.responseText);
     }
 
 }

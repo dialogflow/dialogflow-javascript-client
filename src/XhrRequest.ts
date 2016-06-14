@@ -75,15 +75,15 @@ class XhrRequest {
     public static get (url, payload: IStringMap = null, headers: IStringMap = null) {
         return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers);
     }
-    
-    public static post (url: string, payload: IStringMap = null, headers: IStringMap = null) {
+
+    public static post (url: string, payload: IStringMap = null, headers: IStringMap = null) : Promise<{}> {
         return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers);
     }
-    
+
     public static put (url: string, payload: IStringMap = null, headers: IStringMap = null) {
         return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers);
     }
-    
+
     public static delete (url: string, payload: IStringMap = null, headers: IStringMap = null) {
         return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers);
     }
