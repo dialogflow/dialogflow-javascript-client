@@ -14,15 +14,15 @@ Command `$ webpack --minify` or `$ webpack -m` compiles ./target/ApiAi.min.js fi
 
 # Usage
 
-Currently only simple 'textRequest' method is available through this SDK
+Currently only simple `textRequest` method is available through this SDK
 
-`var client = new ApiAi.Client('YOUR_ACCESS_TOKEN');` will create new ApiAi.Client instanse;
-
-`var promise = client.textRequest(longTextRequest);` will return to you standard JS Deferred object, that can be used with `then` or `catch` or anything else.
-
-For example:
+Currently it looks like:
 
 ```javascript
+
+var client = new ApiAi.Client('YOUR_ACCESS_TOKEN');
+var promise = client.textRequest(longTextRequest);
+
 promise.then(
     function (serverResponse) {
         console.log(serverResponse);
