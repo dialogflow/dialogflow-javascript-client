@@ -148,7 +148,7 @@ function App() {
 
             speech = data.result.speech;
             // Use Text To Speech service to play text.
-            apiAiTts.tts(speech, undefined, 'ru-RU');
+            apiAiTts.tts(speech, undefined, 'en-US');
 
             dialogue.innerHTML += ('user : ' + data.result.resolvedQuery + '\napi  : ' + data.result.speech + '\n\n');
             response.innerHTML = JSON.stringify(data, null, 2);
