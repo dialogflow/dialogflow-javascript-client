@@ -27,17 +27,14 @@ export default class Request {
         return XhrRequest.post(this.uri, this.options, this.headers)
             .then(Request.handleSuccess.bind(this))
             .catch(Request.handleError.bind(this));
-
-
-
     }
 
-    private static handleSuccess(xhr: XMLHttpRequest) : IServerResponse {
-        return JSON.parse(xhr.responseText);
+    private static handleSuccess(xhr: XMLHttpRequest) : Promise<IServerResponse> {
+        return Promise.resolve(JSON.parse(xhr.responseText));
     }
 
-    private static handleError(xhr: XMLHttpRequest) : IServerResponse {
-        return JSON.parse(xhr.responseText);
+    private static handleError(xhr: XMLHttpRequest) : Promise<IServerResponse> {
+        return Promise.reject(JSON.parse(xhr.responseText));
     }
 
 }

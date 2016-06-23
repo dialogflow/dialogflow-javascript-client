@@ -8,6 +8,10 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
+    "mocha-phantomjs": "^4.1.0",
+    "promise-polyfill": "^5.2.1",
     "ts-loader": "^0.8.1",
     "tslint": "^3.8.1",
     "typescript": "^1.8.7",

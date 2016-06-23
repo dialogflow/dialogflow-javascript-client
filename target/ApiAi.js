@@ -55,6 +55,8 @@ var ApiAi =
 	"use strict";
 	var TextRequest_1 = __webpack_require__(2);
 	var Constants_1 = __webpack_require__(5);
+	var XhrRequest_1 = __webpack_require__(4);
+	exports.XhrRequest = XhrRequest_1.default;
 	var Client = (function () {
 	    function Client(accessToken) {
 	        this.accessToken = accessToken;
@@ -154,10 +156,10 @@ var ApiAi =
 	            .catch(Request.handleError.bind(this));
 	    };
 	    Request.handleSuccess = function (xhr) {
-	        return JSON.parse(xhr.responseText);
+	        return Promise.resolve(JSON.parse(xhr.responseText));
 	    };
 	    Request.handleError = function (xhr) {
-	        return JSON.parse(xhr.responseText);
+	        return Promise.reject(JSON.parse(xhr.responseText));
 	    };
 	    return Request;
 	}());
@@ -174,6 +176,7 @@ var ApiAi =
 	 * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
 	 * with some minor improvements
 	 * @todo: test (?)
+	 * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
 	 */
 	var XhrRequest = (function () {
 	    function XhrRequest() {

@@ -3,6 +3,7 @@ import Constants from "./Constants";
 import {IServerResponse} from "./interfaces/IServerResponse";
 import StreamClient from "./Stream/StreamClient";
 
+export {default as XhrRequest} from 'XhrRequest';
 
 export class Client {
 

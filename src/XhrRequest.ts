@@ -6,8 +6,6 @@ import {IStringMap} from "./interfaces/IStringMap";
  * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
  */
 class XhrRequest {
-
-
     // Method that performs the ajax request
     public static ajax (
         method,

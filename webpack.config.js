@@ -4,14 +4,27 @@ var webpack = require('webpack'),
 
 var libraryName = 'ApiAi',
     plugins = [],
-    outputFile;
+    outputFile = '';
+
+var libraryTarget = 'var';
+
 
 if (yargs.argv.m || yargs.argv.minify) {
     plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
-    outputFile = libraryName + '.min.js';
+    outputFile += libraryName + '.min';
 } else {
-    outputFile = libraryName + '.js';
+
+    outputFile += libraryName; //+ '.js';
 }
+
+
+if (yargs.argv.target || yargs.argv.t) {
+    libraryTarget = yargs.argv.t || yargs.argv.target;
+    outputFile += '.' + libraryTarget;
+}
+
+outputFile += '.js';
+
 
 module.exports = {
 
@@ -23,7 +36,7 @@ module.exports = {
         path: path.join(__dirname, 'target'),
         filename: outputFile,
         library: libraryName,
-        libraryTarget: 'var'
+        libraryTarget: libraryTarget
     },
     
     module: {
