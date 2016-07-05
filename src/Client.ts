@@ -23,9 +23,9 @@ export class Client {
         return new TextRequest(this, options).perform();
     }
 
-    public createStream () : void {
-        //new StreamClient();
-        //@todo
+    //@todo
+    public static createStream (config) : StreamClient {
+        return new StreamClient(config);
     }
 
     public getAccessToken () : string {

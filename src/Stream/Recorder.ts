@@ -3,8 +3,7 @@ import RecorderWorker from "./RecorderWorker";
 export default class Recorder {
     context; node; configure; record; stop; clear; getBuffer; export16kMono;
 
-    constructor(source, cfg) {
-        var config = cfg || {};
+    constructor(source, config: {bufferLen?, callback?, type?} = {}) {
         var bufferLen = config.bufferLen || 4096;
         this.context = source.context;
         this.node = this.context.createScriptProcessor(bufferLen, 1, 1);

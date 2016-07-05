@@ -5,7 +5,7 @@ export class Processors {
     static bindProcessors() {
         window.AudioContext = window.AudioContext || webkitAudioContext;
 
-        AudioContext.prototype.createResampleProcessor = function (bufferSize, numberOfInputChannels, numberOfOutputChannels, destinationSampleRate) {
+        AudioContext.prototype['createResampleProcessor'] = function (bufferSize, numberOfInputChannels, numberOfOutputChannels, destinationSampleRate) {
             var script_processor = this.createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);
             var resampler = new Resampler(this.sampleRate, destinationSampleRate, numberOfInputChannels, bufferSize, true);
 
@@ -57,7 +57,7 @@ export class Processors {
             this.array_data.splice(0, this.array_data.length);
         };
 
-        AudioContext.prototype.createEndOfSpeechProcessor = function (bufferSize) {
+        AudioContext.prototype['createEndOfSpeechProcessor'] = function (bufferSize) {
             var script_processor = this.createScriptProcessor(bufferSize, 1, 1);
 
             script_processor.endOfSpeechCallback = null;

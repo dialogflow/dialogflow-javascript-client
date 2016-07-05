@@ -6,6 +6,10 @@
 * run `$ webpack -w`
 * develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
 
+# Testing
+
+run `$ mocha-phantomjs --web-security=no spec/testRunner.html` or just open spec/testRunner file.
+
 ### Notice
 
 Command `$ webpack` compiles ./target/ApiAi.js file that can be used in browser.
@@ -16,7 +20,7 @@ Command `$ webpack --minify` or `$ webpack -m` compiles ./target/ApiAi.min.js fi
 
 Currently only simple `textRequest` method is available through this SDK
 
-Currently it looks like:
+It looks like:
 
 ```javascript
 
