@@ -3,12 +3,13 @@
  */
 
 var app, text, dialogue, response, start, stop;
-var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN;
+var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN, SERVER_VERSION;
 
 SERVER_PROTO = 'wss';
 SERVER_DOMAIN = 'api.api.ai';
 SERVER_PORT = '4435';
 ACCESS_TOKEN = '00000000000000000000000000000000';
+SERVER_VERSION = '20150910';
 
 window.onload = function () {
     text = $('text');
@@ -43,7 +44,7 @@ function App() {
     this.sendJson = function () {
         var query = text.value,
             queryJson = {
-                "v": "20150910",
+                "v": SERVER_VERSION,
                 "query": query,
                 "timezone": "GMT+6",
                 "lang": "en",
@@ -81,6 +82,7 @@ function App() {
          */
         var config = {
             server: SERVER_PROTO + '://' + SERVER_DOMAIN + ':' + SERVER_PORT + '/api/ws/query',
+            serverVersion: SERVER_VERSION,
             token: ACCESS_TOKEN,// Use Client access token there (see agent keys).
             sessionId: sessionId,
             lang: 'en',
@@ -146,11 +148,11 @@ function App() {
                 return;
             }
 
-            speech = data.result.speech;
+            speech = (data.result.fulfillment) ? data.result.fulfillment.speech : data.result.speech;
             // Use Text To Speech service to play text.
             apiAiTts.tts(speech, undefined, 'en-US');
 
-            dialogue.innerHTML += ('user : ' + data.result.resolvedQuery + '\napi  : ' + data.result.speech + '\n\n');
+            dialogue.innerHTML += ('user : ' + data.result.resolvedQuery + '\napi  : ' + speech + '\n\n');
             response.innerHTML = JSON.stringify(data, null, 2);
             text.innerHTML = '';// clean input
         };

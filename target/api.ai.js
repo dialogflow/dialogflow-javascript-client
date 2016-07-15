@@ -636,6 +636,7 @@ function _recorderWorkerJs() {
     // Send blocks 4 x per second as recommended in the server doc.
     var INTERVAL = 250;
     var TAG_END_OF_SENTENCE = "EOS";
+    var VERSION = "20150910";
 
     // Error codes (mostly following Android error names and codes)
     var ERR_NETWORK = 2;
@@ -675,6 +676,7 @@ function _recorderWorkerJs() {
         _this.lang = config.lang || 'en';
         _this.contentType = config.contentType || CONTENT_TYPE;
         _this.readingInterval = config.readingInterval || INTERVAL;
+        _this.serverVersion = (typeof config.serverVersion === 'undefined') ? VERSION : config.serverVersion;
 
         _this.onOpen = config.onOpen && config.onOpen.bind(_this) || _noop;
         _this.onClose = config.onClose && config.onClose.bind(_this) || _noop;
@@ -857,7 +859,12 @@ function _recorderWorkerJs() {
             }
 
             function _createWebSocket() {
-                var url = _this.server + '?' + _this.contentType + '&access_token=' + _this.token;
+                var url = '';
+                if (_this.serverVersion) {
+                    url = _this.server + '?v=' + _this.serverVersion + '&' + _this.contentType + '&access_token=' + _this.token;
+                } else {
+                    url = _this.server + '?' + _this.contentType + '&access_token=' + _this.token;
+                }
                 var ws = new WebSocket(url);
 
                 ws.onmessage = function (e) {

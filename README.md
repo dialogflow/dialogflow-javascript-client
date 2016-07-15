@@ -24,6 +24,7 @@ You can use config to set properties and listeners like that:
 ```javascript
 var config = {
     server: 'wss://api.api.ai:4435/api/ws/query',
+    serverVersion: '20150910', // omit 'version' field to bind it to '20150910' or use 'null' to remove it from query
     token: access_token,// Use Client access token there (see agent keys).
     sessionId: sessionId,
     onInit: function () {
