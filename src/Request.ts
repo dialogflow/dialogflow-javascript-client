@@ -18,10 +18,8 @@ export default class Request {
         }
     }
 
-    /**
-     * @todo: deal with Access-Control headers, probably on server-side
-     */
     public perform () : Promise<IServerResponse> {
+
         console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
         
         return XhrRequest.post(this.uri, this.options, this.headers)

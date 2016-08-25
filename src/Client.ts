@@ -1,9 +1,9 @@
 import TextRequest from "./TextRequest";
 import Constants from "./Constants";
 import {IServerResponse} from "./interfaces/IServerResponse";
-import StreamClient from "./Stream/StreamClient";
 
-export {default as XhrRequest} from 'XhrRequest';
+export {default as XhrRequest} from './XhrRequest';
+export {default as StreamClient} from './Stream/StreamClient';
 
 export class Client {
 
@@ -21,11 +21,6 @@ export class Client {
     public textRequest (query = '', options = {}) : Promise<IServerResponse> {
         options['query'] = query;
         return new TextRequest(this, options).perform();
-    }
-
-    //@todo
-    public static createStream (config) : StreamClient {
-        return new StreamClient(config);
     }
 
     public getAccessToken () : string {

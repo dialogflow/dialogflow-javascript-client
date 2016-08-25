@@ -31,47 +31,47 @@ var config = {
     }
 };
 
-apiAi = ApiAi.Client.createStream(config);
+var streamClient = new ApiAi.Client.StreamClient(config);
 
-apiAi.onInit = function () {
+streamClient.onInit = function () {
     console.log("> ON INIT use direct assignment property");
-    apiAi.open();
+    streamClient.open();
 };
 
-apiAi.onStartListening = function () {
+streamClient.onStartListening = function () {
     console.log("> ON START LISTENING");
 };
 
-apiAi.onStopListening = function () {
+streamClient.onStopListening = function () {
     console.log("> ON STOP LISTENING");
 };
 
-apiAi.onOpen = function () {
+streamClient.onOpen = function () {
     console.log("> ON OPEN SESSION");
 };
 
-apiAi.onClose = function () {
+streamClient.onClose = function () {
     console.log("> ON CLOSE");
-    apiAi.close();
+    streamClient.close();
 };
 
-apiAi.onResults = function (data) {
+streamClient.onResults = function (data) {
     console.log("> ON RESULT", data)
 };
-apiAi.onError = function (code, data) {
-    apiAi.close();
+streamClient.onError = function (code, data) {
+    streamClient.close();
     console.log("> ON ERROR", code, data);
     //if (data && data.indexOf('No live audio input in this browser') >= 0) {}
 };
 
-apiAi.onEvent = function (code, data) {
+streamClient.onEvent = function (code, data) {
     console.log("> ON EVENT", code, data);
 };
 
 /**
  * You have to invoke init() method explicitly to decide when ask permission to use microphone.
  */
-apiAi.init();
+streamClient.init();
 
 
 

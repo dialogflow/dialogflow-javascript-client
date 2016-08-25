@@ -182,7 +182,7 @@ class StreamClient {
         var url = this.server + '?' + this.contentType + '&access_token=' + this.token;
         var ws = new WebSocket(url);
 
-        ws.onmessage = function (e) {
+        ws.onmessage = (e) => {
             var data = e.data;
             this.onEvent(StreamClient.Events.MSG_WEB_SOCKET, data);
 
@@ -209,7 +209,7 @@ class StreamClient {
         // http://tools.ietf.org/html/rfc6455#section-7.4.1
         // 1005:
         // 1006:
-        ws.onclose = function (e) {
+        ws.onclose = (e) => {
             // The server closes the connection (only?)
             // when its endpointer triggers.
             this.onClose();// call interface method

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "sourceMap": true
+    "sourceMap": true,
+    "typeRoots": ["node_modules/@types/"],
+    "types": ["es6-promise", "webaudioapi", "webrtc"]
   },
-  "files": [
-    "typings/index.d.ts"
-  ]
+  "files": []
 }
