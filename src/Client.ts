@@ -7,8 +7,8 @@ export {default as StreamClient} from './Stream/StreamClient';
 
 export class Client {
 
+    private apiLang: Constants.AVAILABLE_LANGUAGES;
     private apiVersion: string;
-    private apiLang: string;
     private apiBaseUrl: string;
     private sessionId: string;
 
@@ -31,7 +31,7 @@ export class Client {
         return (this.apiVersion) ? this.apiVersion : Constants.DEFAULT_API_VERSION;
     }
 
-    public getApiLang () : string {
+    public getApiLang () : Constants.AVAILABLE_LANGUAGES {
         return (this.apiLang) ? this.apiLang : Constants.DEFAULT_CLIENT_LANG;
     }
 
