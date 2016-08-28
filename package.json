@@ -1,4 +1,5 @@
 {
+  "main": "index",
   "name": "api-ai-javascript",
   "version": "2.0.0",
   "description": "Javascript SDK for https://api.ai",
