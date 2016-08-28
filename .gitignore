@@ -1,6 +1,6 @@
 .idea
 npm-debug.log
 node_modules
-typings
 target/ApiAi.js.map
 target/ApiAi.min.js.map
+target/ApiAi.commonjs2.js.map
