@@ -14,7 +14,7 @@ run `$ mocha-phantomjs --web-security=no spec/testRunner.html` or just open spec
 
 Command `$ webpack` compiles ./target/ApiAi.js file that can be used in browser.
 
-Command `$ webpack --minify` or `$ webpack -m` compiles ./target/ApiAi.min.js file
+Command `$ webpack --env.compress=true` compiles ./target/ApiAi.min.js file
 
 # Usage
 

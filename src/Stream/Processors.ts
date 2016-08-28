@@ -1,13 +1,14 @@
-import Resampler from "./Resampler";
+import _resamplerJSRegisterer from "./Resampler";
 import VAD from "./VAD";
 
 export class Processors {
     static bindProcessors() {
+        _resamplerJSRegisterer();
         window.AudioContext = window.AudioContext || webkitAudioContext;
 
-        AudioContext.prototype['createResampleProcessor'] = function (bufferSize, numberOfInputChannels, numberOfOutputChannels, destinationSampleRate) {
+        AudioContext.prototype.createResampleProcessor = function (bufferSize, numberOfInputChannels, numberOfOutputChannels, destinationSampleRate) {
             var script_processor = this.createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);
-            var resampler = new Resampler(this.sampleRate, destinationSampleRate, numberOfInputChannels, bufferSize, true);
+            var resampler = new navigator.Resampler(this.sampleRate, destinationSampleRate, numberOfInputChannels, bufferSize, true);
 
             script_processor.onaudioprocess = function (event) {
                 var inp = event.inputBuffer.getChannelData(0);
@@ -50,8 +51,6 @@ export class Processors {
                 }
             }
         };
-
-
 
         MagicBuffer.prototype.drop = function () {
             this.array_data.splice(0, this.array_data.length);

@@ -34,7 +34,8 @@ export default class RecorderWorker {
                 (new Function(config.resamplerInitializerBody))();
 
                 sampleRate = config.sampleRate;
-                resampler = new Resampler(sampleRate, 16000, 1, 50 * 1024);
+                //resampler = new Resampler(sampleRate, 16000, 1, 50 * 1024, false);
+                resampler = new navigator['Resampler'](sampleRate, 16000, 1, 50 * 1024, false);
             }
 
             function record(inputBuffer) {

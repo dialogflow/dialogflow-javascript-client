@@ -1,13 +1,24 @@
-export default class Resampler {
+/**
+ * this module is full copy-paste from v1 sdk. It should be like that while we send 'resempler' to worker as
+ * 'function body'
+ * @todo: re-make as normal class
+ * @private
+ */
 
-    noReturn: boolean; resampler; ratioWeight; tailExists; lastWeight; outputBuffer;
 
-    constructor(public fromSampleRate, public toSampleRate, public channels = 0, public outputBufferSize, noReturn = false){
+export default function _resamplerJs():void {
+
+    function Resampler(fromSampleRate, toSampleRate, channels, outputBufferSize, noReturn) {
+        this.fromSampleRate = fromSampleRate;
+        this.toSampleRate = toSampleRate;
+        this.channels = channels | 0;
+        this.outputBufferSize = outputBufferSize;
         this.noReturn = !!noReturn;
         this.initialize();
     }
 
-    initialize(){
+    Resampler.prototype.initialize = function () {
+        //Perform some checks:
         if (this.fromSampleRate <= 0 || this.toSampleRate <= 0 || this.channels <= 0) {
             throw(new Error("Invalid settings specified for the resampler."));
         }
@@ -96,9 +107,8 @@ export default class Resampler {
             this.lastWeight = 0;
             this.initializeBuffers();
         }
-    }
-
-    bypassResampler(buffer) {
+    };
+    Resampler.prototype.bypassResampler = function (buffer) {
         if (this.noReturn) {
             //Set the buffer passed as our own, as we don't need to resample it:
             this.outputBuffer = buffer;
@@ -107,9 +117,8 @@ export default class Resampler {
             //Just return the buffer passsed:
             return buffer;
         }
-    }
-
-    bufferSlice(sliceAmount) {
+    };
+    Resampler.prototype.bufferSlice = function (sliceAmount) {
         if (this.noReturn) {
             //If we're going to access the properties directly from this object:
             return sliceAmount;
@@ -130,9 +139,8 @@ export default class Resampler {
                 }
             }
         }
-    }
-
-    initializeBuffers = function () {
+    };
+    Resampler.prototype.initializeBuffers = function () {
         //Initialize the internal buffer:
         try {
             this.outputBuffer = new Float32Array(this.outputBufferSize);
@@ -143,4 +151,7 @@ export default class Resampler {
             this.lastOutput = [];
         }
     };
+
+    navigator.Resampler = Resampler;
+
 }

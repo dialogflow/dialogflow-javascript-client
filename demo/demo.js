@@ -31,7 +31,7 @@ var config = {
     }
 };
 
-var streamClient = new ApiAi.Client.StreamClient(config);
+var streamClient = new ApiAi.StreamClient(config);
 
 streamClient.onInit = function () {
     console.log("> ON INIT use direct assignment property");

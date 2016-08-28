@@ -1,54 +1,58 @@
-var webpack = require('webpack'),
+"use strict";
+
+let webpack = require('webpack'),
     path = require('path'),
     yargs = require('yargs');
 
-var libraryName = 'ApiAi',
-    plugins = [],
-    outputFile = '';
+let libraryName = 'ApiAi',
+    libraryTarget = 'var',
+    outputFile = '',
+    sourceMaps = true,
+    plugins = [];
 
-var libraryTarget = 'var';
-
-
-if (yargs.argv.m || yargs.argv.minify) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
-    outputFile += libraryName + '.min';
-} else {
-
-    outputFile += libraryName; //+ '.js';
-}
+module.exports = function(env) {
 
 
-if (yargs.argv.target || yargs.argv.t) {
-    libraryTarget = yargs.argv.t || yargs.argv.target;
-    outputFile += '.' + libraryTarget;
-}
+    // handle minification
+    if (env.compress === 'true') {
+        plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
+        outputFile += libraryName + '.min';
+        sourceMaps = false;
+    } else {
+        outputFile += libraryName;
+    }
 
-outputFile += '.js';
+    // handle custom target
+    if (env.target) {
+        libraryTarget = env.target;
+        outputFile += '.' + libraryTarget;
+    }
 
+    outputFile += '.js';
 
-module.exports = {
+    return {
+        entry: [
+            path.join(__dirname, 'src', 'Client.ts')
+        ],
+        devtool: sourceMaps ? 'source-map' : null,
+        output: {
+            path: path.join(__dirname, 'target'),
+            filename: outputFile,
+            library: libraryName,
+            libraryTarget: libraryTarget
+        },
 
-    entry: [
-        path.join(__dirname, 'src', 'Client.ts')
-    ],
-    devtool: 'source-map',
-    output: {
-        path: path.join(__dirname, 'target'),
-        filename: outputFile,
-        library: libraryName,
-        libraryTarget: libraryTarget
-    },
-    
-    module: {
-        loaders: [
-            { test: /\.tsx?$/, loader:"ts-loader", exclude: /node_modules/ }
-        ]
-    },
-    
-    resolve: {
-        root: path.resolve('./src'),
-        extensions: [ '', '.js', '.ts', '.jsx', '.tsx' ]
-    },
+        module: {
+            loaders: [
+                {test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/}
+            ]
+        },
 
-    plugins: plugins
+        resolve: {
+            root: path.resolve('./src'),
+            extensions: ['', '.js', '.ts', '.jsx', '.tsx']
+        },
+
+        plugins: plugins
+    }
 };

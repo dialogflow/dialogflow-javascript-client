@@ -5,5 +5,7 @@
     "typeRoots": ["node_modules/@types/"],
     "types": ["es6-promise", "webaudioapi", "webrtc"]
   },
-  "files": []
+  "files": [
+    "declarations.ts"
+  ]
 }

@@ -28,6 +28,7 @@ class StreamClient {
 
     constructor(config:any = {}) {
 
+        console.log(config);
         Processors.bindProcessors();
         
         this.server = config.server || '';
