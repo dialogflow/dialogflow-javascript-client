@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "outDir": "srces6",
+        "sourceMap": false,
+        "typeRoots": ["node_modules/@types/"],
+        "types": ["webaudioapi", "webrtc"],
+        "declaration": false
+    },
+    "files": [
+        "declarations.d.ts",
+        "src/Client.ts"
+    ]
+}

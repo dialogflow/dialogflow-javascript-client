@@ -1,2 +1,1 @@
-"use strict";
-module.exports = require('./target/ApiAi.commonjs2');
+export * from "./srces6/src/Client";

@@ -1,8 +1,7 @@
 "use strict";
 
-let webpack = require('webpack'),
-    path = require('path'),
-    yargs = require('yargs');
+const webpack = require('webpack'),
+    path = require('path');
 
 let libraryName = 'ApiAi',
     libraryTarget = 'var',
