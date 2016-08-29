@@ -2,7 +2,6 @@
 
 * Checkout from this repository, do not forget to switch to "v2" branch
 * run `$ npm install`
-* run `$ typings install`
 * run `$ webpack -w  --env.compress=false`
 * develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
 
@@ -14,8 +13,11 @@ run `$ mocha-phantomjs --web-security=no spec/testRunner.html` or just open spec
 
 
 Command `$ webpack --env.compress=false` compiles ./target/ApiAi.js file that can be used in browser.
+
 Command `$ webpack --env.compress=true` compiles ./target/ApiAi.min.js file
+
 Command `$ webpack --env.compress=true --env.target=commonjs2` compiles ./target/ApiAi.commonjs2.min.js - same library that can be included with any commonjs2-compatible loader (including webpack).
+
 You also can just compile project code from .ts to es6 js and use it directly via ES6 import.
 
 # Usage
@@ -45,10 +47,10 @@ And old (ported from V1 SDK) stream client (you can stream audio from mic with i
 
 ```javascript
 
-SERVER_PROTO = 'wss';
-SERVER_DOMAIN = 'api.api.ai';
-SERVER_PORT = '4435';
-ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN';
+const SERVER_PROTO = 'wss';
+const SERVER_DOMAIN = 'api.api.ai';
+const SERVER_PORT = '4435';
+const ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN';
 
 const config = {
     server: SERVER_PROTO + '://' + SERVER_DOMAIN + ':' + SERVER_PORT + '/api/ws/query',
@@ -60,12 +62,13 @@ const config = {
     }
 };
 
-var streamClient = new ApiAi.StreamClient(config);
+const streamClient = new ApiAi.StreamClient(config);
 
 streamClient.onInit = function () {
     console.log("> ON INIT use direct assignment property");
     streamClient.open();
 };
+
 streamClient.init();
 
 ...
