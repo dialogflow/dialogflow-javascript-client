@@ -62,11 +62,53 @@ var ApiAi =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var ApiAiBaseError = (function (_super) {
+    __extends(ApiAiBaseError, _super);
+    function ApiAiBaseError(message) {
+        _super.call(this, message);
+        this.message = message;
+        this.stack = new Error().stack;
+    }
+    return ApiAiBaseError;
+}(Error));
+var ApiAiClientConfigurationError = (function (_super) {
+    __extends(ApiAiClientConfigurationError, _super);
+    function ApiAiClientConfigurationError(message) {
+        _super.call(this, message);
+        this.name = "ApiAiClientConfigurationError";
+    }
+    return ApiAiClientConfigurationError;
+}(ApiAiBaseError));
+exports.ApiAiClientConfigurationError = ApiAiClientConfigurationError;
+var ApiAiRequestError = (function (_super) {
+    __extends(ApiAiRequestError, _super);
+    function ApiAiRequestError(message, code) {
+        _super.call(this, message);
+        this.message = message;
+        this.code = code;
+        this.name = "ApiAiRequestError";
+    }
+    return ApiAiRequestError;
+}(ApiAiBaseError));
+exports.ApiAiRequestError = ApiAiRequestError;
+
+
+/***/ },
+/* 1 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -225,7 +267,7 @@ exports.default = _resamplerJs;
 
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -350,28 +392,35 @@ exports.default = XhrRequest;
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var TextRequest_1 = __webpack_require__(10);
-var Constants_1 = __webpack_require__(3);
-var XhrRequest_1 = __webpack_require__(1);
+var TextRequest_1 = __webpack_require__(11);
+var Constants_1 = __webpack_require__(4);
+var Errors_1 = __webpack_require__(0);
+var XhrRequest_1 = __webpack_require__(2);
 exports.XhrRequest = XhrRequest_1.default;
-var StreamClient_1 = __webpack_require__(8);
+var StreamClient_1 = __webpack_require__(9);
 exports.StreamClient = StreamClient_1.default;
 var Client = (function () {
-    function Client(accessToken) {
-        this.accessToken = accessToken;
-        if (!this.sessionId) {
-            this.setSessionId(this.guid());
+    function Client(options) {
+        if (!options.accessToken) {
+            throw new Errors_1.ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
+        this.accessToken = options.accessToken;
+        this.apiLang = options.lang || Constants_1.default.DEFAULT_CLIENT_LANG;
+        this.apiVersion = options.version || Constants_1.default.DEFAULT_API_VERSION;
+        this.apiBaseUrl = options.baseUrl || Constants_1.default.DEFAULT_BASE_URL;
+        this.sessionId = options.sessionId || this.guid();
     }
     Client.prototype.textRequest = function (query, options) {
-        if (query === void 0) { query = ''; }
         if (options === void 0) { options = {}; }
-        options['query'] = query;
+        if (!query) {
+            throw new Errors_1.ApiAiClientConfigurationError("Query should not be empty");
+        }
+        options.query = query;
         return new TextRequest_1.default(this, options).perform();
     };
     Client.prototype.getAccessToken = function () {
@@ -407,7 +456,7 @@ exports.Client = Client;
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -430,23 +479,24 @@ exports.default = Constants;
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var XhrRequest_1 = __webpack_require__(1);
+var XhrRequest_1 = __webpack_require__(2);
+var Errors_1 = __webpack_require__(0);
 var Request = (function () {
     function Request(apiAiClient, options) {
         this.apiAiClient = apiAiClient;
         this.options = options;
         this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
-        this.requestMethod = 'POST';
-        this.options['lang'] = this.apiAiClient.getApiLang();
-        this.options['sessionId'] = this.apiAiClient.getSessionId();
+        this.requestMethod = XhrRequest_1.default.Method.POST;
         this.headers = {
             'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
         };
+        this.options.lang = this.apiAiClient.getApiLang();
+        this.options.sessionId = this.apiAiClient.getSessionId();
     }
     Request.prototype.perform = function () {
         console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
@@ -458,7 +508,21 @@ var Request = (function () {
         return Promise.resolve(JSON.parse(xhr.responseText));
     };
     Request.handleError = function (xhr) {
-        return Promise.reject(JSON.parse(xhr.responseText));
+        var error = null;
+        try {
+            var serverResponse = JSON.parse(xhr.responseText);
+            if (serverResponse.status && serverResponse.status.errorDetails) {
+                error = new Errors_1.ApiAiRequestError(serverResponse.status.errorDetails, serverResponse.status.code);
+            }
+            else {
+                error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
+            }
+        }
+        catch (e) {
+            console.log(xhr);
+            error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
+        }
+        return Promise.reject(error);
     };
     return Request;
 }());
@@ -467,13 +531,13 @@ exports.default = Request;
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var Resampler_1 = __webpack_require__(0);
-var VAD_1 = __webpack_require__(9);
+var Resampler_1 = __webpack_require__(1);
+var VAD_1 = __webpack_require__(10);
 var Processors = (function () {
     function Processors() {
     }
@@ -549,13 +613,13 @@ exports.Processors = Processors;
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var Resampler_1 = __webpack_require__(0);
-var RecorderWorker_1 = __webpack_require__(7);
+var Resampler_1 = __webpack_require__(1);
+var RecorderWorker_1 = __webpack_require__(8);
 var Recorder = (function () {
     function Recorder(source, config) {
         if (config === void 0) { config = {}; }
@@ -635,7 +699,7 @@ exports.default = Recorder;
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -759,13 +823,13 @@ exports.default = RecorderWorker;
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var Recorder_1 = __webpack_require__(6);
-var Processors_1 = __webpack_require__(5);
+var Recorder_1 = __webpack_require__(7);
+var Processors_1 = __webpack_require__(6);
 /**
  * this is mostly copy-paste of v1 API.AI JS SDK. Todo: finish and make it work .
  */
@@ -1037,7 +1101,7 @@ exports.default = StreamClient;
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1136,7 +1200,7 @@ exports.default = VAD;
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1146,7 +1210,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(4);
+var Request_1 = __webpack_require__(5);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
@@ -1159,10 +1223,10 @@ exports.default = TextRequest;
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(2);
+module.exports = __webpack_require__(3);
 
 
 /***/ }

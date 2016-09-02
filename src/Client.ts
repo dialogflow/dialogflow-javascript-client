@@ -1,6 +1,8 @@
 import TextRequest from "./TextRequest";
 import Constants from "./Constants";
-import {IServerResponse} from "./interfaces/IServerResponse";
+import {IApiClientOptions, IRequestOptions, IServerResponse} from "./Interfaces";
+import {ApiAiClientConfigurationError} from "./Errors";
+
 
 export {default as XhrRequest} from './XhrRequest';
 export {default as StreamClient} from './Stream/StreamClient';
@@ -11,15 +13,27 @@ export class Client {
     private apiVersion: string;
     private apiBaseUrl: string;
     private sessionId: string;
+    private accessToken: string;
 
-    constructor (private accessToken : string) {
-        if (!this.sessionId) {
-            this.setSessionId(this.guid());
+    constructor (options: IApiClientOptions) {
+
+        if (!options.accessToken) {
+            throw new ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
+
+        this.accessToken = options.accessToken;
+        this.apiLang = options.lang || Constants.DEFAULT_CLIENT_LANG;
+        this.apiVersion = options.version || Constants.DEFAULT_API_VERSION;
+        this.apiBaseUrl = options.baseUrl || Constants.DEFAULT_BASE_URL;
+        this.sessionId = options.sessionId || this.guid();
+
     }
 
-    public textRequest (query = '', options = {}) : Promise<IServerResponse> {
-        options['query'] = query;
+    public textRequest (query, options: IRequestOptions = {}) : Promise<IServerResponse> {
+        if (!query) {
+            throw new ApiAiClientConfigurationError("Query should not be empty");
+        }
+        options.query = query;
         return new TextRequest(this, options).perform();
     }
 

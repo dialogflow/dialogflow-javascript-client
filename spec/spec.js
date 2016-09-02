@@ -1,6 +1,6 @@
 "use strict";
 var assert = chai.assert;
-var client = new ApiAi.Client('3485a96fb27744db83e78b8c4bc9e7b7');
+var client = new ApiAi.Client({ accessToken: '3485a96fb27744db83e78b8c4bc9e7b7'});
 
 var onError = function(msg, trace) {
     console.log(msg);

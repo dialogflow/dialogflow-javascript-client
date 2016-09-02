@@ -12,7 +12,6 @@ let libraryName = 'ApiAi',
 
 module.exports = function(env) {
 
-
     // handle minification
     if (env.compress === 'true') {
         plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));

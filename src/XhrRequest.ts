@@ -1,4 +1,4 @@
-import {IStringMap} from "./interfaces/IStringMap";
+import {IStringMap} from "./Interfaces";
 /**
  * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
  * with some minor improvements
