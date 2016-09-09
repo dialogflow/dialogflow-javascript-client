@@ -3,13 +3,12 @@ import XhrRequest from "./XhrRequest";
 import {IServerResponse, IRequestOptions, IStringMap} from "./Interfaces";
 import {ApiAiRequestError} from "./Errors";
 
-export default class Request {
+abstract class Request {
+    protected uri;
+    protected requestMethod;
+    protected headers;
 
-    private uri;
-    private requestMethod;
-    private headers;
-
-    constructor (private apiAiClient : Client, private options: IRequestOptions) {
+    constructor (protected apiAiClient : Client, protected options: IRequestOptions) {
 
         this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
         this.requestMethod = XhrRequest.Method.POST;
@@ -22,11 +21,12 @@ export default class Request {
 
     }
 
-    public perform () : Promise<IServerResponse> {
+    public perform (overrideOptions = null) : Promise<IServerResponse> {
 
-        console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
-        
-        return XhrRequest.post(this.uri, <IStringMap> this.options, this.headers)
+        let options = overrideOptions ? overrideOptions : this.options;
+
+        return XhrRequest.ajax(this.requestMethod, this.uri, <IStringMap> options, this.headers)
+        //return XhrRequest.post(this.uri, <IStringMap> this.options, this.headers)
             .then(Request.handleSuccess.bind(this))
             .catch(Request.handleError.bind(this));
     }
@@ -54,3 +54,5 @@ export default class Request {
     }
 
 }
+
+export default Request;

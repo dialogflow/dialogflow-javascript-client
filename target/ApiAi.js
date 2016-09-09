@@ -62,11 +62,136 @@ var ApiAi =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+/**
+ * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+ * with some minor improvements
+ * @todo: test (?)
+ * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
+ */
+var XhrRequest = (function () {
+    function XhrRequest() {
+    }
+    // Method that performs the ajax request
+    XhrRequest.ajax = function (method, url, args, headers) {
+        if (args === void 0) { args = null; }
+        if (headers === void 0) { headers = null; }
+        // Creating a promise
+        return new Promise(function (resolve, reject) {
+            // Instantiates the XMLHttpRequest
+            var client = XhrRequest.createXMLHTTPObject();
+            var uri = url;
+            var payload = null;
+            // Add given payload to get request
+            if (args && (method === XhrRequest.Method.GET)) {
+                uri += '?';
+                var argcount = 0;
+                for (var key in args) {
+                    if (args.hasOwnProperty(key)) {
+                        if (argcount++) {
+                            uri += '&';
+                        }
+                        uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
+                    }
+                }
+            }
+            else if (args) {
+                if (!headers) {
+                    headers = {};
+                }
+                headers['Content-Type'] = 'application/json';
+                payload = JSON.stringify(args);
+            }
+            client.open(method, uri);
+            // Add given headers
+            if (headers) {
+                for (var key in headers) {
+                    if (headers.hasOwnProperty(key)) {
+                        client.setRequestHeader(key, headers[key]);
+                    }
+                }
+            }
+            payload ? client.send(payload) : client.send();
+            client.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    // Performs the function "resolve" when this.status is equal to 2xx
+                    resolve(this);
+                }
+                else {
+                    // Performs the function "reject" when this.status is different than 2xx
+                    reject(this);
+                }
+            };
+            client.onerror = function () {
+                reject(this);
+            };
+        });
+    };
+    XhrRequest.get = function (url, payload, headers) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers);
+    };
+    XhrRequest.post = function (url, payload, headers) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers);
+    };
+    XhrRequest.put = function (url, payload, headers) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers);
+    };
+    XhrRequest.delete = function (url, payload, headers) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers);
+    };
+    XhrRequest.createXMLHTTPObject = function () {
+        var xmlhttp = null;
+        for (var i = 0; i < XhrRequest.XMLHttpFactories.length; i++) {
+            try {
+                xmlhttp = XhrRequest.XMLHttpFactories[i]();
+            }
+            catch (e) {
+                continue;
+            }
+            break;
+        }
+        return xmlhttp;
+    };
+    return XhrRequest;
+}());
+XhrRequest.XMLHttpFactories = [
+    function () { return new XMLHttpRequest(); },
+    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
+    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
+    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+];
+var XhrRequest;
+(function (XhrRequest) {
+    (function (Method) {
+        Method[Method["GET"] = 'GET'] = "GET";
+        Method[Method["POST"] = 'POST'] = "POST";
+        Method[Method["PUT"] = 'PUT'] = "PUT";
+        Method[Method["DELETE"] = 'DELETE'] = "DELETE";
+    })(XhrRequest.Method || (XhrRequest.Method = {}));
+    var Method = XhrRequest.Method;
+})(XhrRequest || (XhrRequest = {}));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = XhrRequest;
+
+
+/***/ },
+/* 1 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -108,7 +233,59 @@ exports.ApiAiRequestError = ApiAiRequestError;
 
 
 /***/ },
-/* 1 */
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var XhrRequest_1 = __webpack_require__(0);
+var Errors_1 = __webpack_require__(1);
+var Request = (function () {
+    function Request(apiAiClient, options) {
+        this.apiAiClient = apiAiClient;
+        this.options = options;
+        this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
+        this.requestMethod = XhrRequest_1.default.Method.POST;
+        this.headers = {
+            'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
+        };
+        this.options.lang = this.apiAiClient.getApiLang();
+        this.options.sessionId = this.apiAiClient.getSessionId();
+    }
+    Request.prototype.perform = function (overrideOptions) {
+        if (overrideOptions === void 0) { overrideOptions = null; }
+        var options = overrideOptions ? overrideOptions : this.options;
+        return XhrRequest_1.default.ajax(this.requestMethod, this.uri, options, this.headers)
+            .then(Request.handleSuccess.bind(this))
+            .catch(Request.handleError.bind(this));
+    };
+    Request.handleSuccess = function (xhr) {
+        return Promise.resolve(JSON.parse(xhr.responseText));
+    };
+    Request.handleError = function (xhr) {
+        var error = null;
+        try {
+            var serverResponse = JSON.parse(xhr.responseText);
+            if (serverResponse.status && serverResponse.status.errorDetails) {
+                error = new Errors_1.ApiAiRequestError(serverResponse.status.errorDetails, serverResponse.status.code);
+            }
+            else {
+                error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
+            }
+        }
+        catch (e) {
+            error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
+        }
+        return Promise.reject(error);
+    };
+    return Request;
+}());
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Request;
+
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -263,144 +440,26 @@ function _resamplerJs() {
     navigator.Resampler = Resampler;
 }
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * this module is full copy-paste from v1 sdk. It should be like that while we send 'resempler' to worker as
+ * 'function body'
+ * @todo: re-make as normal class
+ * @private
+ */
 exports.default = _resamplerJs;
 
 
 /***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-/**
- * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
- * with some minor improvements
- * @todo: test (?)
- * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
- */
-var XhrRequest = (function () {
-    function XhrRequest() {
-    }
-    // Method that performs the ajax request
-    XhrRequest.ajax = function (method, url, args, headers) {
-        if (args === void 0) { args = null; }
-        if (headers === void 0) { headers = null; }
-        // Creating a promise
-        return new Promise(function (resolve, reject) {
-            // Instantiates the XMLHttpRequest
-            var client = XhrRequest.createXMLHTTPObject();
-            var uri = url;
-            var payload = null;
-            // Add given payload to get request
-            if (args && (method === XhrRequest.Method.GET)) {
-                uri += '?';
-                var argcount = 0;
-                for (var key in args) {
-                    if (args.hasOwnProperty(key)) {
-                        if (argcount++) {
-                            uri += '&';
-                        }
-                        uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
-                    }
-                }
-            }
-            else if (args) {
-                if (!headers) {
-                    headers = {};
-                }
-                headers['Content-Type'] = 'application/json';
-                payload = JSON.stringify(args);
-            }
-            client.open(method, uri);
-            // Add given headers
-            if (headers) {
-                for (var key in headers) {
-                    if (headers.hasOwnProperty(key)) {
-                        client.setRequestHeader(key, headers[key]);
-                    }
-                }
-            }
-            payload ? client.send(payload) : client.send();
-            client.onload = function () {
-                if (this.status >= 200 && this.status < 300) {
-                    // Performs the function "resolve" when this.status is equal to 2xx
-                    resolve(this);
-                }
-                else {
-                    // Performs the function "reject" when this.status is different than 2xx
-                    reject(this);
-                }
-            };
-            client.onerror = function () {
-                reject(this);
-            };
-        });
-    };
-    XhrRequest.get = function (url, payload, headers) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers);
-    };
-    XhrRequest.post = function (url, payload, headers) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers);
-    };
-    XhrRequest.put = function (url, payload, headers) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers);
-    };
-    XhrRequest.delete = function (url, payload, headers) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers);
-    };
-    XhrRequest.createXMLHTTPObject = function () {
-        var xmlhttp = null;
-        for (var i = 0; i < XhrRequest.XMLHttpFactories.length; i++) {
-            try {
-                xmlhttp = XhrRequest.XMLHttpFactories[i]();
-            }
-            catch (e) {
-                continue;
-            }
-            break;
-        }
-        return xmlhttp;
-    };
-    XhrRequest.XMLHttpFactories = [
-        function () { return new XMLHttpRequest(); },
-        function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
-        function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
-        function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
-    ];
-    return XhrRequest;
-}());
-var XhrRequest;
-(function (XhrRequest) {
-    (function (Method) {
-        Method[Method["GET"] = 'GET'] = "GET";
-        Method[Method["POST"] = 'POST'] = "POST";
-        Method[Method["PUT"] = 'PUT'] = "PUT";
-        Method[Method["DELETE"] = 'DELETE'] = "DELETE";
-    })(XhrRequest.Method || (XhrRequest.Method = {}));
-    var Method = XhrRequest.Method;
-})(XhrRequest || (XhrRequest = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = XhrRequest;
-
-
-/***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
 var TextRequest_1 = __webpack_require__(11);
-var Constants_1 = __webpack_require__(4);
-var Errors_1 = __webpack_require__(0);
-var XhrRequest_1 = __webpack_require__(2);
+var Constants_1 = __webpack_require__(5);
+var Errors_1 = __webpack_require__(1);
+var UserEntitiesRequest_1 = __webpack_require__(12);
+var XhrRequest_1 = __webpack_require__(0);
 exports.XhrRequest = XhrRequest_1.default;
 var StreamClient_1 = __webpack_require__(9);
 exports.StreamClient = StreamClient_1.default;
@@ -422,6 +481,10 @@ var Client = (function () {
         }
         options.query = query;
         return new TextRequest_1.default(this, options).perform();
+    };
+    Client.prototype.userEntitiesRequest = function (options) {
+        if (options === void 0) { options = {}; }
+        return new UserEntitiesRequest_1.UserEntitiesRequest(this, options);
     };
     Client.prototype.getAccessToken = function () {
         return this.accessToken;
@@ -456,7 +519,7 @@ exports.Client = Client;
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -479,64 +542,12 @@ exports.default = Constants;
 
 
 /***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var XhrRequest_1 = __webpack_require__(2);
-var Errors_1 = __webpack_require__(0);
-var Request = (function () {
-    function Request(apiAiClient, options) {
-        this.apiAiClient = apiAiClient;
-        this.options = options;
-        this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
-        this.requestMethod = XhrRequest_1.default.Method.POST;
-        this.headers = {
-            'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
-        };
-        this.options.lang = this.apiAiClient.getApiLang();
-        this.options.sessionId = this.apiAiClient.getSessionId();
-    }
-    Request.prototype.perform = function () {
-        console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
-        return XhrRequest_1.default.post(this.uri, this.options, this.headers)
-            .then(Request.handleSuccess.bind(this))
-            .catch(Request.handleError.bind(this));
-    };
-    Request.handleSuccess = function (xhr) {
-        return Promise.resolve(JSON.parse(xhr.responseText));
-    };
-    Request.handleError = function (xhr) {
-        var error = null;
-        try {
-            var serverResponse = JSON.parse(xhr.responseText);
-            if (serverResponse.status && serverResponse.status.errorDetails) {
-                error = new Errors_1.ApiAiRequestError(serverResponse.status.errorDetails, serverResponse.status.code);
-            }
-            else {
-                error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
-            }
-        }
-        catch (e) {
-            console.log(xhr);
-            error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
-        }
-        return Promise.reject(error);
-    };
-    return Request;
-}());
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Request;
-
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var Resampler_1 = __webpack_require__(1);
+var Resampler_1 = __webpack_require__(3);
 var VAD_1 = __webpack_require__(10);
 var Processors = (function () {
     function Processors() {
@@ -618,7 +629,7 @@ exports.Processors = Processors;
 
 "use strict";
 "use strict";
-var Resampler_1 = __webpack_require__(1);
+var Resampler_1 = __webpack_require__(3);
 var RecorderWorker_1 = __webpack_require__(8);
 var Recorder = (function () {
     function Recorder(source, config) {
@@ -1066,11 +1077,11 @@ var StreamClient = (function () {
         }
     };
     ;
-    StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
-    StreamClient.INTERVAL = 250;
-    StreamClient.TAG_END_OF_SENTENCE = "EOS";
     return StreamClient;
 }());
+StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
+StreamClient.INTERVAL = 250;
+StreamClient.TAG_END_OF_SENTENCE = "EOS";
 var StreamClient;
 (function (StreamClient) {
     (function (ERROR) {
@@ -1210,7 +1221,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(5);
+var Request_1 = __webpack_require__(2);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
@@ -1226,7 +1237,84 @@ exports.default = TextRequest;
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+"use strict";
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Request_1 = __webpack_require__(2);
+var XhrRequest_1 = __webpack_require__(0);
+var Utils_1 = __webpack_require__(13);
+var UserEntitiesRequest = (function (_super) {
+    __extends(UserEntitiesRequest, _super);
+    function UserEntitiesRequest(apiAiClient, options) {
+        if (options === void 0) { options = {}; }
+        _super.call(this, apiAiClient, options);
+        this.options = options;
+        this.baseUri = this.apiAiClient.getApiBaseUrl() + UserEntitiesRequest.ENDPOINT;
+    }
+    UserEntitiesRequest.prototype.create = function (entities) {
+        this.uri = this.baseUri;
+        var options = Utils_1.default.cloneObject(this.options);
+        options.entities = Array.isArray(entities) ? entities : [entities];
+        return this.perform(options);
+    };
+    UserEntitiesRequest.prototype.retrieve = function (name) {
+        this.uri = this.baseUri + '/' + name;
+        this.requestMethod = XhrRequest_1.default.Method.GET;
+        return this.perform();
+    };
+    UserEntitiesRequest.prototype.update = function (name, entries, extend) {
+        if (extend === void 0) { extend = false; }
+        this.uri = this.baseUri + '/' + name;
+        this.requestMethod = XhrRequest_1.default.Method.PUT;
+        var options = Utils_1.default.cloneObject(this.options);
+        options.extend = extend;
+        options.entries = entries;
+        options.name = name;
+        return this.perform(options);
+    };
+    UserEntitiesRequest.prototype.delete = function (name) {
+        this.uri = this.baseUri + '/' + name;
+        this.requestMethod = XhrRequest_1.default.Method.DELETE;
+        return this.perform();
+    };
+    return UserEntitiesRequest;
+}(Request_1.default));
+exports.UserEntitiesRequest = UserEntitiesRequest;
+UserEntitiesRequest.ENDPOINT = "userEntities";
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+var ApiAiUtils = (function () {
+    function ApiAiUtils() {
+    }
+    /**
+     * make it in more appropriate way
+     * @param object
+     * @returns object
+     */
+    ApiAiUtils.cloneObject = function (object) {
+        return JSON.parse(JSON.stringify(object));
+    };
+    return ApiAiUtils;
+}());
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = ApiAiUtils;
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(4);
 
 
 /***/ }

@@ -2,6 +2,7 @@ import TextRequest from "./TextRequest";
 import Constants from "./Constants";
 import {IApiClientOptions, IRequestOptions, IServerResponse} from "./Interfaces";
 import {ApiAiClientConfigurationError} from "./Errors";
+import {UserEntitiesRequest} from "./UserEntitiesRequest";
 
 
 export {default as XhrRequest} from './XhrRequest';
@@ -35,6 +36,10 @@ export class Client {
         }
         options.query = query;
         return new TextRequest(this, options).perform();
+    }
+
+    public userEntitiesRequest(options: IRequestOptions = {}) : UserEntitiesRequest {
+        return new UserEntitiesRequest(this, options);
     }
 
     public getAccessToken () : string {
