@@ -10,5 +10,8 @@ var Constants;
     Constants.DEFAULT_BASE_URL = 'https://api.api.ai/v1/';
     Constants.DEFAULT_API_VERSION = '20150204';
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    Constants.STREAM_CLIENT_SERVER_PROTO = 'wss';
+    Constants.STREAM_CLIENT_SERVER_PORT = '4435';
+    Constants.STREAM_CLIENT_SERVER_PATH = 'ws/query';
 })(Constants || (Constants = {}));
 export default Constants;

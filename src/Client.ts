@@ -1,12 +1,13 @@
 import TextRequest from "./TextRequest";
 import Constants from "./Constants";
-import {IApiClientOptions, IRequestOptions, IServerResponse} from "./Interfaces";
+import {IApiClientOptions, IRequestOptions, IServerResponse, IStringMap, IStreamClientOptions} from "./Interfaces";
 import {ApiAiClientConfigurationError} from "./Errors";
 import {UserEntitiesRequest} from "./UserEntitiesRequest";
-
+import StreamClient from './Stream/StreamClient';
 
 export {default as XhrRequest} from './XhrRequest';
-export {default as StreamClient} from './Stream/StreamClient';
+
+export {StreamClient as StreamClient};
 
 export class Client {
 
@@ -40,6 +41,21 @@ export class Client {
 
     public userEntitiesRequest(options: IRequestOptions = {}) : UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
+    }
+
+    public createStreamClient(streamClientOptions: IStreamClientOptions = {}) {
+
+        streamClientOptions['server'] = ''
+            + Constants.STREAM_CLIENT_SERVER_PROTO
+            + '://' + Constants.DEFAULT_BASE_URL
+            + ':' + Constants.STREAM_CLIENT_SERVER_PORT
+            + Constants.STREAM_CLIENT_SERVER_PATH;
+
+        streamClientOptions['token'] = this.getAccessToken();
+        streamClientOptions['sessionId'] =  this.getSessionId();
+        streamClientOptions['lang'] = this.getApiLang();
+
+        return new StreamClient(streamClientOptions);
     }
 
     public getAccessToken () : string {

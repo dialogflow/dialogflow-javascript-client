@@ -85,10 +85,10 @@ class XhrRequest {
     }
 }
 XhrRequest.XMLHttpFactories = [
-        () => new XMLHttpRequest(),
-        () => new ActiveXObject("Msxml2.XMLHTTP"),
-        () => new ActiveXObject("Msxml3.XMLHTTP"),
-        () => new ActiveXObject("Microsoft.XMLHTTP")
+    () => new XMLHttpRequest(),
+    () => new ActiveXObject("Msxml2.XMLHTTP"),
+    () => new ActiveXObject("Msxml3.XMLHTTP"),
+    () => new ActiveXObject("Microsoft.XMLHTTP")
 ];
 (function (XhrRequest) {
     (function (Method) {

@@ -9,6 +9,10 @@ namespace Constants {
     export const DEFAULT_API_VERSION: string = '20150204';
     export const DEFAULT_CLIENT_LANG: AVAILABLE_LANGUAGES = AVAILABLE_LANGUAGES.EN;
 
+    export const STREAM_CLIENT_SERVER_PROTO: string = 'wss';
+    export const STREAM_CLIENT_SERVER_PORT: string = '4435';
+    export const STREAM_CLIENT_SERVER_PATH:  string = 'ws/query';
+
 }
 
 export default Constants;

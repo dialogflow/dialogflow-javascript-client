@@ -1,8 +1,10 @@
 import TextRequest from "./TextRequest";
 import Constants from "./Constants";
 import { ApiAiClientConfigurationError } from "./Errors";
+import { UserEntitiesRequest } from "./UserEntitiesRequest";
+import StreamClient from './Stream/StreamClient';
 export { default as XhrRequest } from './XhrRequest';
-export { default as StreamClient } from './Stream/StreamClient';
+export { StreamClient as StreamClient };
 export class Client {
     constructor(options) {
         if (!options.accessToken) {
@@ -20,6 +22,20 @@ export class Client {
         }
         options.query = query;
         return new TextRequest(this, options).perform();
+    }
+    userEntitiesRequest(options = {}) {
+        return new UserEntitiesRequest(this, options);
+    }
+    createStreamClient(streamClientOptions = {}) {
+        streamClientOptions['server'] = ''
+            + Constants.STREAM_CLIENT_SERVER_PROTO
+            + '://' + Constants.DEFAULT_BASE_URL
+            + ':' + Constants.STREAM_CLIENT_SERVER_PORT
+            + Constants.STREAM_CLIENT_SERVER_PATH;
+        streamClientOptions['token'] = this.getAccessToken();
+        streamClientOptions['sessionId'] = this.getSessionId();
+        streamClientOptions['lang'] = this.getApiLang();
+        return new StreamClient(streamClientOptions);
     }
     getAccessToken() {
         return this.accessToken;

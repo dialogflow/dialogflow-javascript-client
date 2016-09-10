@@ -28,3 +28,19 @@ export interface IApiClientOptions {
     sessionId?: string;
     accessToken: string;
 }
+export interface IStreamClientOptions {
+    server?: string;
+    token?: string;
+    sessionId?: string;
+    lang?: Constants.AVAILABLE_LANGUAGES;
+    contentType?: string;
+    readingInterval?: string;
+    onOpen?: Function;
+    onClose?: Function;
+    onInit?: Function;
+    onStartListening?: Function;
+    onStopListening?: Function;
+    onResults?: Function;
+    onEvent?: Function;
+    onError?: Function;
+}

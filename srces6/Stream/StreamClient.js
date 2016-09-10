@@ -5,7 +5,6 @@ import { Processors } from "./Processors";
  */
 class StreamClient {
     constructor(config = {}) {
-        console.log(config);
         Processors.bindProcessors();
         this.server = config.server || '';
         this.token = config.token || '';

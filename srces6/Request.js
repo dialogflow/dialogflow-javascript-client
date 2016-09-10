@@ -1,6 +1,6 @@
 import XhrRequest from "./XhrRequest";
 import { ApiAiRequestError } from "./Errors";
-export default class Request {
+class Request {
     constructor(apiAiClient, options) {
         this.apiAiClient = apiAiClient;
         this.options = options;
@@ -12,9 +12,9 @@ export default class Request {
         this.options.lang = this.apiAiClient.getApiLang();
         this.options.sessionId = this.apiAiClient.getSessionId();
     }
-    perform() {
-        console.log('performing test request on URI', this.uri, 'with options:', this.options, 'with headers', this.headers);
-        return XhrRequest.post(this.uri, this.options, this.headers)
+    perform(overrideOptions = null) {
+        let options = overrideOptions ? overrideOptions : this.options;
+        return XhrRequest.ajax(this.requestMethod, this.uri, options, this.headers)
             .then(Request.handleSuccess.bind(this))
             .catch(Request.handleError.bind(this));
     }
@@ -38,3 +38,4 @@ export default class Request {
         return Promise.reject(error);
     }
 }
+export default Request;

@@ -7,10 +7,23 @@ let libraryName = 'ApiAi',
     libraryTarget = 'var',
     outputFile = '',
     sourceMaps = true,
-    plugins = [];
+    plugins = [],
+    alias = {},
+    ignoreLoader = {}
+    ;
 
 
 module.exports = function(env) {
+
+    if (env.skipStreamClient) {
+        libraryName += '.streamless';
+        /*ignoreLoader = {
+            test: /Stream/,
+            loader: 'webpack-replace-module-loader',
+            include: './src/Stream/StubStreamClient'
+        };*/
+       //alias["StreamClient"] = "StubStreamClient";
+    }
 
     // handle minification
     if (env.compress === 'true') {
@@ -44,12 +57,14 @@ module.exports = function(env) {
         module: {
             loaders: [
                 {test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/}
+                //ignoreLoader
             ]
         },
 
         resolve: {
             root: path.resolve('./src'),
-            extensions: ['', '.js', '.ts', '.jsx', '.tsx']
+            extensions: ['', '.js', '.ts', '.jsx', '.tsx'],
+            alias: alias
         },
 
         plugins: plugins

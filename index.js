@@ -1,1 +1,1 @@
-export * from "./srces6/src/Client";
+export * from "./srces6/Client";

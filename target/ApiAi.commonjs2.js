@@ -459,10 +459,10 @@ var TextRequest_1 = __webpack_require__(11);
 var Constants_1 = __webpack_require__(5);
 var Errors_1 = __webpack_require__(1);
 var UserEntitiesRequest_1 = __webpack_require__(12);
-var XhrRequest_1 = __webpack_require__(0);
-exports.XhrRequest = XhrRequest_1.default;
 var StreamClient_1 = __webpack_require__(9);
 exports.StreamClient = StreamClient_1.default;
+var XhrRequest_1 = __webpack_require__(0);
+exports.XhrRequest = XhrRequest_1.default;
 var Client = (function () {
     function Client(options) {
         if (!options.accessToken) {
@@ -485,6 +485,18 @@ var Client = (function () {
     Client.prototype.userEntitiesRequest = function (options) {
         if (options === void 0) { options = {}; }
         return new UserEntitiesRequest_1.UserEntitiesRequest(this, options);
+    };
+    Client.prototype.createStreamClient = function (streamClientOptions) {
+        if (streamClientOptions === void 0) { streamClientOptions = {}; }
+        streamClientOptions['server'] = ''
+            + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
+            + '://' + Constants_1.default.DEFAULT_BASE_URL
+            + ':' + Constants_1.default.STREAM_CLIENT_SERVER_PORT
+            + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
+        streamClientOptions['token'] = this.getAccessToken();
+        streamClientOptions['sessionId'] = this.getSessionId();
+        streamClientOptions['lang'] = this.getApiLang();
+        return new StreamClient_1.default(streamClientOptions);
     };
     Client.prototype.getAccessToken = function () {
         return this.accessToken;
@@ -536,6 +548,9 @@ var Constants;
     Constants.DEFAULT_BASE_URL = 'https://api.api.ai/v1/';
     Constants.DEFAULT_API_VERSION = '20150204';
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    Constants.STREAM_CLIENT_SERVER_PROTO = 'wss';
+    Constants.STREAM_CLIENT_SERVER_PORT = '4435';
+    Constants.STREAM_CLIENT_SERVER_PATH = 'ws/query';
 })(Constants || (Constants = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Constants;
@@ -847,7 +862,6 @@ var Processors_1 = __webpack_require__(6);
 var StreamClient = (function () {
     function StreamClient(config) {
         if (config === void 0) { config = {}; }
-        console.log(config);
         Processors_1.Processors.bindProcessors();
         this.server = config.server || '';
         this.token = config.token || '';
