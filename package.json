@@ -7,12 +7,17 @@
     "type": "git",
     "url": "https://github.com/api-ai/api-ai-javascript"
   },
+  "eslintConfig": {
+    "extends": "google"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {
     "@types/es6-promise": "0.0.31",
     "@types/webaudioapi": "0.0.26",
     "@types/webrtc": "0.0.17",
     "chai": "^3.5.0",
+    "eslint": "^3.5.0",
+    "eslint-config-google": "^0.6.0",
     "mocha": "^2.5.3",
     "mocha-phantomjs": "^4.1.0",
     "promise-polyfill": "^5.2.1",
