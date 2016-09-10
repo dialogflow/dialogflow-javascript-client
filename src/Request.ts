@@ -1,44 +1,17 @@
 import {Client} from "./Client";
-import XhrRequest from "./XhrRequest";
-import {IServerResponse, IRequestOptions, IStringMap} from "./Interfaces";
 import {ApiAiRequestError} from "./Errors";
+import {IRequestOptions, IServerResponse, IStringMap} from "./Interfaces";
+import XhrRequest from "./XhrRequest";
 
 abstract class Request {
-    protected uri;
-    protected requestMethod;
-    protected headers;
 
-    constructor (protected apiAiClient : Client, protected options: IRequestOptions) {
-
-        this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
-        this.requestMethod = XhrRequest.Method.POST;
-        this.headers = {
-            'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
-        };
-
-        this.options.lang = this.apiAiClient.getApiLang();
-        this.options.sessionId = this.apiAiClient.getSessionId();
-
-    }
-
-    public perform (overrideOptions = null) : Promise<IServerResponse> {
-
-        let options = overrideOptions ? overrideOptions : this.options;
-
-        return XhrRequest.ajax(this.requestMethod, this.uri, <IStringMap> options, this.headers)
-        //return XhrRequest.post(this.uri, <IStringMap> this.options, this.headers)
-            .then(Request.handleSuccess.bind(this))
-            .catch(Request.handleError.bind(this));
-    }
-
-    private static handleSuccess(xhr: XMLHttpRequest) : Promise<IServerResponse> {
+    private static handleSuccess(xhr: XMLHttpRequest): Promise<IServerResponse> {
         return Promise.resolve(JSON.parse(xhr.responseText));
     }
 
-    private static handleError(xhr: XMLHttpRequest) : Promise<IServerResponse> {
+    private static handleError(xhr: XMLHttpRequest): Promise<IServerResponse> {
 
         let error = null;
-
         try {
             let serverResponse: IServerResponse = JSON.parse(xhr.responseText);
             if (serverResponse.status && serverResponse.status.errorDetails) {
@@ -49,10 +22,35 @@ abstract class Request {
         } catch (e) {
             error = new ApiAiRequestError(xhr.statusText, xhr.status);
         }
-
         return Promise.reject(error);
     }
 
+    protected uri;
+    protected requestMethod;
+    protected headers;
+
+    constructor (protected apiAiClient: Client, protected options: IRequestOptions) {
+
+        this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
+        this.requestMethod = XhrRequest.Method.POST;
+        this.headers = {
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
+        };
+
+        this.options.lang = this.apiAiClient.getApiLang();
+        this.options.sessionId = this.apiAiClient.getSessionId();
+
+    }
+
+    public perform (overrideOptions = null): Promise<IServerResponse> {
+
+        let options = overrideOptions ? overrideOptions : this.options;
+
+        return XhrRequest.ajax(this.requestMethod, this.uri, <IStringMap> options, this.headers)
+        // return XhrRequest.post(this.uri, <IStringMap> this.options, this.headers)
+            .then(Request.handleSuccess.bind(this))
+            .catch(Request.handleError.bind(this));
+    }
 }
 
 export default Request;

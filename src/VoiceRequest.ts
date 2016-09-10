@@ -1,6 +1,6 @@
-import Request from "./Request";
 import {Client} from "./Client";
 import {IRequestOptions} from "./Interfaces";
+import Request from "./Request";
 
 /**
  * @todo: implement

@@ -6,19 +6,19 @@ export interface IRequestOptions {
     lang?: Constants.AVAILABLE_LANGUAGES;
 }
 export interface IServerResponse {
-    id?: string,
+    id?: string;
     result?: {
-        speech: string,
+        speech: string;
         fulfilment?: {
             speech: string
         }
-    }
+    };
     status: {
         code: number,
         errorDetails?: string,
         errorID?: string,
         errorType: string
-    }
+    };
 }
 export interface IStringMap { [s: string]: string; }
 export interface IApiClientOptions {

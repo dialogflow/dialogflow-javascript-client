@@ -1,9 +1,9 @@
-import Request from "./Request";
 import {Client} from "./Client";
 import {IRequestOptions} from "./Interfaces";
 import {IEntity} from "./Models/Entity";
-import XhrRequest from "./XhrRequest";
+import Request from "./Request";
 import ApiAiUtils from "./Utils";
+import XhrRequest from "./XhrRequest";
 
 export class UserEntitiesRequest extends Request {
 
@@ -23,13 +23,13 @@ export class UserEntitiesRequest extends Request {
     }
 
     public retrieve(name: string) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.GET;
         return this.perform();
     }
 
     public update(name: string, entries: IEntity.IEntry[], extend: boolean = false) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.PUT;
         let options = ApiAiUtils.cloneObject(this.options);
         options.extend = extend;
@@ -39,7 +39,7 @@ export class UserEntitiesRequest extends Request {
     }
 
     public delete(name: string) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.DELETE;
         return this.perform();
     }

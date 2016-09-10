@@ -1,11 +1,10 @@
-import TextRequest from "./TextRequest";
 import Constants from "./Constants";
-import {IApiClientOptions, IRequestOptions, IServerResponse, IStringMap, IStreamClientOptions} from "./Interfaces";
 import {ApiAiClientConfigurationError} from "./Errors";
+import {IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions} from "./Interfaces";
+import StreamClient from "./Stream/StreamClient";
+import TextRequest from "./TextRequest";
 import {UserEntitiesRequest} from "./UserEntitiesRequest";
-import StreamClient from './Stream/StreamClient';
-
-export {default as XhrRequest} from './XhrRequest';
+export {default as XhrRequest} from "./XhrRequest";
 
 export {StreamClient as StreamClient};
 
@@ -31,7 +30,7 @@ export class Client {
 
     }
 
-    public textRequest (query, options: IRequestOptions = {}) : Promise<IServerResponse> {
+    public textRequest (query, options: IRequestOptions = {}): Promise<IServerResponse> {
         if (!query) {
             throw new ApiAiClientConfigurationError("Query should not be empty");
         }
@@ -39,38 +38,38 @@ export class Client {
         return new TextRequest(this, options).perform();
     }
 
-    public userEntitiesRequest(options: IRequestOptions = {}) : UserEntitiesRequest {
+    public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
     }
 
     public createStreamClient(streamClientOptions: IStreamClientOptions = {}) {
 
-        streamClientOptions['server'] = ''
+        streamClientOptions.server = ""
             + Constants.STREAM_CLIENT_SERVER_PROTO
-            + '://' + Constants.DEFAULT_BASE_URL
-            + ':' + Constants.STREAM_CLIENT_SERVER_PORT
+            + "://" + Constants.DEFAULT_BASE_URL
+            + ":" + Constants.STREAM_CLIENT_SERVER_PORT
             + Constants.STREAM_CLIENT_SERVER_PATH;
 
-        streamClientOptions['token'] = this.getAccessToken();
-        streamClientOptions['sessionId'] =  this.getSessionId();
-        streamClientOptions['lang'] = this.getApiLang();
+        streamClientOptions.token = this.getAccessToken();
+        streamClientOptions.sessionId =  this.getSessionId();
+        streamClientOptions.lang = this.getApiLang();
 
         return new StreamClient(streamClientOptions);
     }
 
-    public getAccessToken () : string {
+    public getAccessToken (): string {
         return this.accessToken;
     }
 
-    public getApiVersion () : string {
+    public getApiVersion (): string {
         return (this.apiVersion) ? this.apiVersion : Constants.DEFAULT_API_VERSION;
     }
 
-    public getApiLang () : Constants.AVAILABLE_LANGUAGES {
+    public getApiLang (): Constants.AVAILABLE_LANGUAGES {
         return (this.apiLang) ? this.apiLang : Constants.DEFAULT_CLIENT_LANG;
     }
 
-    public getApiBaseUrl () : string {
+    public getApiBaseUrl (): string {
         return (this.apiBaseUrl) ? this.apiBaseUrl : Constants.DEFAULT_BASE_URL;
     }
 
@@ -78,7 +77,7 @@ export class Client {
         this.sessionId = sessionId;
     }
 
-    public getSessionId() : string {
+    public getSessionId(): string {
         return this.sessionId;
     }
 
@@ -86,9 +85,9 @@ export class Client {
      * generates new random UUID
      * @returns {string}
      */
-    private guid() : string {
+    private guid(): string {
         let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+        return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+            s4() + "-" + s4() + s4() + s4();
     }
 }
