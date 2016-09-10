@@ -72,7 +72,8 @@ var ApiAi =
 "use strict";
 "use strict";
 /**
- * quick ts implementation of example from https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+ * quick ts implementation of example from
+ * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
  * with some minor improvements
  * @todo: test (?)
  * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
@@ -92,14 +93,14 @@ var XhrRequest = (function () {
             var payload = null;
             // Add given payload to get request
             if (args && (method === XhrRequest.Method.GET)) {
-                uri += '?';
+                uri += "?";
                 var argcount = 0;
                 for (var key in args) {
                     if (args.hasOwnProperty(key)) {
                         if (argcount++) {
-                            uri += '&';
+                            uri += "&";
                         }
-                        uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
+                        uri += encodeURIComponent(key) + "=" + encodeURIComponent(args[key]);
                     }
                 }
             }
@@ -107,10 +108,12 @@ var XhrRequest = (function () {
                 if (!headers) {
                     headers = {};
                 }
-                headers['Content-Type'] = 'application/json';
+                headers["Content-Type"] = "application/json";
                 payload = JSON.stringify(args);
             }
-            client.open(method, uri);
+            // hack: method[method] is somewhat like .toString for enum Method
+            // should be made in normal way
+            client.open(XhrRequest.Method[method], uri);
             // Add given headers
             if (headers) {
                 for (var key in headers) {
@@ -179,10 +182,10 @@ XhrRequest.XMLHttpFactories = [
 var XhrRequest;
 (function (XhrRequest) {
     (function (Method) {
-        Method[Method["GET"] = 'GET'] = "GET";
-        Method[Method["POST"] = 'POST'] = "POST";
-        Method[Method["PUT"] = 'PUT'] = "PUT";
-        Method[Method["DELETE"] = 'DELETE'] = "DELETE";
+        Method[Method["GET"] = "GET"] = "GET";
+        Method[Method["POST"] = "POST"] = "POST";
+        Method[Method["PUT"] = "PUT"] = "PUT";
+        Method[Method["DELETE"] = "DELETE"] = "DELETE";
     })(XhrRequest.Method || (XhrRequest.Method = {}));
     var Method = XhrRequest.Method;
 })(XhrRequest || (XhrRequest = {}));
@@ -238,27 +241,20 @@ exports.ApiAiRequestError = ApiAiRequestError;
 
 "use strict";
 "use strict";
-var XhrRequest_1 = __webpack_require__(0);
 var Errors_1 = __webpack_require__(1);
+var XhrRequest_1 = __webpack_require__(0);
 var Request = (function () {
     function Request(apiAiClient, options) {
         this.apiAiClient = apiAiClient;
         this.options = options;
-        this.uri = this.apiAiClient.getApiBaseUrl() + 'query?v=' + this.apiAiClient.getApiVersion();
+        this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
         this.requestMethod = XhrRequest_1.default.Method.POST;
         this.headers = {
-            'Authorization': 'Bearer ' + this.apiAiClient.getAccessToken()
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
         };
         this.options.lang = this.apiAiClient.getApiLang();
         this.options.sessionId = this.apiAiClient.getSessionId();
     }
-    Request.prototype.perform = function (overrideOptions) {
-        if (overrideOptions === void 0) { overrideOptions = null; }
-        var options = overrideOptions ? overrideOptions : this.options;
-        return XhrRequest_1.default.ajax(this.requestMethod, this.uri, options, this.headers)
-            .then(Request.handleSuccess.bind(this))
-            .catch(Request.handleError.bind(this));
-    };
     Request.handleSuccess = function (xhr) {
         return Promise.resolve(JSON.parse(xhr.responseText));
     };
@@ -277,6 +273,13 @@ var Request = (function () {
             error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
         }
         return Promise.reject(error);
+    };
+    Request.prototype.perform = function (overrideOptions) {
+        if (overrideOptions === void 0) { overrideOptions = null; }
+        var options = overrideOptions ? overrideOptions : this.options;
+        return XhrRequest_1.default.ajax(this.requestMethod, this.uri, options, this.headers)
+            .then(Request.handleSuccess.bind(this))
+            .catch(Request.handleError.bind(this));
     };
     return Request;
 }());
@@ -455,12 +458,12 @@ exports.default = _resamplerJs;
 
 "use strict";
 "use strict";
-var TextRequest_1 = __webpack_require__(11);
 var Constants_1 = __webpack_require__(5);
 var Errors_1 = __webpack_require__(1);
-var UserEntitiesRequest_1 = __webpack_require__(12);
 var StreamClient_1 = __webpack_require__(9);
 exports.StreamClient = StreamClient_1.default;
+var TextRequest_1 = __webpack_require__(11);
+var UserEntitiesRequest_1 = __webpack_require__(12);
 var XhrRequest_1 = __webpack_require__(0);
 exports.XhrRequest = XhrRequest_1.default;
 var Client = (function () {
@@ -488,14 +491,14 @@ var Client = (function () {
     };
     Client.prototype.createStreamClient = function (streamClientOptions) {
         if (streamClientOptions === void 0) { streamClientOptions = {}; }
-        streamClientOptions['server'] = ''
+        streamClientOptions.server = ""
             + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
-            + '://' + Constants_1.default.DEFAULT_BASE_URL
-            + ':' + Constants_1.default.STREAM_CLIENT_SERVER_PORT
+            + "://" + Constants_1.default.DEFAULT_BASE_URL
+            + ":" + Constants_1.default.STREAM_CLIENT_SERVER_PORT
             + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
-        streamClientOptions['token'] = this.getAccessToken();
-        streamClientOptions['sessionId'] = this.getSessionId();
-        streamClientOptions['lang'] = this.getApiLang();
+        streamClientOptions.token = this.getAccessToken();
+        streamClientOptions.sessionId = this.getSessionId();
+        streamClientOptions.lang = this.getApiLang();
         return new StreamClient_1.default(streamClientOptions);
     };
     Client.prototype.getAccessToken = function () {
@@ -522,8 +525,8 @@ var Client = (function () {
      */
     Client.prototype.guid = function () {
         var s4 = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+        return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+            s4() + "-" + s4() + s4() + s4();
     };
     return Client;
 }());
@@ -539,18 +542,18 @@ exports.Client = Client;
 var Constants;
 (function (Constants) {
     (function (AVAILABLE_LANGUAGES) {
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = 'en'] = "EN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = 'de'] = "DE";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = 'es'] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
     })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
-    Constants.VERSION = '2.0.0';
-    Constants.DEFAULT_BASE_URL = 'https://api.api.ai/v1/';
-    Constants.DEFAULT_API_VERSION = '20150204';
+    Constants.VERSION = "2.0.0";
+    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    Constants.DEFAULT_API_VERSION = "20150204";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
-    Constants.STREAM_CLIENT_SERVER_PROTO = 'wss';
-    Constants.STREAM_CLIENT_SERVER_PORT = '4435';
-    Constants.STREAM_CLIENT_SERVER_PATH = 'ws/query';
+    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
+    Constants.STREAM_CLIENT_SERVER_PORT = "4435";
+    Constants.STREAM_CLIENT_SERVER_PATH = "ws/query";
 })(Constants || (Constants = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Constants;
@@ -1259,8 +1262,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Request_1 = __webpack_require__(2);
-var XhrRequest_1 = __webpack_require__(0);
 var Utils_1 = __webpack_require__(13);
+var XhrRequest_1 = __webpack_require__(0);
 var UserEntitiesRequest = (function (_super) {
     __extends(UserEntitiesRequest, _super);
     function UserEntitiesRequest(apiAiClient, options) {
@@ -1276,13 +1279,13 @@ var UserEntitiesRequest = (function (_super) {
         return this.perform(options);
     };
     UserEntitiesRequest.prototype.retrieve = function (name) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest_1.default.Method.GET;
         return this.perform();
     };
     UserEntitiesRequest.prototype.update = function (name, entries, extend) {
         if (extend === void 0) { extend = false; }
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest_1.default.Method.PUT;
         var options = Utils_1.default.cloneObject(this.options);
         options.extend = extend;
@@ -1291,7 +1294,7 @@ var UserEntitiesRequest = (function (_super) {
         return this.perform(options);
     };
     UserEntitiesRequest.prototype.delete = function (name) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest_1.default.Method.DELETE;
         return this.perform();
     };

@@ -45,7 +45,7 @@ class XhrRequest {
 
             // hack: method[method] is somewhat like .toString for enum Method
             // should be made in normal way
-            client.open(method[method], uri);
+            client.open(XhrRequest.Method[method], uri);
             // Add given headers
 
             if (headers) {

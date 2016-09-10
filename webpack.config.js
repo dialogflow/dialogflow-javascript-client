@@ -5,7 +5,7 @@ const webpack = require('webpack'),
 
 let libraryName = 'ApiAi',
     libraryTarget = 'var',
-    outputFile = '',
+    outputFile = libraryName,
     sourceMaps = true,
     plugins = [],
     alias = {},
@@ -16,22 +16,23 @@ let libraryName = 'ApiAi',
 module.exports = function(env) {
 
     if (env.skipStreamClient) {
-        libraryName += '.streamless';
-        /*ignoreLoader = {
+        outputFile += '.streamless';
+        /*  ignoreLoader = {
             test: /Stream/,
             loader: 'webpack-replace-module-loader',
             include: './src/Stream/StubStreamClient'
-        };*/
-       //alias["StreamClient"] = "StubStreamClient";
+            };
+         */
+       // alias["StreamClient"] = "StubStreamClient";
     }
 
     // handle minification
     if (env.compress === 'true') {
         plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
-        outputFile += libraryName + '.min';
+        outputFile += '.min';
         sourceMaps = false;
     } else {
-        outputFile += libraryName;
+        // outputFile += libraryName;
     }
 
     // handle custom target
