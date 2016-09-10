@@ -1,17 +1,15 @@
 "use strict";
 
-const webpack = require('webpack'),
-    path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
-let libraryName = 'ApiAi',
-    libraryTarget = 'var',
-    outputFile = libraryName,
-    sourceMaps = true,
-    plugins = [],
-    alias = {},
-    ignoreLoader = {}
-    ;
-
+let libraryName = 'ApiAi';
+let libraryTarget = 'var';
+let outputFile = libraryName;
+let sourceMaps = true;
+let plugins = [];
+let alias = {};
+// let ignoreLoader = {};
 
 module.exports = function(env) {
 
@@ -69,5 +67,5 @@ module.exports = function(env) {
         },
 
         plugins: plugins
-    }
+    };
 };
