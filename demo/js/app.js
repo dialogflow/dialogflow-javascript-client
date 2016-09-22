@@ -3,10 +3,11 @@
  */
 
 var app, text, dialogue, response, start, stop;
-var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN, SERVER_VERSION;
+var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN, SERVER_VERSION, TTS_DOMAIN;
 
 SERVER_PROTO = 'wss';
-SERVER_DOMAIN = 'api.api.ai';
+SERVER_DOMAIN = 'api-ws.api.ai';
+TTS_DOMAIN = 'api.api.ai';
 SERVER_PORT = '4435';
 ACCESS_TOKEN = '00000000000000000000000000000000';
 SERVER_VERSION = '20150910';
@@ -175,7 +176,7 @@ function App() {
         /**
          * Initialise Text To Speech service for playing text.
          */
-        apiAiTts = new TTS(SERVER_DOMAIN, ACCESS_TOKEN, undefined, 'en-US');
+        apiAiTts = new TTS(TTS_DOMAIN, ACCESS_TOKEN, undefined, 'en-US');
 
     }
 
