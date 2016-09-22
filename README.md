@@ -189,5 +189,5 @@ apiAi.onEvent = function (code, data) {};
 apiAi.onError = function (code, data) {};
 ```
 
-
-
+## Restrictions
+This version of SDK is working through new getUserMedia API and it's currently not supported by all browsers. You can find actual information [here](http://caniuse.com/#search=getUserMedia)
