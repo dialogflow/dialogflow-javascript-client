@@ -2,8 +2,8 @@ import Constants from "./Constants";
 import {ApiAiClientConfigurationError} from "./Errors";
 import {IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions} from "./Interfaces";
 import StreamClient from "./Stream/StreamClient";
-import TextRequest from "./TextRequest";
-import {UserEntitiesRequest} from "./UserEntitiesRequest";
+import TextRequest from "./Request/TextRequest";
+import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
 export {default as XhrRequest} from "./XhrRequest";
 
 export {StreamClient as StreamClient};
@@ -46,7 +46,7 @@ export class Client {
 
         streamClientOptions.server = ""
             + Constants.STREAM_CLIENT_SERVER_PROTO
-            + "://" + Constants.DEFAULT_BASE_URL
+            + "://" + Constants.DEFAULT_STREAM_CLIENT_BASE_URL
             + ":" + Constants.STREAM_CLIENT_SERVER_PORT
             + Constants.STREAM_CLIENT_SERVER_PATH;
 

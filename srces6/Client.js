@@ -1,9 +1,9 @@
-import TextRequest from "./TextRequest";
 import Constants from "./Constants";
 import { ApiAiClientConfigurationError } from "./Errors";
-import { UserEntitiesRequest } from "./UserEntitiesRequest";
-import StreamClient from './Stream/StreamClient';
-export { default as XhrRequest } from './XhrRequest';
+import StreamClient from "./Stream/StreamClient";
+import TextRequest from "./Request/TextRequest";
+import { UserEntitiesRequest } from "./Request/UserEntitiesRequest";
+export { default as XhrRequest } from "./XhrRequest";
 export { StreamClient as StreamClient };
 export class Client {
     constructor(options) {
@@ -27,14 +27,14 @@ export class Client {
         return new UserEntitiesRequest(this, options);
     }
     createStreamClient(streamClientOptions = {}) {
-        streamClientOptions['server'] = ''
+        streamClientOptions.server = ""
             + Constants.STREAM_CLIENT_SERVER_PROTO
-            + '://' + Constants.DEFAULT_BASE_URL
-            + ':' + Constants.STREAM_CLIENT_SERVER_PORT
+            + "://" + Constants.DEFAULT_STREAM_CLIENT_BASE_URL
+            + ":" + Constants.STREAM_CLIENT_SERVER_PORT
             + Constants.STREAM_CLIENT_SERVER_PATH;
-        streamClientOptions['token'] = this.getAccessToken();
-        streamClientOptions['sessionId'] = this.getSessionId();
-        streamClientOptions['lang'] = this.getApiLang();
+        streamClientOptions.token = this.getAccessToken();
+        streamClientOptions.sessionId = this.getSessionId();
+        streamClientOptions.lang = this.getApiLang();
         return new StreamClient(streamClientOptions);
     }
     getAccessToken() {
@@ -61,7 +61,7 @@ export class Client {
      */
     guid() {
         let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+        return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+            s4() + "-" + s4() + s4() + s4();
     }
 }

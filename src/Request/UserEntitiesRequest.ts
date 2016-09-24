@@ -1,9 +1,9 @@
-import {Client} from "./Client";
-import {IRequestOptions} from "./Interfaces";
-import {IEntity} from "./Models/Entity";
+import {Client} from "../Client";
+import {IRequestOptions} from "../Interfaces";
+import {IEntity} from "../Models/Entity";
 import Request from "./Request";
-import ApiAiUtils from "./Utils";
-import XhrRequest from "./XhrRequest";
+import ApiAiUtils from "../Utils";
+import XhrRequest from "../XhrRequest";
 
 export class UserEntitiesRequest extends Request {
 

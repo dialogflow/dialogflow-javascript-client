@@ -1,7 +1,7 @@
-import {Client} from "./Client";
-import {ApiAiRequestError} from "./Errors";
-import {IRequestOptions, IServerResponse, IStringMap} from "./Interfaces";
-import XhrRequest from "./XhrRequest";
+import {Client} from "../Client";
+import {ApiAiRequestError} from "../Errors";
+import {IRequestOptions, IServerResponse, IStringMap} from "../Interfaces";
+import XhrRequest from "../XhrRequest";
 
 abstract class Request {
 

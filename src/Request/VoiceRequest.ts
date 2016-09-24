@@ -1,5 +1,5 @@
-import {Client} from "./Client";
-import {IRequestOptions} from "./Interfaces";
+import {Client} from "../Client";
+import {IRequestOptions} from "../Interfaces";
 import Request from "./Request";
 
 /**

@@ -11,9 +11,9 @@ let plugins = [];
 let alias = {};
 // let ignoreLoader = {};
 
-module.exports = function(env) {
-
-    if (env.skipStreamClient) {
+module.exports = function(env)
+{
+    if (env && env.skipStreamClient) {
         outputFile += '.streamless';
         /*  ignoreLoader = {
             test: /Stream/,
@@ -25,7 +25,7 @@ module.exports = function(env) {
     }
 
     // handle minification
-    if (env.compress === 'true') {
+    if (env && env.compress === 'true') {
         plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
         outputFile += '.min';
         sourceMaps = false;
@@ -34,12 +34,13 @@ module.exports = function(env) {
     }
 
     // handle custom target
-    if (env.target) {
+    if (env && env.target) {
         libraryTarget = env.target;
         outputFile += '.' + libraryTarget;
     }
 
     outputFile += '.js';
+
 
     return {
         entry: [

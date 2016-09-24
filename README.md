@@ -7,10 +7,9 @@
 
 # Testing
 
-run `$ mocha-phantomjs --web-security=no spec/testRunner.html` or just open spec/testRunner file.
+`$ npm test`
 
 ### Notice
-
 
 Command `$ webpack --env.compress=false` compiles ./target/ApiAi.js file that can be used in browser.
 
@@ -47,8 +46,34 @@ And old (ported from V1 SDK) stream client (you can stream audio from mic with i
 
 ```javascript
 
+
+const client = new ApiAi.Client({accessToken: "ACCESS_TOKEN"});
+const streamClient = client.createStreamClient(); // in that case some default settings will be applied
+streamClient.onInit = function () {
+    console.log("> ON INIT use direct assignment property");
+    streamClient.open();
+};
+
+// or using 'options': 
+
+const streamClient = client.createStreamClient({
+    onInit: () => {
+                console.log("> ON INIT use direct assignment property");
+                streamClient.open();
+            }
+});
+
+streamClient.init();
+streamClient.startListening();
+streamClient.stopListening();
+```
+
+Or in "old" style:
+
+```javascript
+
 const SERVER_PROTO = 'wss';
-const SERVER_DOMAIN = 'api.api.ai';
+const SERVER_DOMAIN = 'api-ws.api.ai';
 const SERVER_PORT = '4435';
 const ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN';
 
@@ -70,10 +95,8 @@ streamClient.onInit = function () {
 };
 
 streamClient.init();
-
 ...
 
 streamClient.startListening();
 streamClient.stopListening();
-
 ```

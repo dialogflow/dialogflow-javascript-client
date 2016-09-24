@@ -295,10 +295,10 @@ exports.default = Request;
 "use strict";
 var Constants_1 = __webpack_require__(4);
 var Errors_1 = __webpack_require__(0);
-var StubStreamClient_1 = __webpack_require__(5);
+var TextRequest_1 = __webpack_require__(5);
+var UserEntitiesRequest_1 = __webpack_require__(6);
+var StubStreamClient_1 = __webpack_require__(7);
 exports.StreamClient = StubStreamClient_1.default;
-var TextRequest_1 = __webpack_require__(6);
-var UserEntitiesRequest_1 = __webpack_require__(7);
 var XhrRequest_1 = __webpack_require__(1);
 exports.XhrRequest = XhrRequest_1.default;
 var Client = (function () {
@@ -328,7 +328,7 @@ var Client = (function () {
         if (streamClientOptions === void 0) { streamClientOptions = {}; }
         streamClientOptions.server = ""
             + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
-            + "://" + Constants_1.default.DEFAULT_BASE_URL
+            + "://" + Constants_1.default.DEFAULT_STREAM_CLIENT_BASE_URL
             + ":" + Constants_1.default.STREAM_CLIENT_SERVER_PORT
             + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
         streamClientOptions.token = this.getAccessToken();
@@ -380,10 +380,23 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
     Constants.VERSION = "2.0.0";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "https://api-ws.api.ai/v1/";
     Constants.DEFAULT_API_VERSION = "20150204";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
     Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
@@ -396,24 +409,6 @@ exports.default = Constants;
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var Errors_1 = __webpack_require__(0);
-var StubStreamClient = (function () {
-    function StubStreamClient(options) {
-        if (options === void 0) { options = {}; }
-        throw new Errors_1.ApiAiClientConfigurationError("You are using SDK version without built-in stream support");
-    }
-    return StubStreamClient;
-}());
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = StubStreamClient;
-
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -436,7 +431,7 @@ exports.default = TextRequest;
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -487,6 +482,24 @@ var UserEntitiesRequest = (function (_super) {
 }(Request_1.default));
 exports.UserEntitiesRequest = UserEntitiesRequest;
 UserEntitiesRequest.ENDPOINT = "userEntities";
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var Errors_1 = __webpack_require__(0);
+var StubStreamClient = (function () {
+    function StubStreamClient(options) {
+        if (options === void 0) { options = {}; }
+        throw new Errors_1.ApiAiClientConfigurationError("You are using SDK version without built-in stream support");
+    }
+    return StubStreamClient;
+}());
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = StubStreamClient;
 
 
 /***/ },

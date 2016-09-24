@@ -8,6 +8,8 @@ export interface IRequestOptions {
 export interface IServerResponse {
     id?: string;
     result?: {
+        action: string,
+        resolvedQuery: string,
         speech: string;
         fulfilment?: {
             speech: string

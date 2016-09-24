@@ -1,6 +1,6 @@
 import Request from "./Request";
-import XhrRequest from "./XhrRequest";
-import ApiAiUtils from "./Utils";
+import ApiAiUtils from "../Utils";
+import XhrRequest from "../XhrRequest";
 export class UserEntitiesRequest extends Request {
     constructor(apiAiClient, options = {}) {
         super(apiAiClient, options);
@@ -14,12 +14,12 @@ export class UserEntitiesRequest extends Request {
         return this.perform(options);
     }
     retrieve(name) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.GET;
         return this.perform();
     }
     update(name, entries, extend = false) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.PUT;
         let options = ApiAiUtils.cloneObject(this.options);
         options.extend = extend;
@@ -28,7 +28,7 @@ export class UserEntitiesRequest extends Request {
         return this.perform(options);
     }
     delete(name) {
-        this.uri = this.baseUri + '/' + name;
+        this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.DELETE;
         return this.perform();
     }

@@ -460,10 +460,10 @@ exports.default = _resamplerJs;
 "use strict";
 var Constants_1 = __webpack_require__(5);
 var Errors_1 = __webpack_require__(1);
-var StreamClient_1 = __webpack_require__(9);
+var StreamClient_1 = __webpack_require__(11);
 exports.StreamClient = StreamClient_1.default;
-var TextRequest_1 = __webpack_require__(11);
-var UserEntitiesRequest_1 = __webpack_require__(12);
+var TextRequest_1 = __webpack_require__(6);
+var UserEntitiesRequest_1 = __webpack_require__(7);
 var XhrRequest_1 = __webpack_require__(0);
 exports.XhrRequest = XhrRequest_1.default;
 var Client = (function () {
@@ -493,7 +493,7 @@ var Client = (function () {
         if (streamClientOptions === void 0) { streamClientOptions = {}; }
         streamClientOptions.server = ""
             + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
-            + "://" + Constants_1.default.DEFAULT_BASE_URL
+            + "://" + Constants_1.default.DEFAULT_STREAM_CLIENT_BASE_URL
             + ":" + Constants_1.default.STREAM_CLIENT_SERVER_PORT
             + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
         streamClientOptions.token = this.getAccessToken();
@@ -545,10 +545,23 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
     Constants.VERSION = "2.0.0";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "https://api-ws.api.ai/v1/";
     Constants.DEFAULT_API_VERSION = "20150204";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
     Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
@@ -565,8 +578,85 @@ exports.default = Constants;
 
 "use strict";
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Request_1 = __webpack_require__(2);
+var TextRequest = (function (_super) {
+    __extends(TextRequest, _super);
+    function TextRequest() {
+        _super.apply(this, arguments);
+    }
+    return TextRequest;
+}(Request_1.default));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = TextRequest;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Request_1 = __webpack_require__(2);
+var Utils_1 = __webpack_require__(13);
+var XhrRequest_1 = __webpack_require__(0);
+var UserEntitiesRequest = (function (_super) {
+    __extends(UserEntitiesRequest, _super);
+    function UserEntitiesRequest(apiAiClient, options) {
+        if (options === void 0) { options = {}; }
+        _super.call(this, apiAiClient, options);
+        this.options = options;
+        this.baseUri = this.apiAiClient.getApiBaseUrl() + UserEntitiesRequest.ENDPOINT;
+    }
+    UserEntitiesRequest.prototype.create = function (entities) {
+        this.uri = this.baseUri;
+        var options = Utils_1.default.cloneObject(this.options);
+        options.entities = Array.isArray(entities) ? entities : [entities];
+        return this.perform(options);
+    };
+    UserEntitiesRequest.prototype.retrieve = function (name) {
+        this.uri = this.baseUri + "/" + name;
+        this.requestMethod = XhrRequest_1.default.Method.GET;
+        return this.perform();
+    };
+    UserEntitiesRequest.prototype.update = function (name, entries, extend) {
+        if (extend === void 0) { extend = false; }
+        this.uri = this.baseUri + "/" + name;
+        this.requestMethod = XhrRequest_1.default.Method.PUT;
+        var options = Utils_1.default.cloneObject(this.options);
+        options.extend = extend;
+        options.entries = entries;
+        options.name = name;
+        return this.perform(options);
+    };
+    UserEntitiesRequest.prototype.delete = function (name) {
+        this.uri = this.baseUri + "/" + name;
+        this.requestMethod = XhrRequest_1.default.Method.DELETE;
+        return this.perform();
+    };
+    return UserEntitiesRequest;
+}(Request_1.default));
+exports.UserEntitiesRequest = UserEntitiesRequest;
+UserEntitiesRequest.ENDPOINT = "userEntities";
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
 var Resampler_1 = __webpack_require__(3);
-var VAD_1 = __webpack_require__(10);
+var VAD_1 = __webpack_require__(12);
 var Processors = (function () {
     function Processors() {
     }
@@ -642,13 +732,13 @@ exports.Processors = Processors;
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
 var Resampler_1 = __webpack_require__(3);
-var RecorderWorker_1 = __webpack_require__(8);
+var RecorderWorker_1 = __webpack_require__(10);
 var Recorder = (function () {
     function Recorder(source, config) {
         if (config === void 0) { config = {}; }
@@ -728,7 +818,7 @@ exports.default = Recorder;
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -852,13 +942,13 @@ exports.default = RecorderWorker;
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var Recorder_1 = __webpack_require__(7);
-var Processors_1 = __webpack_require__(6);
+var Recorder_1 = __webpack_require__(9);
+var Processors_1 = __webpack_require__(8);
 /**
  * this is mostly copy-paste of v1 API.AI JS SDK. Todo: finish and make it work .
  */
@@ -1129,7 +1219,7 @@ exports.default = StreamClient;
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1225,83 +1315,6 @@ var VAD = (function () {
 }());
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = VAD;
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Request_1 = __webpack_require__(2);
-var TextRequest = (function (_super) {
-    __extends(TextRequest, _super);
-    function TextRequest() {
-        _super.apply(this, arguments);
-    }
-    return TextRequest;
-}(Request_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = TextRequest;
-
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Request_1 = __webpack_require__(2);
-var Utils_1 = __webpack_require__(13);
-var XhrRequest_1 = __webpack_require__(0);
-var UserEntitiesRequest = (function (_super) {
-    __extends(UserEntitiesRequest, _super);
-    function UserEntitiesRequest(apiAiClient, options) {
-        if (options === void 0) { options = {}; }
-        _super.call(this, apiAiClient, options);
-        this.options = options;
-        this.baseUri = this.apiAiClient.getApiBaseUrl() + UserEntitiesRequest.ENDPOINT;
-    }
-    UserEntitiesRequest.prototype.create = function (entities) {
-        this.uri = this.baseUri;
-        var options = Utils_1.default.cloneObject(this.options);
-        options.entities = Array.isArray(entities) ? entities : [entities];
-        return this.perform(options);
-    };
-    UserEntitiesRequest.prototype.retrieve = function (name) {
-        this.uri = this.baseUri + "/" + name;
-        this.requestMethod = XhrRequest_1.default.Method.GET;
-        return this.perform();
-    };
-    UserEntitiesRequest.prototype.update = function (name, entries, extend) {
-        if (extend === void 0) { extend = false; }
-        this.uri = this.baseUri + "/" + name;
-        this.requestMethod = XhrRequest_1.default.Method.PUT;
-        var options = Utils_1.default.cloneObject(this.options);
-        options.extend = extend;
-        options.entries = entries;
-        options.name = name;
-        return this.perform(options);
-    };
-    UserEntitiesRequest.prototype.delete = function (name) {
-        this.uri = this.baseUri + "/" + name;
-        this.requestMethod = XhrRequest_1.default.Method.DELETE;
-        return this.perform();
-    };
-    return UserEntitiesRequest;
-}(Request_1.default));
-exports.UserEntitiesRequest = UserEntitiesRequest;
-UserEntitiesRequest.ENDPOINT = "userEntities";
 
 
 /***/ },
