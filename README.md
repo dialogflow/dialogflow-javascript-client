@@ -9,7 +9,7 @@ import our example [Pizza Delivery](resources/PizzaDelivery.zip) agent.
 
 ## How to use the agent
 
-Add [api.ai.min.js](src/api.ai.min.js) before the main js script in your html file.
+Add a reference to ```api.ai.min.js``` before the main js script in your html file.
 ```html
 <script type="text/javascript" src="js/api.ai.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
