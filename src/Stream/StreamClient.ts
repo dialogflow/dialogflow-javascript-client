@@ -63,7 +63,7 @@ class StreamClient {
         }
 
         if (navigator.getUserMedia) {
-            navigator.getUserMedia({audio: true}, this.startUserMedia.bind(this, this.onInit), function (e) {
+            navigator.getUserMedia({audio: true}, this.startUserMedia.bind(this, this.onInit), (e) => {
                 this.onError(StreamClient.ERROR.ERR_CLIENT, "No live audio input in this browser: " + JSON.stringify(e));
             });
         } else {

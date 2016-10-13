@@ -62,7 +62,7 @@ var ApiAi =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -241,6 +241,125 @@ exports.default = XhrRequest;
 
 "use strict";
 "use strict";
+var Constants_1 = __webpack_require__(3);
+var Errors_1 = __webpack_require__(0);
+var StubStreamClient_1 = __webpack_require__(6);
+exports.StreamClient = StubStreamClient_1.default;
+var TextRequest_1 = __webpack_require__(5);
+// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
+var XhrRequest_1 = __webpack_require__(1);
+exports.XhrRequest = XhrRequest_1.default;
+var Client = (function () {
+    function Client(options) {
+        if (!options || !options.accessToken) {
+            throw new Errors_1.ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
+        }
+        this.accessToken = options.accessToken;
+        this.apiLang = options.lang || Constants_1.default.DEFAULT_CLIENT_LANG;
+        this.apiVersion = options.version || Constants_1.default.DEFAULT_API_VERSION;
+        this.apiBaseUrl = options.baseUrl || Constants_1.default.DEFAULT_BASE_URL;
+        this.sessionId = options.sessionId || this.guid();
+    }
+    Client.prototype.textRequest = function (query, options) {
+        if (options === void 0) { options = {}; }
+        if (!query) {
+            throw new Errors_1.ApiAiClientConfigurationError("Query should not be empty");
+        }
+        options.query = query;
+        return new TextRequest_1.default(this, options).perform();
+    };
+    /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
+        return new UserEntitiesRequest(this, options);
+    }*/
+    Client.prototype.createStreamClient = function (streamClientOptions) {
+        if (streamClientOptions === void 0) { streamClientOptions = {}; }
+        streamClientOptions.server = ""
+            + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
+            + "://" + Constants_1.default.DEFAULT_STREAM_CLIENT_BASE_URL
+            + ":" + Constants_1.default.STREAM_CLIENT_SERVER_PORT
+            + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
+        streamClientOptions.token = this.getAccessToken();
+        streamClientOptions.sessionId = this.getSessionId();
+        streamClientOptions.lang = this.getApiLang();
+        return new StubStreamClient_1.default(streamClientOptions);
+    };
+    Client.prototype.getAccessToken = function () {
+        return this.accessToken;
+    };
+    Client.prototype.getApiVersion = function () {
+        return (this.apiVersion) ? this.apiVersion : Constants_1.default.DEFAULT_API_VERSION;
+    };
+    Client.prototype.getApiLang = function () {
+        return (this.apiLang) ? this.apiLang : Constants_1.default.DEFAULT_CLIENT_LANG;
+    };
+    Client.prototype.getApiBaseUrl = function () {
+        return (this.apiBaseUrl) ? this.apiBaseUrl : Constants_1.default.DEFAULT_BASE_URL;
+    };
+    Client.prototype.setSessionId = function (sessionId) {
+        this.sessionId = sessionId;
+    };
+    Client.prototype.getSessionId = function () {
+        return this.sessionId;
+    };
+    /**
+     * generates new random UUID
+     * @returns {string}
+     */
+    Client.prototype.guid = function () {
+        var s4 = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
+        return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+            s4() + "-" + s4() + s4() + s4();
+    };
+    return Client;
+}());
+exports.Client = Client;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+var Constants;
+(function (Constants) {
+    (function (AVAILABLE_LANGUAGES) {
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
+    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
+    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
+    Constants.VERSION = "2.0.0";
+    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai/v1/";
+    Constants.DEFAULT_API_VERSION = "20150204";
+    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
+    Constants.STREAM_CLIENT_SERVER_PORT = "4435";
+    Constants.STREAM_CLIENT_SERVER_PATH = "ws/query";
+})(Constants || (Constants = {}));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Constants;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
 var Errors_1 = __webpack_require__(0);
 var XhrRequest_1 = __webpack_require__(1);
 var Request = (function () {
@@ -288,126 +407,6 @@ exports.default = Request;
 
 
 /***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var Constants_1 = __webpack_require__(4);
-var Errors_1 = __webpack_require__(0);
-var TextRequest_1 = __webpack_require__(5);
-var UserEntitiesRequest_1 = __webpack_require__(6);
-var StubStreamClient_1 = __webpack_require__(7);
-exports.StreamClient = StubStreamClient_1.default;
-var XhrRequest_1 = __webpack_require__(1);
-exports.XhrRequest = XhrRequest_1.default;
-var Client = (function () {
-    function Client(options) {
-        if (!options.accessToken) {
-            throw new Errors_1.ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
-        }
-        this.accessToken = options.accessToken;
-        this.apiLang = options.lang || Constants_1.default.DEFAULT_CLIENT_LANG;
-        this.apiVersion = options.version || Constants_1.default.DEFAULT_API_VERSION;
-        this.apiBaseUrl = options.baseUrl || Constants_1.default.DEFAULT_BASE_URL;
-        this.sessionId = options.sessionId || this.guid();
-    }
-    Client.prototype.textRequest = function (query, options) {
-        if (options === void 0) { options = {}; }
-        if (!query) {
-            throw new Errors_1.ApiAiClientConfigurationError("Query should not be empty");
-        }
-        options.query = query;
-        return new TextRequest_1.default(this, options).perform();
-    };
-    Client.prototype.userEntitiesRequest = function (options) {
-        if (options === void 0) { options = {}; }
-        return new UserEntitiesRequest_1.UserEntitiesRequest(this, options);
-    };
-    Client.prototype.createStreamClient = function (streamClientOptions) {
-        if (streamClientOptions === void 0) { streamClientOptions = {}; }
-        streamClientOptions.server = ""
-            + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
-            + "://" + Constants_1.default.DEFAULT_STREAM_CLIENT_BASE_URL
-            + ":" + Constants_1.default.STREAM_CLIENT_SERVER_PORT
-            + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
-        streamClientOptions.token = this.getAccessToken();
-        streamClientOptions.sessionId = this.getSessionId();
-        streamClientOptions.lang = this.getApiLang();
-        return new StubStreamClient_1.default(streamClientOptions);
-    };
-    Client.prototype.getAccessToken = function () {
-        return this.accessToken;
-    };
-    Client.prototype.getApiVersion = function () {
-        return (this.apiVersion) ? this.apiVersion : Constants_1.default.DEFAULT_API_VERSION;
-    };
-    Client.prototype.getApiLang = function () {
-        return (this.apiLang) ? this.apiLang : Constants_1.default.DEFAULT_CLIENT_LANG;
-    };
-    Client.prototype.getApiBaseUrl = function () {
-        return (this.apiBaseUrl) ? this.apiBaseUrl : Constants_1.default.DEFAULT_BASE_URL;
-    };
-    Client.prototype.setSessionId = function (sessionId) {
-        this.sessionId = sessionId;
-    };
-    Client.prototype.getSessionId = function () {
-        return this.sessionId;
-    };
-    /**
-     * generates new random UUID
-     * @returns {string}
-     */
-    Client.prototype.guid = function () {
-        var s4 = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
-        return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
-            s4() + "-" + s4() + s4() + s4();
-    };
-    return Client;
-}());
-exports.Client = Client;
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-var Constants;
-(function (Constants) {
-    (function (AVAILABLE_LANGUAGES) {
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
-    Constants.VERSION = "2.0.0";
-    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "https://api-ws.api.ai/v1/";
-    Constants.DEFAULT_API_VERSION = "20150204";
-    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
-    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
-    Constants.STREAM_CLIENT_SERVER_PORT = "4435";
-    Constants.STREAM_CLIENT_SERVER_PATH = "ws/query";
-})(Constants || (Constants = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Constants;
-
-
-/***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -418,7 +417,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(2);
+var Request_1 = __webpack_require__(4);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
@@ -436,60 +435,6 @@ exports.default = TextRequest;
 
 "use strict";
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Request_1 = __webpack_require__(2);
-var Utils_1 = __webpack_require__(8);
-var XhrRequest_1 = __webpack_require__(1);
-var UserEntitiesRequest = (function (_super) {
-    __extends(UserEntitiesRequest, _super);
-    function UserEntitiesRequest(apiAiClient, options) {
-        if (options === void 0) { options = {}; }
-        _super.call(this, apiAiClient, options);
-        this.options = options;
-        this.baseUri = this.apiAiClient.getApiBaseUrl() + UserEntitiesRequest.ENDPOINT;
-    }
-    UserEntitiesRequest.prototype.create = function (entities) {
-        this.uri = this.baseUri;
-        var options = Utils_1.default.cloneObject(this.options);
-        options.entities = Array.isArray(entities) ? entities : [entities];
-        return this.perform(options);
-    };
-    UserEntitiesRequest.prototype.retrieve = function (name) {
-        this.uri = this.baseUri + "/" + name;
-        this.requestMethod = XhrRequest_1.default.Method.GET;
-        return this.perform();
-    };
-    UserEntitiesRequest.prototype.update = function (name, entries, extend) {
-        if (extend === void 0) { extend = false; }
-        this.uri = this.baseUri + "/" + name;
-        this.requestMethod = XhrRequest_1.default.Method.PUT;
-        var options = Utils_1.default.cloneObject(this.options);
-        options.extend = extend;
-        options.entries = entries;
-        options.name = name;
-        return this.perform(options);
-    };
-    UserEntitiesRequest.prototype.delete = function (name) {
-        this.uri = this.baseUri + "/" + name;
-        this.requestMethod = XhrRequest_1.default.Method.DELETE;
-        return this.perform();
-    };
-    return UserEntitiesRequest;
-}(Request_1.default));
-exports.UserEntitiesRequest = UserEntitiesRequest;
-UserEntitiesRequest.ENDPOINT = "userEntities";
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
 var Errors_1 = __webpack_require__(0);
 var StubStreamClient = (function () {
     function StubStreamClient(options) {
@@ -503,33 +448,10 @@ exports.default = StubStreamClient;
 
 
 /***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-var ApiAiUtils = (function () {
-    function ApiAiUtils() {
-    }
-    /**
-     * make it in more appropriate way
-     * @param object
-     * @returns object
-     */
-    ApiAiUtils.cloneObject = function (object) {
-        return JSON.parse(JSON.stringify(object));
-    };
-    return ApiAiUtils;
-}());
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = ApiAiUtils;
-
-
-/***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(2);
 
 
 /***/ }

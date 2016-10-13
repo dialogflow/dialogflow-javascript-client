@@ -11,7 +11,10 @@ let plugins = [];
 let alias = {};
 // let ignoreLoader = {};
 
-module.exports = function (env) {
+module.exports = function(env) {
+  if (!env) {
+    env = {};
+  }
   if (env && env.skipStreamClient) {
     outputFile += '.streamless';
     /*  ignoreLoader = {
@@ -25,7 +28,15 @@ module.exports = function (env) {
 
   // handle minification
   if (env && env.compress === 'true') {
-    plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true}));
+    plugins.push(new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        keep_fnames: true
+      },
+      mangle: {
+        keep_fnames: true
+      }
+    }));
     outputFile += '.min';
     sourceMaps = false;
   } else {

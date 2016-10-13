@@ -3,7 +3,7 @@ import {ApiAiClientConfigurationError} from "./Errors";
 import {IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions} from "./Interfaces";
 import StreamClient from "./Stream/StreamClient";
 import TextRequest from "./Request/TextRequest";
-import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
+// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
 export {default as XhrRequest} from "./XhrRequest";
 
 export {StreamClient as StreamClient};
@@ -18,7 +18,7 @@ export class Client {
 
     constructor (options: IApiClientOptions) {
 
-        if (!options.accessToken) {
+        if (!options || !options.accessToken) {
             throw new ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
 
@@ -38,9 +38,9 @@ export class Client {
         return new TextRequest(this, options).perform();
     }
 
-    public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
+    /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
-    }
+    }*/
 
     public createStreamClient(streamClientOptions: IStreamClientOptions = {}) {
 

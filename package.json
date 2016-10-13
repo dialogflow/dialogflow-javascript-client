@@ -1,19 +1,8 @@
 {
-  "main": "index",
   "name": "api-ai-javascript",
-  "version": "2.0.0",
-  "description": "Javascript SDK for https://api.ai",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/api-ai/api-ai-javascript"
-  },
-  "scripts": {
-    "test": "karma start"
-  },
-  "eslintConfig": {
-    "extends": "google"
-  },
-  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "2.0.0-beta",
+  "description": "Javascript SDK for https://api.ai/",
+  "main": "index",
   "devDependencies": {
     "@types/es6-promise": "0.0.31",
     "@types/webaudioapi": "0.0.26",
@@ -38,5 +27,29 @@
     "typescript": "^2.1.0-dev.20160825",
     "typings": "^1.1.0",
     "webpack": "^2.1.0-beta.21"
+  },
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/api-ai/api-ai-javascript.git"
+  },
+  "keywords": [
+    "api.ai",
+    "nlu",
+    "nlp",
+    "chatbots",
+    "conversational",
+    "UX"
+  ],
+  "author": "Eugeny Shingarev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/api-ai/api-ai-javascript/issues"
+  },
+  "homepage": "https://github.com/api-ai/api-ai-javascript#readme",
+  "eslintConfig": {
+    "extends": "google"
   }
 }
