@@ -1,23 +1,9 @@
 // DEPRECATED
 
-var SERVER_PROTO, SERVER_DOMAIN, SERVER_PORT, ACCESS_TOKEN;
+const ACCESS_TOKEN = 'ACCESS_TOKEN';
 
-SERVER_PROTO = 'wss';
-SERVER_DOMAIN = 'api.api.ai';
-SERVER_PORT = '4435';
-ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN';
-
-var config = {
-  server: SERVER_PROTO + '://' + SERVER_DOMAIN + ':' + SERVER_PORT + '/api/ws/query',
-  token: ACCESS_TOKEN,// Use Client access token there (see agent keys).
-  sessionId: '123',
-  lang: 'en',
-  onInit: function () {
-    console.log("> ON INIT use config");
-  }
-};
-
-var streamClient = new ApiAi.StreamClient(config);
+const client = new ApiAi.Client({accessToken: ACCESS_TOKEN});
+const streamClient = client.createStreamClient();
 
 streamClient.onInit = function() {
   console.log("> ON INIT use direct assignment property");
@@ -54,7 +40,7 @@ streamClient.onEvent = function(code, data) {
   console.log("> ON EVENT", code, data);
 };
 
-/**
- * You have to invoke init() method explicitly to decide when ask permission to use microphone.
- */
+client.textRequest("hello").then((result) => console.log(result));
 streamClient.init();
+
+

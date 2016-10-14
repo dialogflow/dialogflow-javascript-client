@@ -1,14 +1,3 @@
-# Development
-
-* Checkout from this repository, do not forget to switch to "v2" branch
-* run `$ npm install`
-* run `$ webpack -w  --env.compress=false`
-* develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
-
-# Testing
-
-`$ npm test`
-
 ### Notice
 
 Command `$ webpack --env.compress=false` compiles ./target/ApiAi.js file that can be used in browser.
@@ -100,3 +89,15 @@ streamClient.init();
 streamClient.startListening();
 streamClient.stopListening();
 ```
+
+# Development
+
+* Checkout from this repository, do not forget to switch to "v2" branch
+* run `$ npm install`
+* run `$ webpack -w`
+* develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
+
+# Testing
+
+`$ npm test`
+

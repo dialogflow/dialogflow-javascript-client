@@ -263,12 +263,6 @@ function _resamplerJs() {
     navigator.Resampler = Resampler;
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * this module is full copy-paste from v1 sdk. It should be like that while we send 'resempler' to worker as
- * 'function body'
- * @todo: re-make as normal class
- * @private
- */
 exports.default = _resamplerJs;
 
 
@@ -378,14 +372,14 @@ var XhrRequest = (function () {
         }
         return xmlhttp;
     };
+    XhrRequest.XMLHttpFactories = [
+        function () { return new XMLHttpRequest(); },
+        function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
+        function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
+        function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+    ];
     return XhrRequest;
 }());
-XhrRequest.XMLHttpFactories = [
-    function () { return new XMLHttpRequest(); },
-    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
-    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
-    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
-];
 var XhrRequest;
 (function (XhrRequest) {
     (function (Method) {
@@ -441,7 +435,6 @@ var Client = (function () {
         streamClientOptions.server = ""
             + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
             + "://" + Constants_1.default.DEFAULT_STREAM_CLIENT_BASE_URL
-            + ":" + Constants_1.default.STREAM_CLIENT_SERVER_PORT
             + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
         streamClientOptions.token = this.getAccessToken();
         streamClientOptions.sessionId = this.getSessionId();
@@ -508,12 +501,11 @@ var Constants;
     var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
     Constants.VERSION = "2.0.0";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai/v1/";
+    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
     Constants.DEFAULT_API_VERSION = "20150204";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
     Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
-    Constants.STREAM_CLIENT_SERVER_PORT = "4435";
-    Constants.STREAM_CLIENT_SERVER_PATH = "ws/query";
+    Constants.STREAM_CLIENT_SERVER_PATH = "/ws/query";
 })(Constants || (Constants = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Constants;
@@ -1130,11 +1122,11 @@ var StreamClient = (function () {
         }
     };
     ;
+    StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
+    StreamClient.INTERVAL = 250;
+    StreamClient.TAG_END_OF_SENTENCE = "EOS";
     return StreamClient;
 }());
-StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
-StreamClient.INTERVAL = 250;
-StreamClient.TAG_END_OF_SENTENCE = "EOS";
 var StreamClient;
 (function (StreamClient) {
     (function (ERROR) {

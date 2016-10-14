@@ -47,7 +47,6 @@ export class Client {
         streamClientOptions.server = ""
             + Constants.STREAM_CLIENT_SERVER_PROTO
             + "://" + Constants.DEFAULT_STREAM_CLIENT_BASE_URL
-            + ":" + Constants.STREAM_CLIENT_SERVER_PORT
             + Constants.STREAM_CLIENT_SERVER_PATH;
 
         streamClientOptions.token = this.getAccessToken();

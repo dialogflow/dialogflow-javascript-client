@@ -72,7 +72,7 @@ module.exports = function(env) {
 
     resolve: {
       root: path.resolve('./src'),
-      extensions: ['', '.js', '.ts', '.jsx', '.tsx'],
+      extensions: ['.js', '.ts', '.jsx', '.tsx'],
       alias: alias
     },
 
