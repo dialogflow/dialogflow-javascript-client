@@ -1,13 +1,3 @@
-### Notice
-
-Command `$ webpack --env.compress=false` compiles ./target/ApiAi.js file that can be used in browser.
-
-Command `$ webpack --env.compress=true` compiles ./target/ApiAi.min.js file
-
-Command `$ webpack --env.compress=true --env.target=commonjs2` compiles ./target/ApiAi.commonjs2.min.js - same library that can be included with any commonjs2-compatible loader (including webpack).
-
-You also can just compile project code from .ts to es6 js and use it directly via ES6 import.
-
 # Usage
 
 Currently only simple `textRequest` method is available through this SDK
@@ -99,13 +89,12 @@ streamClient.stopListening();
 
 # Building
 
-```
-$ webpack # compile target/ApiAi.js
-$ webpack --env.target=commonjs2 # compiles target/ApiAi.commonjs2.js
-$ webpack --env.compress=true # compiles target/ApiAi.min.js 
-$ webpack --env.compress=true --env.target=commonjs2 # compiles target/ApiAi.commonjs2.min.js
-$ tsc -p tsconfig.es6src.json # compiles srces6 dir
-```
+
+* `$ webpack` compiles target/ApiAi.js
+* `$ webpack --env.target=commonjs2` compiles target/ApiAi.commonjs2.js
+* `$ webpack --env.compress=true` compiles target/ApiAi.min.js 
+* `$ webpack --env.compress=true --env.target=commonjs2` compiles target/ApiAi.commonjs2.min.js
+* `$ tsc -p tsconfig.es6src.json` compiles srces6 dir
 
 # Testing
 
