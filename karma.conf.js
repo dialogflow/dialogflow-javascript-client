@@ -16,6 +16,17 @@ module.exports = function(config) {
       module: webpackConfig.module,
       resolve: webpackConfig.resolve
     },
+    phantomjsLauncher: {
+      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+      // exitOnResourceError: true,
+      base: 'PhantomJS',
+      flags: [
+        '--web-security=false',
+        '--load-images=true',
+        '--ignore-ssl-errors=yes',
+        '--ssl-protocol=any'
+      ]
+    },
     reporters: ['progress'],
     port: 9876,
     colors: true,
