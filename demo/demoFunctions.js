@@ -1,12 +1,9 @@
-// DEPRECATED
-
 const ACCESS_TOKEN = '3485a96fb27744db83e78b8c4bc9e7b7';
-
 const client = new ApiAi.Client({accessToken: ACCESS_TOKEN});
+const streamClient = client.createStreamClient();
 
-// client.ttsRequest('hello');
-
-/*const streamClient = client.createStreamClient();
+"use strict";
+// streamClient events definitions
 
 streamClient.onInit = function() {
   console.log("> ON INIT use direct assignment property");
@@ -30,18 +27,33 @@ streamClient.onClose = function() {
   streamClient.close();
 };
 
-streamClient.onResults = function(data) {
-  console.log("> ON RESULT", data);
-};
+streamClient.onResults = streamClientOnResults;
+
 streamClient.onError = function(code, data) {
   streamClient.close();
   console.log("> ON ERROR", code, data);
-  // if (data && data.indexOf('No live audio input in this browser') >= 0) {}
 };
 
 streamClient.onEvent = function(code, data) {
   console.log("> ON EVENT", code, data);
 };
 
-client.textRequest("hello").then((result) => console.log(result));
-streamClient.init();*/
+function sendText(text) {
+  return client.textRequest(text);
+}
+
+function tts(text) {
+  return client.ttsRequest(text);
+}
+
+function startMic() {
+  streamClient.startListening();
+}
+
+function stopMic() {
+  streamClient.stopListening();
+}
+
+function streamClientOnResults(results) {
+  console.log("> ON RESULTS", results);
+}

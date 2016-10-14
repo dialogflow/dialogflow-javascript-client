@@ -247,6 +247,46 @@ exports.default = XhrRequest;
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+var Constants;
+(function (Constants) {
+    (function (AVAILABLE_LANGUAGES) {
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
+    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
+    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
+    Constants.VERSION = "2.0.0";
+    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
+    Constants.DEFAULT_API_VERSION = "20150910";
+    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    // @todo: make configurable, ideally fix non-working v1
+    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
+    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
+    Constants.STREAM_CLIENT_SERVER_PATH = "/ws/query";
+})(Constants || (Constants = {}));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Constants;
+
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -298,7 +338,7 @@ exports.default = Request;
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -457,12 +497,12 @@ exports.default = _resamplerJs;
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var Constants_1 = __webpack_require__(5);
+var Constants_1 = __webpack_require__(2);
 var Errors_1 = __webpack_require__(0);
 var StreamClient_1 = __webpack_require__(11);
 exports.StreamClient = StreamClient_1.default;
@@ -543,46 +583,6 @@ exports.Client = Client;
 
 
 /***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-var Constants;
-(function (Constants) {
-    (function (AVAILABLE_LANGUAGES) {
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
-    Constants.VERSION = "2.0.0";
-    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
-    Constants.DEFAULT_API_VERSION = "20150204";
-    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
-    // @todo: make configurable, ideally fix non-working v1
-    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
-    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
-    Constants.STREAM_CLIENT_SERVER_PATH = "/ws/query";
-})(Constants || (Constants = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Constants;
-
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -593,9 +593,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Constants_1 = __webpack_require__(5);
+var Constants_1 = __webpack_require__(2);
 var XhrRequest_1 = __webpack_require__(1);
-var Request_1 = __webpack_require__(2);
+var Request_1 = __webpack_require__(3);
 var Errors_1 = __webpack_require__(0);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
@@ -664,7 +664,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(2);
+var Request_1 = __webpack_require__(3);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
@@ -682,7 +682,7 @@ exports.default = TextRequest;
 
 "use strict";
 "use strict";
-var Resampler_1 = __webpack_require__(3);
+var Resampler_1 = __webpack_require__(4);
 var VAD_1 = __webpack_require__(12);
 var Processors = (function () {
     function Processors() {
@@ -764,7 +764,7 @@ exports.Processors = Processors;
 
 "use strict";
 "use strict";
-var Resampler_1 = __webpack_require__(3);
+var Resampler_1 = __webpack_require__(4);
 var RecorderWorker_1 = __webpack_require__(10);
 var Recorder = (function () {
     function Recorder(source, config) {
@@ -1349,7 +1349,7 @@ exports.default = VAD;
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(5);
 
 
 /***/ }

@@ -9,7 +9,7 @@ namespace Constants {
     export const VERSION: string = "2.0.0";
     export const DEFAULT_BASE_URL: string = "https://api.api.ai/v1/";
     export const DEFAULT_STREAM_CLIENT_BASE_URL: string = "api-ws.api.ai:4435/v1/";
-    export const DEFAULT_API_VERSION: string = "20150204";
+    export const DEFAULT_API_VERSION: string = "20150910";
     export const DEFAULT_CLIENT_LANG: AVAILABLE_LANGUAGES = AVAILABLE_LANGUAGES.EN;
 
     // @todo: make configurable, ideally fix non-working v1
