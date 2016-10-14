@@ -3,6 +3,7 @@ import {ApiAiClientConfigurationError} from "./Errors";
 import {IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions} from "./Interfaces";
 import StreamClient from "./Stream/StreamClient";
 import TextRequest from "./Request/TextRequest";
+import {TTSRequest} from "./Request/TTSRequest";
 // import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
 export {default as XhrRequest} from "./XhrRequest";
 
@@ -36,6 +37,13 @@ export class Client {
         }
         options.query = query;
         return new TextRequest(this, options).perform();
+    }
+
+    public ttsRequest (query) {
+        if (!query) {
+            throw new ApiAiClientConfigurationError("Query should not be empty");
+        }
+        return new TTSRequest(this).makeTTSRequest(query);
     }
 
     /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {

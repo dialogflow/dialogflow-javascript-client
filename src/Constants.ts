@@ -12,6 +12,9 @@ namespace Constants {
     export const DEFAULT_API_VERSION: string = "20150204";
     export const DEFAULT_CLIENT_LANG: AVAILABLE_LANGUAGES = AVAILABLE_LANGUAGES.EN;
 
+    // @todo: make configurable, ideally fix non-working v1
+    export const DEFAULT_TTS_HOST: string = "https://api.api.ai/api/tts";
+
     export const STREAM_CLIENT_SERVER_PROTO: string = "wss";
     export const STREAM_CLIENT_SERVER_PATH: string = "/ws/query";
 

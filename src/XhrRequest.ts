@@ -12,7 +12,8 @@ class XhrRequest {
         method: XhrRequest.Method,
         url: string,
         args: IStringMap = null,
-        headers: IStringMap = null
+        headers: IStringMap = null,
+        options: IStringMap = {}
     ): Promise<any> {
 
         // Creating a promise
@@ -43,9 +44,15 @@ class XhrRequest {
                 payload = JSON.stringify(args);
             }
 
+            for (let key in options) {
+                if (key in client) {
+                    client[key] = options[key];
+                }
+            }
+
             // hack: method[method] is somewhat like .toString for enum Method
             // should be made in normal way
-            client.open(XhrRequest.Method[method], uri);
+            client.open(XhrRequest.Method[method], uri, true);
             // Add given headers
 
             if (headers) {
@@ -74,20 +81,23 @@ class XhrRequest {
 
     }
 
-    public static get (url, payload: IStringMap = null, headers: IStringMap = null) {
-        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers);
+    public static get (url, payload: IStringMap = null, headers: IStringMap = null, options = {}): Promise<any> {
+        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers, options);
     }
 
-    public static post (url: string, payload: IStringMap = null, headers: IStringMap = null): Promise<{}> {
-        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers);
+    public static post (url: string, payload: IStringMap = null, headers: IStringMap = null,
+                        options = {}): Promise<any> {
+        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers, options);
     }
 
-    public static put (url: string, payload: IStringMap = null, headers: IStringMap = null) {
-        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers);
+    public static put (url: string, payload: IStringMap = null, headers: IStringMap = null,
+                       options = {}): Promise<any>  {
+        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers, options);
     }
 
-    public static delete (url: string, payload: IStringMap = null, headers: IStringMap = null) {
-        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers);
+    public static delete (url: string, payload: IStringMap = null, headers: IStringMap = null,
+                          options = {}): Promise<any>  {
+        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers, options);
     }
 
     private static XMLHttpFactories = [
