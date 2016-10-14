@@ -2,12 +2,12 @@ import Constants from "./Constants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import StreamClient from "./Stream/StreamClient";
 import TextRequest from "./Request/TextRequest";
-import { UserEntitiesRequest } from "./Request/UserEntitiesRequest";
+// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
 export { default as XhrRequest } from "./XhrRequest";
 export { StreamClient as StreamClient };
 export class Client {
     constructor(options) {
-        if (!options.accessToken) {
+        if (!options || !options.accessToken) {
             throw new ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
         this.accessToken = options.accessToken;
@@ -23,14 +23,13 @@ export class Client {
         options.query = query;
         return new TextRequest(this, options).perform();
     }
-    userEntitiesRequest(options = {}) {
+    /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
-    }
+    }*/
     createStreamClient(streamClientOptions = {}) {
         streamClientOptions.server = ""
             + Constants.STREAM_CLIENT_SERVER_PROTO
             + "://" + Constants.DEFAULT_STREAM_CLIENT_BASE_URL
-            + ":" + Constants.STREAM_CLIENT_SERVER_PORT
             + Constants.STREAM_CLIENT_SERVER_PATH;
         streamClientOptions.token = this.getAccessToken();
         streamClientOptions.sessionId = this.getSessionId();

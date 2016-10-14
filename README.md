@@ -97,7 +97,16 @@ streamClient.stopListening();
 * run `$ webpack -w`
 * develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
 
+# Building
+
+```
+$ webpack # compile target/ApiAi.js
+$ webpack --env.target=commonjs2 # compiles target/ApiAi.commonjs2.js
+$ webpack --env.compress=true # compiles target/ApiAi.min.js 
+$ webpack --env.compress=true --env.target=commonjs2 # compiles target/ApiAi.commonjs2.min.js
+$ tsc -p tsconfig.es6src.json # compiles srces6 dir
+```
+
 # Testing
 
 `$ npm test`
-
