@@ -1,6 +1,6 @@
 {
   "name": "api-ai-javascript",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "description": "Javascript SDK for https://api.ai/",
   "main": "index",
   "devDependencies": {
@@ -45,7 +45,7 @@
     "UX"
   ],
   "author": "Eugeny Shingarev",
-  "license": "APACHE",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/api-ai/api-ai-javascript/issues"
   },
