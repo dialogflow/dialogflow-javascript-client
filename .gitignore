@@ -6,3 +6,5 @@ target/ApiAi.js.map
 target/ApiAi.min.js.map
 target/ApiAi.streamless.js.map
 target/ApiAi.commonjs2.js.map
+.DS_Store
+apiai.sublime-project
