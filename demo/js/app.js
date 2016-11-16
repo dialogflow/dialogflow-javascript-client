@@ -27,7 +27,7 @@ window.onload = function () {
 function App() {
     var apiAi, apiAiTts;
     var isListening = false;
-    var sessionId = _generateId(32);
+    var sessionId = ApiAi.generateRandomId();
 
     this.start = function () {
         start.className += ' hidden';
@@ -192,15 +192,6 @@ function App() {
 
         apiAi.stopListening();
         isListening = false;
-    }
-
-    function _generateId(length) {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < length; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
     }
 
 }

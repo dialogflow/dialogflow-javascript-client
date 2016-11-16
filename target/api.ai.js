@@ -672,7 +672,7 @@ function _recorderWorkerJs() {
 
         _this.server = config.server || '';
         _this.token = config.token || '';
-        _this.sessionId = config.sessionId || '';
+        _this.sessionId = config.sessionId || ApiAi.generateRandomId();
         _this.lang = config.lang || 'en';
         _this.contentType = config.contentType || CONTENT_TYPE;
         _this.readingInterval = config.readingInterval || INTERVAL;
@@ -688,8 +688,21 @@ function _recorderWorkerJs() {
         _this.onError = config.onError && config.onError.bind(_this) || _noop;
 
         function _noop() {
+
         }
+
+
+
     }
+
+    ApiAi.generateRandomId = function () {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+
+        return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
+            s4() + "-" + s4() + s4() + s4();
+    };
 
     /**
      * Initializes audioContext
@@ -749,6 +762,12 @@ function _recorderWorkerJs() {
      * @param json - javascript map.
      */
     ApiAi.prototype.sendJson = function (json) {
+        if (!json.sessionId) {
+            if (!this.sessionId) {
+                this.sessionId = this.generateRandomId();
+            }
+            json.sessionId = this.sessionId;
+        }
         this._socketSend(JSON.stringify(json));
         this._socketSend(TAG_END_OF_SENTENCE);
     };
@@ -861,9 +880,9 @@ function _recorderWorkerJs() {
             function _createWebSocket() {
                 var url = '';
                 if (_this.serverVersion) {
-                    url = _this.server + '?v=' + _this.serverVersion + '&' + _this.contentType + '&access_token=' + _this.token;
+                    url = _this.server + '?v=' + _this.serverVersion + '&' + _this.contentType + '&access_token=' + _this.token + '&sessionId=' + _this.sessionId;
                 } else {
-                    url = _this.server + '?' + _this.contentType + '&access_token=' + _this.token;
+                    url = _this.server + '?' + _this.contentType + '&access_token=' + _this.token + '&sessionId=' + _this.sessionId;
                 }
                 var ws = new WebSocket(url);
 
