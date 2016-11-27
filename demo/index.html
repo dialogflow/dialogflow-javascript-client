@@ -6,6 +6,7 @@
     <title>Title</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
     <script src="../target/ApiAi.js"></script>
     <script src="demoFunctions.js"></script>
@@ -13,8 +14,6 @@
 <body>
 <div class="container">
     <div class="row">
-
-    <div class="col s1"></div>
         <div class="col s5">
             <div class="input-field">
                 <input placeholder="Hey, ask me something..." id="q" type="text" >
@@ -24,14 +23,15 @@
                 <div class="right-align flow-text">one more test</div-->
             </div>
         </div>
+        <div class="col s2"></div>
         <div class="col s5">
-
+          <h5>Request payload:</h5>
+          <pre id="jsonRequest"></pre>
+          <h5>Response payload:</h5>
+          <pre id="jsonResponse"></pre>
         </div>
-        <div class="col s1"></div>
     </div>
 </div>
-
-
 
 <script defer src="layout.js"></script>
 

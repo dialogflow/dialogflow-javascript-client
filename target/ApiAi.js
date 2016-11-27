@@ -605,7 +605,7 @@ var TTSRequest = (function (_super) {
         _super.call(this, apiAiClient, options);
         this.apiAiClient = apiAiClient;
         this.resolveTTSPromise = function (data) {
-            return _this.speak(data.response);
+            return _this.speak(data.response).catch(function () { });
         };
         // this.requestMethod = XhrRequest.Method.GET;
         this.uri = Constants_1.default.DEFAULT_TTS_HOST;
@@ -613,6 +613,7 @@ var TTSRequest = (function (_super) {
         this.audioContext = new AudioContext();
     }
     TTSRequest.prototype.makeTTSRequest = function (text) {
+        console.log(1);
         if (!text) {
             throw new Errors_1.ApiAiClientConfigurationError("Request can not be empty");
         }
@@ -625,6 +626,7 @@ var TTSRequest = (function (_super) {
             Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
             "Accept-language": "en-US"
         };
+        console.log(2);
         this.makeRequest(this.uri, params, headers, { responseType: TTSRequest.RESPONSE_TYPE_ARRAYBUFFER })
             .then(this.resolveTTSPromise);
     };
@@ -633,7 +635,9 @@ var TTSRequest = (function (_super) {
     };
     TTSRequest.prototype.speak = function (data) {
         var _this = this;
+        console.log(1234);
         return new Promise(function (resolve, reject) {
+            console.log(123);
             _this.audioContext.decodeAudioData(data, function (buffer) {
                 return _this.playSound(buffer, resolve);
             }, reject);

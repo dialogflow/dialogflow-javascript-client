@@ -21,7 +21,7 @@ export class ApiAiRequestError extends ApiAiBaseError {
 
     public name: string = "ApiAiRequestError";
 
-    constructor(public message: string, public code?: number) {
+    constructor(public message: string, public code: number = null) {
         super(message);
     }
 }

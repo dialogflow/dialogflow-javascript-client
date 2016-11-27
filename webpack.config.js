@@ -58,6 +58,7 @@ module.exports = function(env) {
     devtool: sourceMaps ? 'source-map' : null,
     output: {
       path: path.join(__dirname, 'target'),
+      publicPath: "/target/",
       filename: outputFile,
       library: libraryName,
       libraryTarget: libraryTarget

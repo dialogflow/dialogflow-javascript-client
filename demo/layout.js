@@ -9,7 +9,6 @@
   function init() {
     queryInput = document.getElementById("q");
     resultDiv = document.getElementById("result");
-    console.log(resultDiv);
     queryInput.addEventListener("keydown", queryInputKeyDown);
   }
 
@@ -34,23 +33,26 @@
 
       if (!result) {
         result = "[empty response]";
+      } else {
+        tts(result).catch((err) => {
+          Materialize.toast(err, 2000, 'red lighten-1');
+        });
       }
+      setResponseJSON(response);
       setResponseOnNode(result, responseNode);
-
     });
   }
 
   function createQueryNode(query) {
     var node = document.createElement('div');
-    node.className = "left-align flow-text";
+    node.className = "left-align card-panel teal lighten-2 teal lighten-2";
     node.innerHTML = query;
-    console.log(node);
     resultDiv.appendChild(node);
   }
 
   function createResponseNode() {
     var node = document.createElement('div');
-    node.className = "right-align flow-text";
+    node.className = "right-align card-panel blue-text text-darken-2";
     node.innerHTML = "...";
     resultDiv.appendChild(node);
     return node;
@@ -58,6 +60,11 @@
 
   function setResponseOnNode(response, node) {
     node.innerHTML = response;
+  }
+
+  function setResponseJSON(response) {
+    var node = document.getElementById("jsonResponse");
+    node.innerHTML = JSON.stringify(response, null, 2);
   }
 
   function sendRequest() {
