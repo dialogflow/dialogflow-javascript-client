@@ -7,7 +7,7 @@
  */
 class XhrRequest {
     // Method that performs the ajax request
-    static ajax(method, url, args = null, headers = null) {
+    static ajax(method, url, args = null, headers = null, options = {}) {
         // Creating a promise
         return new Promise(function (resolve, reject) {
             // Instantiates the XMLHttpRequest
@@ -34,9 +34,14 @@ class XhrRequest {
                 headers["Content-Type"] = "application/json";
                 payload = JSON.stringify(args);
             }
+            for (let key in options) {
+                if (key in client) {
+                    client[key] = options[key];
+                }
+            }
             // hack: method[method] is somewhat like .toString for enum Method
             // should be made in normal way
-            client.open(XhrRequest.Method[method], uri);
+            client.open(XhrRequest.Method[method], uri, true);
             // Add given headers
             if (headers) {
                 for (let key in headers) {
@@ -61,17 +66,17 @@ class XhrRequest {
             };
         });
     }
-    static get(url, payload = null, headers = null) {
-        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers);
+    static get(url, payload = null, headers = null, options = {}) {
+        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers, options);
     }
-    static post(url, payload = null, headers = null) {
-        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers);
+    static post(url, payload = null, headers = null, options = {}) {
+        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers, options);
     }
-    static put(url, payload = null, headers = null) {
-        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers);
+    static put(url, payload = null, headers = null, options = {}) {
+        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers, options);
     }
-    static delete(url, payload = null, headers = null) {
-        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers);
+    static delete(url, payload = null, headers = null, options = {}) {
+        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers, options);
     }
     static createXMLHTTPObject() {
         let xmlhttp = null;

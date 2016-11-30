@@ -21,8 +21,10 @@ var Constants;
     Constants.VERSION = "2.0.0";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
-    Constants.DEFAULT_API_VERSION = "20150204";
+    Constants.DEFAULT_API_VERSION = "20150910";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    // @todo: make configurable, ideally fix non-working v1
+    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
     Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
     Constants.STREAM_CLIENT_SERVER_PATH = "/ws/query";
 })(Constants || (Constants = {}));

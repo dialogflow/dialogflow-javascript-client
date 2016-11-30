@@ -12,7 +12,7 @@ export class ApiAiClientConfigurationError extends ApiAiBaseError {
     }
 }
 export class ApiAiRequestError extends ApiAiBaseError {
-    constructor(message, code) {
+    constructor(message, code = null) {
         super(message);
         this.message = message;
         this.code = code;

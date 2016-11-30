@@ -2,6 +2,7 @@ import Constants from "./Constants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import StreamClient from "./Stream/StreamClient";
 import TextRequest from "./Request/TextRequest";
+import { TTSRequest } from "./Request/TTSRequest";
 // import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
 export { default as XhrRequest } from "./XhrRequest";
 export { StreamClient as StreamClient };
@@ -22,6 +23,12 @@ export class Client {
         }
         options.query = query;
         return new TextRequest(this, options).perform();
+    }
+    ttsRequest(query) {
+        if (!query) {
+            throw new ApiAiClientConfigurationError("Query should not be empty");
+        }
+        return new TTSRequest(this).makeTTSRequest(query);
     }
     /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
