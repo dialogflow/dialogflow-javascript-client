@@ -30,14 +30,6 @@
       } catch(error) {
         result = "";
       }
-
-      if (!result) {
-        result = "[empty response]";
-      } else {
-        tts(result).catch((err) => {
-          Materialize.toast(err, 2000, 'red lighten-1');
-        });
-      }
       setResponseJSON(response);
       setResponseOnNode(result, responseNode);
     });
@@ -45,21 +37,39 @@
 
   function createQueryNode(query) {
     var node = document.createElement('div');
-    node.className = "left-align card-panel teal lighten-2 teal lighten-2";
+    node.className = "clearfix left-align left card-panel green accent-1";
     node.innerHTML = query;
     resultDiv.appendChild(node);
   }
 
   function createResponseNode() {
     var node = document.createElement('div');
-    node.className = "right-align card-panel blue-text text-darken-2";
+    node.className = "clearfix right-align right card-panel blue-text text-darken-2 hoverable";
     node.innerHTML = "...";
     resultDiv.appendChild(node);
     return node;
   }
 
   function setResponseOnNode(response, node) {
-    node.innerHTML = response;
+    node.innerHTML = response ? response : "[empty response]";
+    node.setAttribute('data-actual-response', response);
+    var speaking = false;
+    
+    function speakNode() {
+      if (!response || speaking) {
+        return;
+      }
+      speaking = true;
+      tts(response)
+        .then(function () {speaking = false})
+        .catch(function (err) {
+          speaking = false;
+          Materialize.toast(err, 2000, 'red lighten-1');
+        });
+    }
+
+    node.addEventListener("click", speakNode);
+    speakNode();
   }
 
   function setResponseJSON(response) {
