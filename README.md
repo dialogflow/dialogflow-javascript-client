@@ -80,6 +80,24 @@ streamClient.startListening();
 streamClient.stopListening();
 ```
 
+# TypeScript and ES6
+
+This SDK written with Typescript and all it's sources are available in this package. So basically if you are using something like *webpack* or *browserify* with ES6 imports and so on, you can just install this SDK with `$ npm install api-ai-javascript --save-dev` command and then import original sources with something like:
+
+```javascript
+
+import {Client} from "api-ai-javascript";
+
+const client = new Client('YOUR_ACCESS_TOKEN');
+client
+    .textRequest('Hello!')
+    .then((response) => /* do something */ )
+    .catch((error) => /* do something here too */)
+
+```
+
+Code above should work for both TypeScript and simple ES6
+
 # Development
 
 * Checkout from this repository, do not forget to switch to "v2" branch
@@ -88,7 +106,6 @@ streamClient.stopListening();
 * develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
 
 # Building
-
 
 * `$ webpack` compiles target/ApiAi.js
 * `$ webpack --env.target=commonjs2` compiles target/ApiAi.commonjs2.js
