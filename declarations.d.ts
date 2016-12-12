@@ -4,3 +4,6 @@ interface Navigator {
 interface AudioContext {
     createResampleProcessor: Function
 }
+interface Window {
+    speechSynthesis: any
+}

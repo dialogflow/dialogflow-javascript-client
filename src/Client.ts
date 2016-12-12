@@ -1,6 +1,7 @@
 import Constants from "./Constants";
-import {ApiAiClientConfigurationError} from "./Errors";
-import {IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions} from "./Interfaces";
+import { ApiAiClientConfigurationError } from "./Errors";
+import { EventRequest } from "./Request/EventRequest";
+import { IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions, IStringMap } from './Interfaces';
 import StreamClient from "./Stream/StreamClient";
 import TextRequest from "./Request/TextRequest";
 import {TTSRequest} from "./Request/TTSRequest";
@@ -37,6 +38,15 @@ export class Client {
         }
         options.query = query;
         return new TextRequest(this, options).perform();
+    }
+
+    public eventRequest (eventName, eventData: IStringMap = {},
+        options: IRequestOptions = {}): Promise<IServerResponse> {
+        if (!eventName) {
+            throw new ApiAiClientConfigurationError("Event name can not be empty");
+        }
+        options.event = {name: eventName, data: eventData}
+        return new EventRequest(this, options).perform();
     }
 
     public ttsRequest (query) {
