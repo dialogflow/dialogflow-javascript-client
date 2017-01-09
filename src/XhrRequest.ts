@@ -65,17 +65,17 @@ class XhrRequest {
 
             payload ? client.send(payload) : client.send();
 
-            client.onload = function () {
-                if (this.status >= 200 && this.status < 300) {
+            client.onload = () => {
+                if (client.status >= 200 && client.status < 300) {
                     // Performs the function "resolve" when this.status is equal to 2xx
-                    resolve(this);
+                    resolve(client);
                 } else {
                     // Performs the function "reject" when this.status is different than 2xx
-                    reject(this);
+                    reject(client);
                 }
             };
-            client.onerror = function () {
-                reject(this);
+            client.onerror = () => {
+                reject(client);
             };
         });
 
