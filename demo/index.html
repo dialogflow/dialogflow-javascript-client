@@ -12,6 +12,13 @@
     <script src="demoFunctions.js"></script>
 
     <style>
+        #placeholder {
+            text-align: center;
+            margin-top: 1.5em;
+        }
+        #main-wrapper {
+            display: none;
+        }
         .clearfix {
             clear: both;
         }
@@ -20,25 +27,43 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col s5">
-            <div class="input-field">
-                <input placeholder="Hey, ask me something..." id="q" type="text" >
-            </div>
-            <div id="result">
-                <!--div class="left-align flow-text">test</div>
-                <div class="right-align flow-text">one more test</div-->
-            </div>
+        <h5>Configure demo:</h5>
+    </div>
+    <div class="row">
+        <div class="input-field col s10">
+            <input id="access_token" type="text" >
+            <label for="access_token">Access token</label>
         </div>
-        <div class="col s2"></div>
-        <div class="col s5">
-          <h5>Request payload:</h5>
-          <pre id="jsonRequest"></pre>
-          <h5>Response payload:</h5>
-          <pre id="jsonResponse"></pre>
+        <div class="col s2 input-field">
+            <a class="waves-effect waves-light btn" id="set_access_token">Set</a>
         </div>
     </div>
 </div>
-
+<div id="placeholder">
+    <h5>Please, fill access token before start</h5>
+</div>
+<div id="main-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col s5">
+                <div class="input-field">
+                    <input placeholder="Hey, ask me something..." id="q" type="text" >
+                </div>
+                <div id="result">
+                    <!--div class="left-align flow-text">test</div>
+                    <div class="right-align flow-text">one more test</div-->
+                </div>
+            </div>
+            <div class="col s2"></div>
+            <div class="col s5">
+            <!--h5>Request payload:</h5>
+            <pre id="jsonRequest"></pre-->
+            <h5>Response payload:</h5>
+            <pre id="jsonResponse"></pre>
+            </div>
+        </div>
+    </div>
+</div>
 <script defer src="layout.js"></script>
 
 </body>

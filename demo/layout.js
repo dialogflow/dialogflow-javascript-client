@@ -2,14 +2,24 @@
   "use strict";
 
   var ENTER_KEY_CODE = 13;
-  var queryInput, resultDiv;
+  var queryInput, resultDiv, accessTokenInput;
 
   window.onload = init;
 
   function init() {
     queryInput = document.getElementById("q");
     resultDiv = document.getElementById("result");
+    accessTokenInput = document.getElementById("access_token");
+    var setAccessTokenButton = document.getElementById("set_access_token");
+
     queryInput.addEventListener("keydown", queryInputKeyDown);
+    setAccessTokenButton.addEventListener("click", setAccessToken);
+  }
+
+  function setAccessToken() {
+    document.getElementById("placeholder").style.display = "none";
+    document.getElementById("main-wrapper").style.display = "block";
+    window.init(accessTokenInput.value);
   }
 
   function queryInputKeyDown(event) {
@@ -23,16 +33,21 @@
     createQueryNode(value);
     var responseNode = createResponseNode();
 
-    sendText(value).then(function(response) {
-      var result;
-      try {
-        result = response.result.fulfillment.speech
-      } catch(error) {
-        result = "";
-      }
-      setResponseJSON(response);
-      setResponseOnNode(result, responseNode);
-    });
+    sendText(value)
+      .then(function(response) {
+        var result;
+        try {
+          result = response.result.fulfillment.speech
+        } catch(error) {
+          result = "";
+        }
+        setResponseJSON(response);
+        setResponseOnNode(result, responseNode);
+      })
+      .catch(function(err) {
+        setResponseJSON(err);
+        setResponseOnNode("Something goes wrong", responseNode);
+      });
   }
 
   function createQueryNode(query) {
