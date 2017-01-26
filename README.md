@@ -83,3 +83,12 @@ Code above should work for both TypeScript and simple ES6
 # Testing
 
 `$ npm test`
+
+## Changelog
+## 2.0.0-beta.8
+### Breaking changes:
+* Main class renamed from Client to ApiAiClient
+* StreamClient renamed (in exports at least) to ApiAiStreamClient
+* StreamClient class is no longer available inside main ApiAiClient class and now should be passed directly in ApiAiClient constructor: `const client = new ApiAiClient("ACCESS_TOKEN", {streamClientClass: ApiAiStreamClient}). That was made to allow building your applications without streamclient at all (streamclient now takes about 70% of whole library). And also there will be other implementation of streamClient in the future
+### Non-breaking changes:
+* Demo updated
