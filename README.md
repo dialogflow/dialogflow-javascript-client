@@ -57,9 +57,9 @@ This SDK written with Typescript and all it's sources are available in this pack
 
 ```javascript
 
-import {Client} from "api-ai-javascript";
+import {ApiAiClient, ApiAiStreamClient} from "api-ai-javascript";
 
-const client = new Client('YOUR_ACCESS_TOKEN');
+const client = new ApiAiClient('YOUR_ACCESS_TOKEN', {streamClientClass: ApiAiStreamClient});
 client
     .textRequest('Hello!')
     .then((response) => /* do something */ )
