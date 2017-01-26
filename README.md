@@ -1,12 +1,10 @@
 # Usage
 
-Currently only simple `textRequest` method is available through this SDK
-
-It looks like:
+## .textRequest
 
 ```javascript
 
-const client = new ApiAi.Client('YOUR_ACCESS_TOKEN');
+const client = new ApiAi.ApiAiClient('YOUR_ACCESS_TOKEN');
 let promise = client.textRequest(longTextRequest);
 
 promise
@@ -21,12 +19,18 @@ function heandleError(serverError) {
 }
 ```
 
-And old (ported from V1 SDK) stream client (you can stream audio from mic with it):
+## .eventRequest
 
 ```javascript
+let promise = client.eventRequest("EVENT_NAME", options);
+```
 
+## StreamClient
 
-const client = new ApiAi.Client({accessToken: "ACCESS_TOKEN"});
+An old (ported from V1 SDK) stream client (you can stream audio from mic with it):
+
+```javascript
+const client = new ApiAi.Client({accessToken: "ACCESS_TOKEN", streamClientClass: ApiAi.ApiAiStreamClient});
 const streamClient = client.createStreamClient(); // in that case some default settings will be applied
 streamClient.onInit = function () {
     console.log("> ON INIT use direct assignment property");
@@ -43,39 +47,6 @@ const streamClient = client.createStreamClient({
 });
 
 streamClient.init();
-streamClient.startListening();
-streamClient.stopListening();
-```
-
-Or in "old" style:
-
-```javascript
-
-const SERVER_PROTO = 'wss';
-const SERVER_DOMAIN = 'api-ws.api.ai';
-const SERVER_PORT = '4435';
-const ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN';
-
-const config = {
-    server: SERVER_PROTO + '://' + SERVER_DOMAIN + ':' + SERVER_PORT + '/api/ws/query',
-    token: ACCESS_TOKEN,// Use Client access token there (see agent keys).
-    sessionId: '123',
-    lang: 'en',
-    onInit: function () {
-        console.log("> ON INIT use config");
-    }
-};
-
-const streamClient = new ApiAi.StreamClient(config);
-
-streamClient.onInit = function () {
-    console.log("> ON INIT use direct assignment property");
-    streamClient.open();
-};
-
-streamClient.init();
-...
-
 streamClient.startListening();
 streamClient.stopListening();
 ```
@@ -107,11 +78,7 @@ Code above should work for both TypeScript and simple ES6
 
 # Building
 
-* `$ webpack` compiles target/ApiAi.js
-* `$ webpack --env.target=commonjs2` compiles target/ApiAi.commonjs2.js
-* `$ webpack --env.compress=true` compiles target/ApiAi.min.js 
-* `$ webpack --env.compress=true --env.target=commonjs2` compiles target/ApiAi.commonjs2.min.js
-* `$ tsc -p tsconfig.es6src.json` compiles srces6 dir
+`$ npm run-script build` command will build everything
 
 # Testing
 

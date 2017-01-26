@@ -11,8 +11,10 @@ window.init = function(token) {
     streamClient.close();
   }
   
-  client = new ApiAi.Client({accessToken: token});
+  client = new ApiAi.ApiAiClient({accessToken: token, streamClientClass: ApiAi.ApiAiStreamClient});
+  
   streamClient = client.createStreamClient();
+  console.log(client.createStreamClient());
   streamClient.init();
 
   streamClient.onInit = function() {

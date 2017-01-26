@@ -18,14 +18,11 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
-    Constants.VERSION = "2.0.0";
+    Constants.VERSION = "2.0.0-beta.8";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
     Constants.DEFAULT_API_VERSION = "20150910";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
     // @todo: make configurable, ideally fix non-working v1
     Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
-    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
-    Constants.STREAM_CLIENT_SERVER_PATH = "/ws/query";
 })(Constants || (Constants = {}));
 export default Constants;

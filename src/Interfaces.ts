@@ -29,7 +29,14 @@ export interface IApiClientOptions {
     version?: string;
     baseUrl?: string;
     sessionId?: string;
+    streamClientClass?: IStreamClientConstructor;
     accessToken: string;
+}
+export interface IStreamClientConstructor {
+    new (options: IStreamClientOptions): IStreamClient;
+}
+export interface IStreamClient {
+    startListening(): void;
 }
 export interface IStreamClientOptions {
     server?: string;

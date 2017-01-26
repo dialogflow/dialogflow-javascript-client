@@ -62,7 +62,7 @@ var ApiAi =
 /******/ 	__webpack_require__.p = "/target/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,6 +110,58 @@ exports.ApiAiRequestError = ApiAiRequestError;
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var Errors_1 = __webpack_require__(0);
+var XhrRequest_1 = __webpack_require__(2);
+var Request = (function () {
+    function Request(apiAiClient, options) {
+        this.apiAiClient = apiAiClient;
+        this.options = options;
+        this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
+        this.requestMethod = XhrRequest_1.default.Method.POST;
+        this.headers = {
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
+        };
+        this.options.lang = this.apiAiClient.getApiLang();
+        this.options.sessionId = this.apiAiClient.getSessionId();
+    }
+    Request.handleSuccess = function (xhr) {
+        return Promise.resolve(JSON.parse(xhr.responseText));
+    };
+    Request.handleError = function (xhr) {
+        var error = null;
+        try {
+            var serverResponse = JSON.parse(xhr.responseText);
+            if (serverResponse.status && serverResponse.status.errorDetails) {
+                error = new Errors_1.ApiAiRequestError(serverResponse.status.errorDetails, serverResponse.status.code);
+            }
+            else {
+                error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
+            }
+        }
+        catch (e) {
+            error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
+        }
+        return Promise.reject(error);
+    };
+    Request.prototype.perform = function (overrideOptions) {
+        if (overrideOptions === void 0) { overrideOptions = null; }
+        var options = overrideOptions ? overrideOptions : this.options;
+        return XhrRequest_1.default.ajax(this.requestMethod, this.uri, options, this.headers)
+            .then(Request.handleSuccess.bind(this))
+            .catch(Request.handleError.bind(this));
+    };
+    return Request;
+}());
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Request;
+
+
+/***/ },
+/* 2 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -173,17 +225,17 @@ var XhrRequest = (function () {
             }
             payload ? client.send(payload) : client.send();
             client.onload = function () {
-                if (this.status >= 200 && this.status < 300) {
+                if (client.status >= 200 && client.status < 300) {
                     // Performs the function "resolve" when this.status is equal to 2xx
-                    resolve(this);
+                    resolve(client);
                 }
                 else {
                     // Performs the function "reject" when this.status is different than 2xx
-                    reject(this);
+                    reject(client);
                 }
             };
             client.onerror = function () {
-                reject(this);
+                reject(client);
             };
         });
     };
@@ -247,7 +299,7 @@ exports.default = XhrRequest;
 
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -272,70 +324,15 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
-    Constants.VERSION = "2.0.0";
+    Constants.VERSION = "2.0.0-beta.8";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
     Constants.DEFAULT_API_VERSION = "20150910";
     Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
     // @todo: make configurable, ideally fix non-working v1
     Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
-    Constants.STREAM_CLIENT_SERVER_PROTO = "wss";
-    Constants.STREAM_CLIENT_SERVER_PATH = "/ws/query";
 })(Constants || (Constants = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Constants;
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var Errors_1 = __webpack_require__(0);
-var XhrRequest_1 = __webpack_require__(1);
-var Request = (function () {
-    function Request(apiAiClient, options) {
-        this.apiAiClient = apiAiClient;
-        this.options = options;
-        this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
-        this.requestMethod = XhrRequest_1.default.Method.POST;
-        this.headers = {
-            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
-        };
-        this.options.lang = this.apiAiClient.getApiLang();
-        this.options.sessionId = this.apiAiClient.getSessionId();
-    }
-    Request.handleSuccess = function (xhr) {
-        return Promise.resolve(JSON.parse(xhr.responseText));
-    };
-    Request.handleError = function (xhr) {
-        var error = null;
-        try {
-            var serverResponse = JSON.parse(xhr.responseText);
-            if (serverResponse.status && serverResponse.status.errorDetails) {
-                error = new Errors_1.ApiAiRequestError(serverResponse.status.errorDetails, serverResponse.status.code);
-            }
-            else {
-                error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
-            }
-        }
-        catch (e) {
-            error = new Errors_1.ApiAiRequestError(xhr.statusText, xhr.status);
-        }
-        return Promise.reject(error);
-    };
-    Request.prototype.perform = function (overrideOptions) {
-        if (overrideOptions === void 0) { overrideOptions = null; }
-        var options = overrideOptions ? overrideOptions : this.options;
-        return XhrRequest_1.default.ajax(this.requestMethod, this.uri, options, this.headers)
-            .then(Request.handleSuccess.bind(this))
-            .catch(Request.handleError.bind(this));
-    };
-    return Request;
-}());
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Request;
 
 
 /***/ },
@@ -344,17 +341,26 @@ exports.default = Request;
 
 "use strict";
 "use strict";
-var Constants_1 = __webpack_require__(2);
+var ApiAiClient_1 = __webpack_require__(5);
+exports.ApiAiClient = ApiAiClient_1.ApiAiClient;
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var Constants_1 = __webpack_require__(3);
 var Errors_1 = __webpack_require__(0);
-var StubStreamClient_1 = __webpack_require__(7);
-exports.StreamClient = StubStreamClient_1.default;
-var TextRequest_1 = __webpack_require__(6);
-var TTSRequest_1 = __webpack_require__(5);
+var EventRequest_1 = __webpack_require__(6);
+var TextRequest_1 = __webpack_require__(8);
+var TTSRequest_1 = __webpack_require__(7);
 // import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
-var XhrRequest_1 = __webpack_require__(1);
+var XhrRequest_1 = __webpack_require__(2);
 exports.XhrRequest = XhrRequest_1.default;
-var Client = (function () {
-    function Client(options) {
+var ApiAiClient = (function () {
+    function ApiAiClient(options) {
         if (!options || !options.accessToken) {
             throw new Errors_1.ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
@@ -363,8 +369,9 @@ var Client = (function () {
         this.apiVersion = options.version || Constants_1.default.DEFAULT_API_VERSION;
         this.apiBaseUrl = options.baseUrl || Constants_1.default.DEFAULT_BASE_URL;
         this.sessionId = options.sessionId || this.guid();
+        this.streamClientClass = options.streamClientClass || null;
     }
-    Client.prototype.textRequest = function (query, options) {
+    ApiAiClient.prototype.textRequest = function (query, options) {
         if (options === void 0) { options = {}; }
         if (!query) {
             throw new Errors_1.ApiAiClientConfigurationError("Query should not be empty");
@@ -372,7 +379,16 @@ var Client = (function () {
         options.query = query;
         return new TextRequest_1.default(this, options).perform();
     };
-    Client.prototype.ttsRequest = function (query) {
+    ApiAiClient.prototype.eventRequest = function (eventName, eventData, options) {
+        if (eventData === void 0) { eventData = {}; }
+        if (options === void 0) { options = {}; }
+        if (!eventName) {
+            throw new Errors_1.ApiAiClientConfigurationError("Event name can not be empty");
+        }
+        options.event = { name: eventName, data: eventData };
+        return new EventRequest_1.EventRequest(this, options).perform();
+    };
+    ApiAiClient.prototype.ttsRequest = function (query) {
         if (!query) {
             throw new Errors_1.ApiAiClientConfigurationError("Query should not be empty");
         }
@@ -381,51 +397,52 @@ var Client = (function () {
     /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
     }*/
-    Client.prototype.createStreamClient = function (streamClientOptions) {
+    ApiAiClient.prototype.createStreamClient = function (streamClientOptions) {
         if (streamClientOptions === void 0) { streamClientOptions = {}; }
-        streamClientOptions.server = ""
-            + Constants_1.default.STREAM_CLIENT_SERVER_PROTO
-            + "://" + Constants_1.default.DEFAULT_STREAM_CLIENT_BASE_URL
-            + Constants_1.default.STREAM_CLIENT_SERVER_PATH;
-        streamClientOptions.token = this.getAccessToken();
-        streamClientOptions.sessionId = this.getSessionId();
-        streamClientOptions.lang = this.getApiLang();
-        return new StubStreamClient_1.default(streamClientOptions);
+        if (this.streamClientClass) {
+            streamClientOptions.token = this.getAccessToken();
+            streamClientOptions.sessionId = this.getSessionId();
+            streamClientOptions.lang = this.getApiLang();
+            return new this.streamClientClass(streamClientOptions);
+        }
+        else {
+            throw new Errors_1.ApiAiClientConfigurationError("No StreamClient implementation given to ApiAi Client constructor");
+        }
     };
-    Client.prototype.getAccessToken = function () {
+    ApiAiClient.prototype.getAccessToken = function () {
         return this.accessToken;
     };
-    Client.prototype.getApiVersion = function () {
+    ApiAiClient.prototype.getApiVersion = function () {
         return (this.apiVersion) ? this.apiVersion : Constants_1.default.DEFAULT_API_VERSION;
     };
-    Client.prototype.getApiLang = function () {
+    ApiAiClient.prototype.getApiLang = function () {
         return (this.apiLang) ? this.apiLang : Constants_1.default.DEFAULT_CLIENT_LANG;
     };
-    Client.prototype.getApiBaseUrl = function () {
+    ApiAiClient.prototype.getApiBaseUrl = function () {
         return (this.apiBaseUrl) ? this.apiBaseUrl : Constants_1.default.DEFAULT_BASE_URL;
     };
-    Client.prototype.setSessionId = function (sessionId) {
+    ApiAiClient.prototype.setSessionId = function (sessionId) {
         this.sessionId = sessionId;
     };
-    Client.prototype.getSessionId = function () {
+    ApiAiClient.prototype.getSessionId = function () {
         return this.sessionId;
     };
     /**
      * generates new random UUID
      * @returns {string}
      */
-    Client.prototype.guid = function () {
+    ApiAiClient.prototype.guid = function () {
         var s4 = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
         return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
             s4() + "-" + s4() + s4() + s4();
     };
-    return Client;
+    return ApiAiClient;
 }());
-exports.Client = Client;
+exports.ApiAiClient = ApiAiClient;
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -435,9 +452,31 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Constants_1 = __webpack_require__(2);
-var XhrRequest_1 = __webpack_require__(1);
-var Request_1 = __webpack_require__(3);
+var Request_1 = __webpack_require__(1);
+var EventRequest = (function (_super) {
+    __extends(EventRequest, _super);
+    function EventRequest() {
+        _super.apply(this, arguments);
+    }
+    return EventRequest;
+}(Request_1.default));
+exports.EventRequest = EventRequest;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Constants_1 = __webpack_require__(3);
+var XhrRequest_1 = __webpack_require__(2);
+var Request_1 = __webpack_require__(1);
 var Errors_1 = __webpack_require__(0);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
@@ -505,7 +544,7 @@ exports.TTSRequest = TTSRequest;
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -515,7 +554,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(3);
+var Request_1 = __webpack_require__(1);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
@@ -528,25 +567,7 @@ exports.default = TextRequest;
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-"use strict";
-var Errors_1 = __webpack_require__(0);
-var StubStreamClient = (function () {
-    function StubStreamClient(options) {
-        if (options === void 0) { options = {}; }
-        throw new Errors_1.ApiAiClientConfigurationError("You are using SDK version without built-in stream support");
-    }
-    return StubStreamClient;
-}());
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = StubStreamClient;
-
-
-/***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);

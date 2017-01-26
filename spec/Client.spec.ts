@@ -1,4 +1,4 @@
-import {Client} from "../src/Client";
+import {ApiAiClient} from "../src/ApiAiClient";
 import Constants from "../src/Constants";
 
 const ACCESS_TOKEN = "AT";
@@ -6,14 +6,14 @@ const expect = chai.expect;
 
 describe("ApiAi.Client", () => {
 
-    const client = new Client({accessToken: ACCESS_TOKEN});
+    const client = new ApiAiClient({accessToken: ACCESS_TOKEN});
 
     it("should instantinates", () => {
-        expect(client instanceof Client).to.be.true;
+        expect(client instanceof ApiAiClient).to.be.true;
     });
 
     it("sould fail without access token", () => {
-        expect(() => new Client({accessToken: undefined})).to.throw(
+        expect(() => new ApiAiClient({accessToken: undefined})).to.throw(
             "ApiAiClientConfigurationError: Access token is required for new ApiAi.Client instance"
         );
     });
@@ -33,7 +33,7 @@ describe("ApiAi.Client", () => {
         const apiVersion = "2";
         const apiBaseUrl = "3";
         const sessionId = "test";
-        let innerClient = new Client({
+        let innerClient = new ApiAiClient({
             accessToken: ACCESS_TOKEN,
             baseUrl: apiBaseUrl,
             lang: Constants.AVAILABLE_LANGUAGES.DE,

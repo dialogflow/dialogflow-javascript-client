@@ -1,4 +1,4 @@
-import {Client} from "../Client";
+import {ApiAiClient} from "../ApiAiClient";
 import {ApiAiRequestError} from "../Errors";
 import {IRequestOptions, IServerResponse, IStringMap} from "../Interfaces";
 import XhrRequest from "../XhrRequest";
@@ -29,7 +29,7 @@ abstract class Request {
     protected requestMethod;
     protected headers;
 
-    constructor (protected apiAiClient: Client, protected options: IRequestOptions) {
+    constructor (protected apiAiClient: ApiAiClient, protected options: IRequestOptions) {
 
         this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
         this.requestMethod = XhrRequest.Method.POST;

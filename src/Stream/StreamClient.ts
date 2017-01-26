@@ -26,7 +26,7 @@ class StreamClient {
     private onOpen; private onClose; private onInit; private onStartListening;
     private onStopListening; private onResults; private onEvent; private onError;
 
-    constructor(config:any = {}) {
+    constructor(config: any = {}) {
 
         Processors.bindProcessors();
         

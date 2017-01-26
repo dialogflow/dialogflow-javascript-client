@@ -9,14 +9,16 @@ let outputFile = libraryName;
 let sourceMaps = true;
 let plugins = [];
 let alias = {};
+let entry = "_build.ts";
 // let ignoreLoader = {};
 
 module.exports = function(env) {
   if (!env) {
     env = {};
   }
-  if (env && env.skipStreamClient) {
+  if (env && env.streamless) {
     outputFile += '.streamless';
+    entry = "_build.streamless.ts"
     /*  ignoreLoader = {
      test: /Stream/,
      loader: 'webpack-replace-module-loader',
@@ -27,7 +29,7 @@ module.exports = function(env) {
   }
 
   // handle minification
-  if (env && env.compress === 'true') {
+  if (env && env.compress) {
     plugins.push(new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
@@ -53,7 +55,7 @@ module.exports = function(env) {
 
   return {
     entry: [
-      path.join(__dirname, 'src', 'Client.ts')
+      path.join(__dirname, 'src', entry)
     ],
     devtool: sourceMaps ? 'source-map' : null,
     output: {

@@ -1,4 +1,4 @@
-import {Client} from "../Client";
+import {ApiAiClient} from "../ApiAiClient";
 import Constants from "../Constants";
 import {IRequestOptions} from "../Interfaces";
 import XhrRequest from "../XhrRequest";
@@ -11,7 +11,7 @@ export class TTSRequest extends Request {
 
     private static audioContext: AudioContext;
 
-    constructor(protected apiAiClient: Client, options: IRequestOptions = {}) {
+    constructor(protected apiAiClient: ApiAiClient, options: IRequestOptions = {}) {
         super(apiAiClient, options);
         // this.requestMethod = XhrRequest.Method.GET;
         this.uri = Constants.DEFAULT_TTS_HOST;

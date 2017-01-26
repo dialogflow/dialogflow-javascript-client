@@ -9,6 +9,6 @@
     },
     "files": [
         "declarations.d.ts",
-        "src/Client.ts"
+        "src/_build.ts"
     ]
 }

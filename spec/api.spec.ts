@@ -1,7 +1,7 @@
-import {Client} from "../src/Client";
+import {ApiAiClient} from "../src/ApiAiClient";
 describe("API", () => {
 
-    const client = new Client({accessToken: "3485a96fb27744db83e78b8c4bc9e7b7"});
+    const client = new ApiAiClient({accessToken: "3485a96fb27744db83e78b8c4bc9e7b7"});
 
     describe("Text Query", () => {
         it ("should return response", function (done) {
