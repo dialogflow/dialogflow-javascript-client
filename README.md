@@ -61,7 +61,8 @@ import {ApiAiClient, ApiAiStreamClient} from "api-ai-javascript";
 
 const client = new ApiAiClient('YOUR_ACCESS_TOKEN', {streamClientClass: ApiAiStreamClient});
 client
-    .textRequest('Hello!')
+
+.textRequest('Hello!')
     .then((response) => /* do something */ )
     .catch((error) => /* do something here too */)
 
@@ -89,6 +90,7 @@ Code above should work for both TypeScript and simple ES6
 ### Breaking changes:
 * Main class renamed from Client to ApiAiClient
 * StreamClient renamed (in exports at least) to ApiAiStreamClient
-* StreamClient class is no longer available inside main ApiAiClient class and now should be passed directly in ApiAiClient constructor: `const client = new ApiAiClient("ACCESS_TOKEN", {streamClientClass: ApiAiStreamClient}). That was made to allow building your applications without streamclient at all (streamclient now takes about 70% of whole library). And also there will be other implementation of streamClient in the future
+* StreamClient class is no longer available inside main ApiAiClient class and now should be passed directly in ApiAiClient constructor: `const client = new ApiAiClient("ACCESS_TOKEN", {streamClientClass: ApiAiStreamClient})`.That was made to allow building your applications without streamclient at all (streamclient now takes about 70% of whole library). And also there will be other implementation of streamClient in the future
+
 ### Non-breaking changes:
 * Demo updated
