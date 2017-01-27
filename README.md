@@ -1,3 +1,5 @@
+*This is the V2 version of api.ai JS SDK. If you are looking for old one, please visit 'v1-deprecated' branch*
+
 # Installation
 
 You can use this library as common pre-built .js ([choose there](target)).
