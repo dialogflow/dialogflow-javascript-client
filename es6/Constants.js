@@ -1,5 +1,6 @@
 var Constants;
 (function (Constants) {
+    var AVAILABLE_LANGUAGES;
     (function (AVAILABLE_LANGUAGES) {
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
@@ -16,8 +17,7 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
+    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     Constants.VERSION = "2.0.0-beta.8";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     Constants.DEFAULT_API_VERSION = "20150910";

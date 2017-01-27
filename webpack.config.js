@@ -8,9 +8,7 @@ let libraryTarget = 'var';
 let outputFile = libraryName;
 let sourceMaps = true;
 let plugins = [];
-let alias = {};
 let entry = "_build.ts";
-// let ignoreLoader = {};
 
 module.exports = function(env) {
   if (!env) {
@@ -19,26 +17,28 @@ module.exports = function(env) {
   if (env && env.streamless) {
     outputFile += '.streamless';
     entry = "_build.streamless.ts"
-    /*  ignoreLoader = {
-     test: /Stream/,
-     loader: 'webpack-replace-module-loader',
-     include: './src/Stream/StubStreamClient'
-     };
-     */
-    // alias["StreamClient"] = "StubStreamClient";
   }
 
   // handle minification
   if (env && env.compress) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        keep_fnames: true
-      },
-      mangle: {
-        keep_fnames: true
-      }
-    }));
+    plugins.push(
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
+      })
+    );
+
+    plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: true,
+          keep_fnames: true
+        },
+        mangle: {
+          keep_fnames: true
+        }
+      })
+    );
     outputFile += '.min';
     sourceMaps = false;
   } else {
@@ -55,9 +55,9 @@ module.exports = function(env) {
 
   return {
     entry: [
-      path.join(__dirname, 'src', entry)
+      path.join(__dirname, 'ts', entry)
     ],
-    devtool: sourceMaps ? 'source-map' : null,
+    devtool: sourceMaps ? 'source-map' : false,
     output: {
       path: path.join(__dirname, 'target'),
       publicPath: "/target/",
@@ -68,17 +68,12 @@ module.exports = function(env) {
 
     module: {
       loaders: [
-        {test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/}
-        // ignoreLoader
+        {test: /\.tsx?$/, loader: "awesome-typescript-loader"}
       ]
     },
-
     resolve: {
-      root: path.resolve('./src'),
-      extensions: ['.js', '.ts', '.jsx', '.tsx'],
-      alias: alias
+      extensions: ['.js', '.ts']
     },
-
     plugins: plugins
   };
 };

@@ -68,7 +68,19 @@ client
 
 ```
 
+Or (to include only http client, without stream, to save some extra kilobytes ): 
+
+```javascript
+import {ApiAiClient} from "api-ai-javascript/ApiAiClient"
+
+const client = new ApiAiClient('YOUR_ACCESS_TOKEN');
+
+```
+
+in that case `client.createStreamClient()` # will throw ApiAiConfigurationError
 Code above should work for both TypeScript and simple ES6
+
+*Note:* If you are going to build es5 version of your bundle with ApiAiClient inside, please add some typings for promises (e.g. @types/es6-promise)
 
 # Development
 
@@ -86,6 +98,12 @@ Code above should work for both TypeScript and simple ES6
 `$ npm test`
 
 ## Changelog
+
+## 2.0.0-beta.9
+
+* Possibility to import ApiAiClient separately from ApiAiStreamClient 
+* Typescript project demo setup added 
+
 ## 2.0.0-beta.8
 ### Breaking changes:
 * Main class renamed from Client to ApiAiClient

@@ -4,7 +4,12 @@
  * @todo: re-make as normal class
  * @private
  */
-export default function _resamplerJs() {
+/**
+ * this module is full copy-paste from v1 sdk. It should be like that while we send 'resempler' to worker as
+ * 'function body'
+ * @todo: re-make as normal class
+ * @private
+ */ export default function _resamplerJs() {
     function Resampler(fromSampleRate, toSampleRate, channels, outputBufferSize, noReturn) {
         this.fromSampleRate = fromSampleRate;
         this.toSampleRate = toSampleRate;

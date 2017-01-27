@@ -1,4 +1,4 @@
-import {ApiAiClient} from "../src/ApiAiClient";
+import {ApiAiClient} from "../ts/ApiAiClient";
 describe("API", () => {
 
     const client = new ApiAiClient({accessToken: "3485a96fb27744db83e78b8c4bc9e7b7"});

@@ -1,37 +1,39 @@
 {
   "name": "api-ai-javascript",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "Javascript SDK for https://api.ai/",
   "main": "index",
+  "dependencies": {
+    "@types/webaudioapi": "0.0.27",
+    "@types/webrtc": "0.0.21"
+  },
   "devDependencies": {
     "@types/chai": "^3.4.34",
-    "@types/es6-promise": "0.0.31",
-    "@types/mocha": "^2.2.32",
-    "@types/webaudioapi": "0.0.26",
-    "@types/webrtc": "0.0.17",
-    "babel-polyfill": "^6.13.0",
+    "@types/es6-promise": "0.0.32",
+    "@types/mocha": "^2.2.38",
+    "awesome-typescript-loader": "^3.0.0-beta.18",
     "chai": "^3.5.0",
-    "eslint": "^3.5.0",
-    "eslint-config-google": "^0.6.0",
-    "karma": "^1.3.0",
+    "eslint": "^3.14.1",
+    "eslint-config-google": "^0.7.1",
+    "karma": "^1.4.0",
     "karma-chai": "^0.1.0",
     "karma-mocha": "^1.1.1",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sinon": "^1.0.5",
     "karma-typescript-preprocessor2": "^1.2.1",
-    "karma-webpack": "^1.8.0",
-    "mocha": "^2.5.3",
+    "karma-webpack": "^2.0.2",
+    "mocha": "^3.2.0",
     "mocha-phantomjs": "^4.1.0",
     "phantomjs-prebuilt": "^2.1.12",
     "rimraf": "^2.5.4",
     "sinon": "^1.17.3",
-    "ts-loader": "^0.8.1",
-    "tslint": "^3.15.0-dev.0",
-    "typescript": "^2.0.3",
-    "webpack": "2.1.0-beta.21",
-    "webpack-dev-server": "^1.16.2"
+    "tslint": "^4.4.2",
+    "typescript": "^2.1.5",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   },
   "scripts": {
+    "start": "webpack-dev-server",
     "build": "webpack && webpack --env.streamless && webpack --env.compress && webpack --env.streamless --env.compress && rimraf ./srces6 && tsc -p ./tsconfig.es6src.json",
     "test": "karma start"
   },
@@ -46,6 +48,9 @@
     "chatbots",
     "conversational",
     "UX"
+  ],
+  "files": [
+
   ],
   "author": "Eugeny Shingarev",
   "license": "Apache-2.0",

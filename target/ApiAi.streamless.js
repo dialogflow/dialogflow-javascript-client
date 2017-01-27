@@ -34,16 +34,18 @@ var ApiAi =
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
-/******/ 	// define getter function for harmory exports
+/******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		Object.defineProperty(exports, name, {
-/******/ 			configurable: false,
-/******/ 			enumerable: true,
-/******/ 			get: getter
-/******/ 		});
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -67,10 +69,10 @@ var ApiAi =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -79,17 +81,19 @@ var __extends = (this && this.__extends) || function (d, b) {
 var ApiAiBaseError = (function (_super) {
     __extends(ApiAiBaseError, _super);
     function ApiAiBaseError(message) {
-        _super.call(this, message);
-        this.message = message;
-        this.stack = new Error().stack;
+        var _this = _super.call(this, message) || this;
+        _this.message = message;
+        _this.stack = new Error().stack;
+        return _this;
     }
     return ApiAiBaseError;
 }(Error));
 var ApiAiClientConfigurationError = (function (_super) {
     __extends(ApiAiClientConfigurationError, _super);
     function ApiAiClientConfigurationError(message) {
-        _super.call(this, message);
-        this.name = "ApiAiClientConfigurationError";
+        var _this = _super.call(this, message) || this;
+        _this.name = "ApiAiClientConfigurationError";
+        return _this;
     }
     return ApiAiClientConfigurationError;
 }(ApiAiBaseError));
@@ -98,22 +102,23 @@ var ApiAiRequestError = (function (_super) {
     __extends(ApiAiRequestError, _super);
     function ApiAiRequestError(message, code) {
         if (code === void 0) { code = null; }
-        _super.call(this, message);
-        this.message = message;
-        this.code = code;
-        this.name = "ApiAiRequestError";
+        var _this = _super.call(this, message) || this;
+        _this.message = message;
+        _this.code = code;
+        _this.name = "ApiAiRequestError";
+        return _this;
     }
     return ApiAiRequestError;
 }(ApiAiBaseError));
 exports.ApiAiRequestError = ApiAiRequestError;
 
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Errors_1 = __webpack_require__(0);
 var XhrRequest_1 = __webpack_require__(2);
 var Request = (function () {
@@ -160,12 +165,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Request;
 
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 /**
  * quick ts implementation of example from
  * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
@@ -276,36 +281,36 @@ var XhrRequest = (function () {
         }
         return xmlhttp;
     };
-    XhrRequest.XMLHttpFactories = [
-        function () { return new XMLHttpRequest(); },
-        function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
-        function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
-        function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
-    ];
     return XhrRequest;
 }());
-var XhrRequest;
+XhrRequest.XMLHttpFactories = [
+    function () { return new XMLHttpRequest(); },
+    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
+    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
+    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+];
 (function (XhrRequest) {
+    var Method;
     (function (Method) {
         Method[Method["GET"] = "GET"] = "GET";
         Method[Method["POST"] = "POST"] = "POST";
         Method[Method["PUT"] = "PUT"] = "PUT";
         Method[Method["DELETE"] = "DELETE"] = "DELETE";
-    })(XhrRequest.Method || (XhrRequest.Method = {}));
-    var Method = XhrRequest.Method;
+    })(Method = XhrRequest.Method || (XhrRequest.Method = {}));
 })(XhrRequest || (XhrRequest = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = XhrRequest;
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Constants;
 (function (Constants) {
+    var AVAILABLE_LANGUAGES;
     (function (AVAILABLE_LANGUAGES) {
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
@@ -322,8 +327,7 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
+    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     Constants.VERSION = "2.0.0-beta.8";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     Constants.DEFAULT_API_VERSION = "20150910";
@@ -335,22 +339,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Constants;
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var ApiAiClient_1 = __webpack_require__(5);
 exports.ApiAiClient = ApiAiClient_1.ApiAiClient;
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Constants_1 = __webpack_require__(3);
 var Errors_1 = __webpack_require__(0);
 var EventRequest_1 = __webpack_require__(6);
@@ -441,12 +445,12 @@ var ApiAiClient = (function () {
 exports.ApiAiClient = ApiAiClient;
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -456,19 +460,19 @@ var Request_1 = __webpack_require__(1);
 var EventRequest = (function (_super) {
     __extends(EventRequest, _super);
     function EventRequest() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return EventRequest;
 }(Request_1.default));
 exports.EventRequest = EventRequest;
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -481,22 +485,22 @@ var Errors_1 = __webpack_require__(0);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
     function TTSRequest(apiAiClient, options) {
-        var _this = this;
         if (options === void 0) { options = {}; }
-        _super.call(this, apiAiClient, options);
-        this.apiAiClient = apiAiClient;
-        this.resolveTTSPromise = function (data) {
+        var _this = _super.call(this, apiAiClient, options) || this;
+        _this.apiAiClient = apiAiClient;
+        _this.resolveTTSPromise = function (data) {
             return _this.speak(data.response);
         };
-        this.rejectTTSPromise = function (reason) {
+        _this.rejectTTSPromise = function (reason) {
             throw new Errors_1.ApiAiRequestError(reason);
         };
         // this.requestMethod = XhrRequest.Method.GET;
-        this.uri = Constants_1.default.DEFAULT_TTS_HOST;
+        _this.uri = Constants_1.default.DEFAULT_TTS_HOST;
         var AudioContext = window.AudioContext || webkitAudioContext;
         if (!TTSRequest.audioContext) {
             TTSRequest.audioContext = new AudioContext();
         }
+        return _this;
     }
     TTSRequest.prototype.makeTTSRequest = function (text) {
         if (!text) {
@@ -537,18 +541,18 @@ var TTSRequest = (function (_super) {
         source.start(0);
     };
     ;
-    TTSRequest.RESPONSE_TYPE_ARRAYBUFFER = "arraybuffer";
     return TTSRequest;
 }(Request_1.default));
+TTSRequest.RESPONSE_TYPE_ARRAYBUFFER = "arraybuffer";
 exports.TTSRequest = TTSRequest;
 
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -558,7 +562,7 @@ var Request_1 = __webpack_require__(1);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return TextRequest;
 }(Request_1.default));
@@ -566,13 +570,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextRequest;
 
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4);
 
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=ApiAi.streamless.js.map

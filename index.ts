@@ -1,1 +1,2 @@
-export * from "./src/_build";
+/// <reference path="declarations.d.ts"/>
+export * from "./ts/_build";

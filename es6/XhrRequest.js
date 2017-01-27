@@ -93,18 +93,18 @@ class XhrRequest {
     }
 }
 XhrRequest.XMLHttpFactories = [
-        () => new XMLHttpRequest(),
-        () => new ActiveXObject("Msxml2.XMLHTTP"),
-        () => new ActiveXObject("Msxml3.XMLHTTP"),
-        () => new ActiveXObject("Microsoft.XMLHTTP")
+    () => new XMLHttpRequest(),
+    () => new ActiveXObject("Msxml2.XMLHTTP"),
+    () => new ActiveXObject("Msxml3.XMLHTTP"),
+    () => new ActiveXObject("Microsoft.XMLHTTP")
 ];
 (function (XhrRequest) {
+    var Method;
     (function (Method) {
         Method[Method["GET"] = "GET"] = "GET";
         Method[Method["POST"] = "POST"] = "POST";
         Method[Method["PUT"] = "PUT"] = "PUT";
         Method[Method["DELETE"] = "DELETE"] = "DELETE";
-    })(XhrRequest.Method || (XhrRequest.Method = {}));
-    var Method = XhrRequest.Method;
+    })(Method = XhrRequest.Method || (XhrRequest.Method = {}));
 })(XhrRequest || (XhrRequest = {}));
 export default XhrRequest;

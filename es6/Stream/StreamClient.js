@@ -236,13 +236,14 @@ StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleave
 StreamClient.INTERVAL = 250;
 StreamClient.TAG_END_OF_SENTENCE = "EOS";
 (function (StreamClient) {
+    var ERROR;
     (function (ERROR) {
         ERROR[ERROR["ERR_NETWORK"] = 0] = "ERR_NETWORK";
         ERROR[ERROR["ERR_AUDIO"] = 1] = "ERR_AUDIO";
         ERROR[ERROR["ERR_SERVER"] = 2] = "ERR_SERVER";
         ERROR[ERROR["ERR_CLIENT"] = 3] = "ERR_CLIENT";
-    })(StreamClient.ERROR || (StreamClient.ERROR = {}));
-    var ERROR = StreamClient.ERROR;
+    })(ERROR = StreamClient.ERROR || (StreamClient.ERROR = {}));
+    var Events;
     (function (Events) {
         Events[Events["MSG_WAITING_MICROPHONE"] = 0] = "MSG_WAITING_MICROPHONE";
         Events[Events["MSG_MEDIA_STREAM_CREATED"] = 1] = "MSG_MEDIA_STREAM_CREATED";
@@ -256,7 +257,6 @@ StreamClient.TAG_END_OF_SENTENCE = "EOS";
         Events[Events["MSG_WEB_SOCKET_CLOSE"] = 9] = "MSG_WEB_SOCKET_CLOSE";
         Events[Events["MSG_STOP"] = 10] = "MSG_STOP";
         Events[Events["MSG_CONFIG_CHANGED"] = 11] = "MSG_CONFIG_CHANGED";
-    })(StreamClient.Events || (StreamClient.Events = {}));
-    var Events = StreamClient.Events;
+    })(Events = StreamClient.Events || (StreamClient.Events = {}));
 })(StreamClient || (StreamClient = {}));
 export default StreamClient;

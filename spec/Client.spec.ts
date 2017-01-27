@@ -1,5 +1,5 @@
-import {ApiAiClient} from "../src/ApiAiClient";
-import Constants from "../src/Constants";
+import {ApiAiClient} from "../ts/ApiAiClient";
+import Constants from "../ts/Constants";
 
 const ACCESS_TOKEN = "AT";
 const expect = chai.expect;

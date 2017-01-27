@@ -34,16 +34,18 @@ var ApiAi =
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
-/******/ 	// define getter function for harmory exports
+/******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		Object.defineProperty(exports, name, {
-/******/ 			configurable: false,
-/******/ 			enumerable: true,
-/******/ 			get: getter
-/******/ 		});
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -67,10 +69,10 @@ var ApiAi =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -79,17 +81,19 @@ var __extends = (this && this.__extends) || function (d, b) {
 var ApiAiBaseError = (function (_super) {
     __extends(ApiAiBaseError, _super);
     function ApiAiBaseError(message) {
-        _super.call(this, message);
-        this.message = message;
-        this.stack = new Error().stack;
+        var _this = _super.call(this, message) || this;
+        _this.message = message;
+        _this.stack = new Error().stack;
+        return _this;
     }
     return ApiAiBaseError;
 }(Error));
 var ApiAiClientConfigurationError = (function (_super) {
     __extends(ApiAiClientConfigurationError, _super);
     function ApiAiClientConfigurationError(message) {
-        _super.call(this, message);
-        this.name = "ApiAiClientConfigurationError";
+        var _this = _super.call(this, message) || this;
+        _this.name = "ApiAiClientConfigurationError";
+        return _this;
     }
     return ApiAiClientConfigurationError;
 }(ApiAiBaseError));
@@ -98,22 +102,23 @@ var ApiAiRequestError = (function (_super) {
     __extends(ApiAiRequestError, _super);
     function ApiAiRequestError(message, code) {
         if (code === void 0) { code = null; }
-        _super.call(this, message);
-        this.message = message;
-        this.code = code;
-        this.name = "ApiAiRequestError";
+        var _this = _super.call(this, message) || this;
+        _this.message = message;
+        _this.code = code;
+        _this.name = "ApiAiRequestError";
+        return _this;
     }
     return ApiAiRequestError;
 }(ApiAiBaseError));
 exports.ApiAiRequestError = ApiAiRequestError;
 
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Errors_1 = __webpack_require__(0);
 var XhrRequest_1 = __webpack_require__(2);
 var Request = (function () {
@@ -160,12 +165,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Request;
 
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 /**
  * quick ts implementation of example from
  * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
@@ -276,36 +281,36 @@ var XhrRequest = (function () {
         }
         return xmlhttp;
     };
-    XhrRequest.XMLHttpFactories = [
-        function () { return new XMLHttpRequest(); },
-        function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
-        function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
-        function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
-    ];
     return XhrRequest;
 }());
-var XhrRequest;
+XhrRequest.XMLHttpFactories = [
+    function () { return new XMLHttpRequest(); },
+    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
+    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
+    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+];
 (function (XhrRequest) {
+    var Method;
     (function (Method) {
         Method[Method["GET"] = "GET"] = "GET";
         Method[Method["POST"] = "POST"] = "POST";
         Method[Method["PUT"] = "PUT"] = "PUT";
         Method[Method["DELETE"] = "DELETE"] = "DELETE";
-    })(XhrRequest.Method || (XhrRequest.Method = {}));
-    var Method = XhrRequest.Method;
+    })(Method = XhrRequest.Method || (XhrRequest.Method = {}));
 })(XhrRequest || (XhrRequest = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = XhrRequest;
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Constants;
 (function (Constants) {
+    var AVAILABLE_LANGUAGES;
     (function (AVAILABLE_LANGUAGES) {
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
@@ -322,8 +327,7 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    var AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES;
+    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
     Constants.VERSION = "2.0.0-beta.8";
     Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     Constants.DEFAULT_API_VERSION = "20150910";
@@ -335,9 +339,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Constants;
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /**
@@ -346,7 +350,7 @@ exports.default = Constants;
  * @todo: re-make as normal class
  * @private
  */
-"use strict";
+
 function _resamplerJs() {
     function Resampler(fromSampleRate, toSampleRate, channels, outputBufferSize, noReturn) {
         this.fromSampleRate = fromSampleRate;
@@ -494,24 +498,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = _resamplerJs;
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var ApiAiClient_1 = __webpack_require__(6);
 exports.ApiAiClient = ApiAiClient_1.ApiAiClient;
 var ApiAiStreamClient_1 = __webpack_require__(7);
 exports.ApiAiStreamClient = ApiAiStreamClient_1.ApiAiStreamClient;
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Constants_1 = __webpack_require__(3);
 var Errors_1 = __webpack_require__(0);
 var EventRequest_1 = __webpack_require__(8);
@@ -602,12 +606,12 @@ var ApiAiClient = (function () {
 exports.ApiAiClient = ApiAiClient;
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -621,28 +625,30 @@ var ApiAiStreamClient = (function (_super) {
     __extends(ApiAiStreamClient, _super);
     function ApiAiStreamClient(streamClientOptions) {
         if (streamClientOptions === void 0) { streamClientOptions = {}; }
+        var _this = this;
         if (!streamClientOptions.server) {
             streamClientOptions.server = ""
                 + ApiAiStreamClient.STREAM_CLIENT_SERVER_PROTO
                 + "://" + ApiAiStreamClient.DEFAULT_STREAM_CLIENT_BASE_URL
                 + ApiAiStreamClient.STREAM_CLIENT_SERVER_PATH;
         }
-        _super.call(this, streamClientOptions);
+        _this = _super.call(this, streamClientOptions) || this;
+        return _this;
     }
-    ApiAiStreamClient.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
-    ApiAiStreamClient.STREAM_CLIENT_SERVER_PROTO = "wss";
-    ApiAiStreamClient.STREAM_CLIENT_SERVER_PATH = "/ws/query";
     return ApiAiStreamClient;
 }(StreamClient_1.default));
+ApiAiStreamClient.DEFAULT_STREAM_CLIENT_BASE_URL = "api-ws.api.ai:4435/v1/";
+ApiAiStreamClient.STREAM_CLIENT_SERVER_PROTO = "wss";
+ApiAiStreamClient.STREAM_CLIENT_SERVER_PATH = "/ws/query";
 exports.ApiAiStreamClient = ApiAiStreamClient;
 
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -652,19 +658,19 @@ var Request_1 = __webpack_require__(1);
 var EventRequest = (function (_super) {
     __extends(EventRequest, _super);
     function EventRequest() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return EventRequest;
 }(Request_1.default));
 exports.EventRequest = EventRequest;
 
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -677,22 +683,22 @@ var Errors_1 = __webpack_require__(0);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
     function TTSRequest(apiAiClient, options) {
-        var _this = this;
         if (options === void 0) { options = {}; }
-        _super.call(this, apiAiClient, options);
-        this.apiAiClient = apiAiClient;
-        this.resolveTTSPromise = function (data) {
+        var _this = _super.call(this, apiAiClient, options) || this;
+        _this.apiAiClient = apiAiClient;
+        _this.resolveTTSPromise = function (data) {
             return _this.speak(data.response);
         };
-        this.rejectTTSPromise = function (reason) {
+        _this.rejectTTSPromise = function (reason) {
             throw new Errors_1.ApiAiRequestError(reason);
         };
         // this.requestMethod = XhrRequest.Method.GET;
-        this.uri = Constants_1.default.DEFAULT_TTS_HOST;
+        _this.uri = Constants_1.default.DEFAULT_TTS_HOST;
         var AudioContext = window.AudioContext || webkitAudioContext;
         if (!TTSRequest.audioContext) {
             TTSRequest.audioContext = new AudioContext();
         }
+        return _this;
     }
     TTSRequest.prototype.makeTTSRequest = function (text) {
         if (!text) {
@@ -733,18 +739,18 @@ var TTSRequest = (function (_super) {
         source.start(0);
     };
     ;
-    TTSRequest.RESPONSE_TYPE_ARRAYBUFFER = "arraybuffer";
     return TTSRequest;
 }(Request_1.default));
+TTSRequest.RESPONSE_TYPE_ARRAYBUFFER = "arraybuffer";
 exports.TTSRequest = TTSRequest;
 
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -754,7 +760,7 @@ var Request_1 = __webpack_require__(1);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     return TextRequest;
 }(Request_1.default));
@@ -762,12 +768,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextRequest;
 
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Resampler_1 = __webpack_require__(4);
 var VAD_1 = __webpack_require__(15);
 var Processors = (function () {
@@ -844,12 +850,12 @@ var Processors = (function () {
 exports.Processors = Processors;
 
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Resampler_1 = __webpack_require__(4);
 var RecorderWorker_1 = __webpack_require__(13);
 var Recorder = (function () {
@@ -930,12 +936,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Recorder;
 
 
-/***/ },
+/***/ }),
 /* 13 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var RecorderWorker = (function () {
     function RecorderWorker() {
     }
@@ -1054,12 +1060,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RecorderWorker;
 
 
-/***/ },
+/***/ }),
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var Recorder_1 = __webpack_require__(12);
 var Processors_1 = __webpack_require__(11);
 /**
@@ -1298,20 +1304,20 @@ var StreamClient = (function () {
         }
     };
     ;
-    StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
-    StreamClient.INTERVAL = 250;
-    StreamClient.TAG_END_OF_SENTENCE = "EOS";
     return StreamClient;
 }());
-var StreamClient;
+StreamClient.CONTENT_TYPE = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
+StreamClient.INTERVAL = 250;
+StreamClient.TAG_END_OF_SENTENCE = "EOS";
 (function (StreamClient) {
+    var ERROR;
     (function (ERROR) {
         ERROR[ERROR["ERR_NETWORK"] = 0] = "ERR_NETWORK";
         ERROR[ERROR["ERR_AUDIO"] = 1] = "ERR_AUDIO";
         ERROR[ERROR["ERR_SERVER"] = 2] = "ERR_SERVER";
         ERROR[ERROR["ERR_CLIENT"] = 3] = "ERR_CLIENT";
-    })(StreamClient.ERROR || (StreamClient.ERROR = {}));
-    var ERROR = StreamClient.ERROR;
+    })(ERROR = StreamClient.ERROR || (StreamClient.ERROR = {}));
+    var Events;
     (function (Events) {
         Events[Events["MSG_WAITING_MICROPHONE"] = 0] = "MSG_WAITING_MICROPHONE";
         Events[Events["MSG_MEDIA_STREAM_CREATED"] = 1] = "MSG_MEDIA_STREAM_CREATED";
@@ -1325,19 +1331,18 @@ var StreamClient;
         Events[Events["MSG_WEB_SOCKET_CLOSE"] = 9] = "MSG_WEB_SOCKET_CLOSE";
         Events[Events["MSG_STOP"] = 10] = "MSG_STOP";
         Events[Events["MSG_CONFIG_CHANGED"] = 11] = "MSG_CONFIG_CHANGED";
-    })(StreamClient.Events || (StreamClient.Events = {}));
-    var Events = StreamClient.Events;
+    })(Events = StreamClient.Events || (StreamClient.Events = {}));
 })(StreamClient || (StreamClient = {}));
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = StreamClient;
 
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 var VAD = (function () {
     function VAD() {
         this.reset();
@@ -1431,13 +1436,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = VAD;
 
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(5);
 
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=ApiAi.js.map

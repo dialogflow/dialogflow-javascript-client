@@ -1,4 +1,4 @@
-import Utils from "../src/Utils";
+import Utils from "../ts/Utils";
 const expect = chai.expect;
 
 describe("ApiAi.Utils", () => {
