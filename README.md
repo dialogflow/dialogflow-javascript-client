@@ -99,7 +99,7 @@ Code above should work for both TypeScript and simple ES6
 
 ## Changelog
 
-## 2.0.0-beta.9
+## 2.0.0-beta.10
 
 * Possibility to import ApiAiClient separately from ApiAiStreamClient 
 * Typescript project demo setup added 
