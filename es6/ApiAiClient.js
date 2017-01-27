@@ -3,8 +3,6 @@ import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
 import TextRequest from "./Request/TextRequest";
 import { TTSRequest } from "./Request/TTSRequest";
-// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
-export { default as XhrRequest } from "./XhrRequest";
 export class ApiAiClient {
     constructor(options) {
         if (!options || !options.accessToken) {
@@ -74,7 +72,7 @@ export class ApiAiClient {
      * @returns {string}
      */
     guid() {
-        let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
             s4() + "-" + s4() + s4() + s4();
     }

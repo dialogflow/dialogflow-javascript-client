@@ -17,7 +17,7 @@ export class ApiAiStreamClient extends StreamClient implements IStreamClient {
                 + "://" + ApiAiStreamClient.DEFAULT_STREAM_CLIENT_BASE_URL
                 + ApiAiStreamClient.STREAM_CLIENT_SERVER_PATH;
         }
-        
+
         super(streamClientOptions);
     }
 }

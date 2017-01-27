@@ -1,7 +1,7 @@
 import Constants from "../Constants";
+import { ApiAiClientConfigurationError, ApiAiRequestError } from "../Errors";
 import XhrRequest from "../XhrRequest";
 import Request from "./Request";
-import { ApiAiClientConfigurationError, ApiAiRequestError } from "../Errors";
 export class TTSRequest extends Request {
     constructor(apiAiClient, options = {}) {
         super(apiAiClient, options);
@@ -14,7 +14,7 @@ export class TTSRequest extends Request {
         };
         // this.requestMethod = XhrRequest.Method.GET;
         this.uri = Constants.DEFAULT_TTS_HOST;
-        let AudioContext = window.AudioContext || webkitAudioContext;
+        const AudioContext = window.AudioContext || webkitAudioContext;
         if (!TTSRequest.audioContext) {
             TTSRequest.audioContext = new AudioContext();
         }
@@ -23,14 +23,14 @@ export class TTSRequest extends Request {
         if (!text) {
             throw new ApiAiClientConfigurationError("Request can not be empty");
         }
-        let params = {
+        const params = {
             lang: "en-US",
             text: encodeURIComponent(text),
             v: this.apiAiClient.getApiVersion()
         };
-        let headers = {
-            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
-            "Accept-language": "en-US"
+        const headers = {
+            "Accept-language": "en-US",
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken()
         };
         return this.makeRequest(this.uri, params, headers, { responseType: TTSRequest.RESPONSE_TYPE_ARRAYBUFFER })
             .then(this.resolveTTSPromise)
@@ -50,7 +50,7 @@ export class TTSRequest extends Request {
         });
     }
     playSound(buffer, resolve) {
-        let source = TTSRequest.audioContext.createBufferSource();
+        const source = TTSRequest.audioContext.createBufferSource();
         source.buffer = buffer;
         source.connect(TTSRequest.audioContext.destination);
         source.onended = resolve;

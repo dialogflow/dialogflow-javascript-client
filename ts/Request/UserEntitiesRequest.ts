@@ -1,23 +1,23 @@
-import {Client} from "../Client";
+import {ApiAiClient} from "../ApiAiClient";
 import {IRequestOptions} from "../Interfaces";
 import {IEntity} from "../Models/Entity";
-import Request from "./Request";
 import ApiAiUtils from "../Utils";
 import XhrRequest from "../XhrRequest";
+import Request from "./Request";
 
 export class UserEntitiesRequest extends Request {
 
     private static ENDPOINT: string = "userEntities";
     private baseUri: string;
 
-    constructor(apiAiClient: Client, protected options: IUserEntitiesRequestOptions = {}) {
+    constructor(apiAiClient: ApiAiClient, protected options: IUserEntitiesRequestOptions = {}) {
         super(apiAiClient, options);
         this.baseUri = this.apiAiClient.getApiBaseUrl() + UserEntitiesRequest.ENDPOINT;
     }
 
-    public create(entities: Array<IEntity>|IEntity) {
+    public create(entities: IEntity[]|IEntity) {
         this.uri = this.baseUri;
-        let options = ApiAiUtils.cloneObject(this.options);
+        const options = ApiAiUtils.cloneObject(this.options);
         options.entities = Array.isArray(entities) ? entities : [entities];
         return this.perform(options);
     }
@@ -31,7 +31,7 @@ export class UserEntitiesRequest extends Request {
     public update(name: string, entries: IEntity.IEntry[], extend: boolean = false) {
         this.uri = this.baseUri + "/" + name;
         this.requestMethod = XhrRequest.Method.PUT;
-        let options = ApiAiUtils.cloneObject(this.options);
+        const options = ApiAiUtils.cloneObject(this.options);
         options.extend = extend;
         options.entries = entries;
         options.name = name;

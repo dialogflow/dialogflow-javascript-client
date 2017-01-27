@@ -1,4 +1,4 @@
-*This is the V2 version of api.ai JS SDK. If you are looking for old one, please visit 'v1-deprecated' branch*
+**This is the V2 version of api.ai JS SDK. If you are looking for old one, please visit 'v1-deprecated' branch**
 
 # Installation
 
@@ -30,6 +30,7 @@ function handleResponse(serverResponse) {
 function heandleError(serverError) {
         console.log(serverError);
 }
+
 ```
 
 ## .eventRequest
@@ -99,7 +100,7 @@ Code above should work for both TypeScript and simple ES6
 
 * Checkout from this repository, do not forget to switch to "v2" branch
 * run `$ npm install`
-* run `$ webpack -w` or just `$ webpack-dev-server` (as an option for non globally installed dev-server - `$ ./node_modules/.bin/webpack-dev-server`)
+* run `$ webpack -w` or just `$ npm start` (as an option for non globally installed dev-server - `$ ./node_modules/.bin/webpack-dev-server`)
 * develop! (webpack will automatically compile SDK to ./target/ApiAi.js file on each change, just include it into some test HTML file (./demo/index.html will probably do the job) and test it).
 
 # Building

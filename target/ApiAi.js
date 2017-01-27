@@ -120,7 +120,7 @@ exports.ApiAiRequestError = ApiAiRequestError;
 "use strict";
 
 var Errors_1 = __webpack_require__(0);
-var XhrRequest_1 = __webpack_require__(2);
+var XhrRequest_1 = __webpack_require__(4);
 var Request = (function () {
     function Request(apiAiClient, options) {
         this.apiAiClient = apiAiClient;
@@ -128,7 +128,7 @@ var Request = (function () {
         this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
         this.requestMethod = XhrRequest_1.default.Method.POST;
         this.headers = {
-            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
+            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
         };
         this.options.lang = this.apiAiClient.getApiLang();
         this.options.sessionId = this.apiAiClient.getSessionId();
@@ -171,143 +171,6 @@ exports.default = Request;
 
 "use strict";
 
-/**
- * quick ts implementation of example from
- * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
- * with some minor improvements
- * @todo: test (?)
- * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
- */
-var XhrRequest = (function () {
-    function XhrRequest() {
-    }
-    // Method that performs the ajax request
-    XhrRequest.ajax = function (method, url, args, headers, options) {
-        if (args === void 0) { args = null; }
-        if (headers === void 0) { headers = null; }
-        if (options === void 0) { options = {}; }
-        // Creating a promise
-        return new Promise(function (resolve, reject) {
-            // Instantiates the XMLHttpRequest
-            var client = XhrRequest.createXMLHTTPObject();
-            var uri = url;
-            var payload = null;
-            // Add given payload to get request
-            if (args && (method === XhrRequest.Method.GET)) {
-                uri += "?";
-                var argcount = 0;
-                for (var key in args) {
-                    if (args.hasOwnProperty(key)) {
-                        if (argcount++) {
-                            uri += "&";
-                        }
-                        uri += encodeURIComponent(key) + "=" + encodeURIComponent(args[key]);
-                    }
-                }
-            }
-            else if (args) {
-                if (!headers) {
-                    headers = {};
-                }
-                headers["Content-Type"] = "application/json";
-                payload = JSON.stringify(args);
-            }
-            for (var key in options) {
-                if (key in client) {
-                    client[key] = options[key];
-                }
-            }
-            // hack: method[method] is somewhat like .toString for enum Method
-            // should be made in normal way
-            client.open(XhrRequest.Method[method], uri, true);
-            // Add given headers
-            if (headers) {
-                for (var key in headers) {
-                    if (headers.hasOwnProperty(key)) {
-                        client.setRequestHeader(key, headers[key]);
-                    }
-                }
-            }
-            payload ? client.send(payload) : client.send();
-            client.onload = function () {
-                if (client.status >= 200 && client.status < 300) {
-                    // Performs the function "resolve" when this.status is equal to 2xx
-                    resolve(client);
-                }
-                else {
-                    // Performs the function "reject" when this.status is different than 2xx
-                    reject(client);
-                }
-            };
-            client.onerror = function () {
-                reject(client);
-            };
-        });
-    };
-    XhrRequest.get = function (url, payload, headers, options) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        if (options === void 0) { options = {}; }
-        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers, options);
-    };
-    XhrRequest.post = function (url, payload, headers, options) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        if (options === void 0) { options = {}; }
-        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers, options);
-    };
-    XhrRequest.put = function (url, payload, headers, options) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        if (options === void 0) { options = {}; }
-        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers, options);
-    };
-    XhrRequest.delete = function (url, payload, headers, options) {
-        if (payload === void 0) { payload = null; }
-        if (headers === void 0) { headers = null; }
-        if (options === void 0) { options = {}; }
-        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers, options);
-    };
-    XhrRequest.createXMLHTTPObject = function () {
-        var xmlhttp = null;
-        for (var i = 0; i < XhrRequest.XMLHttpFactories.length; i++) {
-            try {
-                xmlhttp = XhrRequest.XMLHttpFactories[i]();
-            }
-            catch (e) {
-                continue;
-            }
-            break;
-        }
-        return xmlhttp;
-    };
-    return XhrRequest;
-}());
-XhrRequest.XMLHttpFactories = [
-    function () { return new XMLHttpRequest(); },
-    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
-    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
-    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
-];
-(function (XhrRequest) {
-    var Method;
-    (function (Method) {
-        Method[Method["GET"] = "GET"] = "GET";
-        Method[Method["POST"] = "POST"] = "POST";
-        Method[Method["PUT"] = "PUT"] = "PUT";
-        Method[Method["DELETE"] = "DELETE"] = "DELETE";
-    })(Method = XhrRequest.Method || (XhrRequest.Method = {}));
-})(XhrRequest || (XhrRequest = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = XhrRequest;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 var Constants;
 (function (Constants) {
     var AVAILABLE_LANGUAGES;
@@ -340,7 +203,7 @@ exports.default = Constants;
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -499,6 +362,144 @@ exports.default = _resamplerJs;
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * quick ts implementation of example from
+ * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+ * with some minor improvements
+ * @todo: test (?)
+ * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
+ */
+var XhrRequest = (function () {
+    function XhrRequest() {
+    }
+    // Method that performs the ajax request
+    XhrRequest.ajax = function (method, url, args, headers, options) {
+        if (args === void 0) { args = null; }
+        if (headers === void 0) { headers = null; }
+        if (options === void 0) { options = {}; }
+        // Creating a promise
+        return new Promise(function (resolve, reject) {
+            // Instantiates the XMLHttpRequest
+            var client = XhrRequest.createXMLHTTPObject();
+            var uri = url;
+            var payload = null;
+            // Add given payload to get request
+            if (args && (method === XhrRequest.Method.GET)) {
+                uri += "?";
+                var argcount = 0;
+                for (var key in args) {
+                    if (args.hasOwnProperty(key)) {
+                        if (argcount++) {
+                            uri += "&";
+                        }
+                        uri += encodeURIComponent(key) + "=" + encodeURIComponent(args[key]);
+                    }
+                }
+            }
+            else if (args) {
+                if (!headers) {
+                    headers = {};
+                }
+                headers["Content-Type"] = "application/json";
+                payload = JSON.stringify(args);
+            }
+            for (var key in options) {
+                if (key in client) {
+                    client[key] = options[key];
+                }
+            }
+            // hack: method[method] is somewhat like .toString for enum Method
+            // should be made in normal way
+            client.open(XhrRequest.Method[method], uri, true);
+            // Add given headers
+            if (headers) {
+                for (var key in headers) {
+                    if (headers.hasOwnProperty(key)) {
+                        client.setRequestHeader(key, headers[key]);
+                    }
+                }
+            }
+            payload ? client.send(payload) : client.send();
+            client.onload = function () {
+                if (client.status >= 200 && client.status < 300) {
+                    // Performs the function "resolve" when this.status is equal to 2xx
+                    resolve(client);
+                }
+                else {
+                    // Performs the function "reject" when this.status is different than 2xx
+                    reject(client);
+                }
+            };
+            client.onerror = function () {
+                reject(client);
+            };
+        });
+    };
+    XhrRequest.get = function (url, payload, headers, options) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        if (options === void 0) { options = {}; }
+        return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers, options);
+    };
+    XhrRequest.post = function (url, payload, headers, options) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        if (options === void 0) { options = {}; }
+        return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers, options);
+    };
+    XhrRequest.put = function (url, payload, headers, options) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        if (options === void 0) { options = {}; }
+        return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers, options);
+    };
+    XhrRequest.delete = function (url, payload, headers, options) {
+        if (payload === void 0) { payload = null; }
+        if (headers === void 0) { headers = null; }
+        if (options === void 0) { options = {}; }
+        return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers, options);
+    };
+    XhrRequest.createXMLHTTPObject = function () {
+        var xmlhttp = null;
+        for (var _i = 0, _a = XhrRequest.XMLHttpFactories; _i < _a.length; _i++) {
+            var i = _a[_i];
+            try {
+                xmlhttp = i();
+            }
+            catch (e) {
+                continue;
+            }
+            break;
+        }
+        return xmlhttp;
+    };
+    return XhrRequest;
+}());
+XhrRequest.XMLHttpFactories = [
+    function () { return new XMLHttpRequest(); },
+    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
+    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
+    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+];
+(function (XhrRequest) {
+    var Method;
+    (function (Method) {
+        Method[Method["GET"] = "GET"] = "GET";
+        Method[Method["POST"] = "POST"] = "POST";
+        Method[Method["PUT"] = "PUT"] = "PUT";
+        Method[Method["DELETE"] = "DELETE"] = "DELETE";
+    })(Method = XhrRequest.Method || (XhrRequest.Method = {}));
+})(XhrRequest || (XhrRequest = {}));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = XhrRequest;
+
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -516,14 +517,11 @@ exports.ApiAiStreamClient = ApiAiStreamClient_1.ApiAiStreamClient;
 
 "use strict";
 
-var Constants_1 = __webpack_require__(3);
+var Constants_1 = __webpack_require__(2);
 var Errors_1 = __webpack_require__(0);
 var EventRequest_1 = __webpack_require__(8);
 var TextRequest_1 = __webpack_require__(10);
 var TTSRequest_1 = __webpack_require__(9);
-// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
-var XhrRequest_1 = __webpack_require__(2);
-exports.XhrRequest = XhrRequest_1.default;
 var ApiAiClient = (function () {
     function ApiAiClient(options) {
         if (!options || !options.accessToken) {
@@ -676,10 +674,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Constants_1 = __webpack_require__(3);
-var XhrRequest_1 = __webpack_require__(2);
-var Request_1 = __webpack_require__(1);
+var Constants_1 = __webpack_require__(2);
 var Errors_1 = __webpack_require__(0);
+var XhrRequest_1 = __webpack_require__(4);
+var Request_1 = __webpack_require__(1);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
     function TTSRequest(apiAiClient, options) {
@@ -710,8 +708,8 @@ var TTSRequest = (function (_super) {
             v: this.apiAiClient.getApiVersion()
         };
         var headers = {
-            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
-            "Accept-language": "en-US"
+            "Accept-language": "en-US",
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken()
         };
         return this.makeRequest(this.uri, params, headers, { responseType: TTSRequest.RESPONSE_TYPE_ARRAYBUFFER })
             .then(this.resolveTTSPromise)
@@ -774,7 +772,7 @@ exports.default = TextRequest;
 
 "use strict";
 
-var Resampler_1 = __webpack_require__(4);
+var Resampler_1 = __webpack_require__(3);
 var VAD_1 = __webpack_require__(15);
 var Processors = (function () {
     function Processors() {
@@ -856,7 +854,7 @@ exports.Processors = Processors;
 
 "use strict";
 
-var Resampler_1 = __webpack_require__(4);
+var Resampler_1 = __webpack_require__(3);
 var RecorderWorker_1 = __webpack_require__(13);
 var Recorder = (function () {
     function Recorder(source, config) {
@@ -1069,7 +1067,8 @@ exports.default = RecorderWorker;
 var Recorder_1 = __webpack_require__(12);
 var Processors_1 = __webpack_require__(11);
 /**
- * this is mostly copy-paste of v1 API.AI JS SDK. Todo: finish and make it work .
+ * this is mostly copy-paste of v1 API.AI JS SDK.
+ * @deprecated
  */
 var StreamClient = (function () {
     function StreamClient(config) {

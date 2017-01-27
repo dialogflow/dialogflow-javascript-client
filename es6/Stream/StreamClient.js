@@ -1,7 +1,8 @@
 import Recorder from "./Recorder";
 import { Processors } from "./Processors";
 /**
- * this is mostly copy-paste of v1 API.AI JS SDK. Todo: finish and make it work .
+ * this is mostly copy-paste of v1 API.AI JS SDK.
+ * @deprecated
  */
 class StreamClient {
     constructor(config = {}) {

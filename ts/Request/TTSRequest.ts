@@ -1,9 +1,9 @@
 import {ApiAiClient} from "../ApiAiClient";
 import Constants from "../Constants";
+import {ApiAiClientConfigurationError, ApiAiRequestError} from "../Errors";
 import {IRequestOptions} from "../Interfaces";
 import XhrRequest from "../XhrRequest";
 import Request from "./Request";
-import {ApiAiClientConfigurationError, ApiAiRequestError} from "../Errors";
 
 export class TTSRequest extends Request {
 
@@ -15,29 +15,28 @@ export class TTSRequest extends Request {
         super(apiAiClient, options);
         // this.requestMethod = XhrRequest.Method.GET;
         this.uri = Constants.DEFAULT_TTS_HOST;
-        let AudioContext = window.AudioContext || webkitAudioContext;
+        const AudioContext = window.AudioContext || webkitAudioContext;
 
         if (!TTSRequest.audioContext) {
-            TTSRequest.audioContext = new AudioContext(); 
-        }        
+            TTSRequest.audioContext = new AudioContext();
+        }
     }
 
     public makeTTSRequest(text: string) {
-
 
         if (!text) {
             throw new ApiAiClientConfigurationError("Request can not be empty");
         }
 
-        let params = {
+        const params = {
             lang: "en-US", // <any> this.apiAiClient.getApiLang(),
             text: encodeURIComponent(text),
             v: this.apiAiClient.getApiVersion()
         };
 
-        let headers = {
-            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
-            "Accept-language": "en-US"
+        const headers = {
+            "Accept-language": "en-US",
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken()
         };
 
         return this.makeRequest(this.uri, params, headers, {responseType: TTSRequest.RESPONSE_TYPE_ARRAYBUFFER})
@@ -47,8 +46,8 @@ export class TTSRequest extends Request {
     }
 
     private resolveTTSPromise = (data: {response: ArrayBuffer}) => {
-        return this.speak(data.response)
-    };
+        return this.speak(data.response);
+    }
 
     private rejectTTSPromise = (reason: string) => {
         throw new ApiAiRequestError(reason);
@@ -59,7 +58,7 @@ export class TTSRequest extends Request {
     }
 
     private speak(data: ArrayBuffer): Promise<{}> {
-        
+
         if (!data.byteLength) {
             return Promise.reject("TTS Server unavailable");
         }
@@ -76,7 +75,7 @@ export class TTSRequest extends Request {
     }
 
     private playSound(buffer: AudioBuffer, resolve) {
-        let source = TTSRequest.audioContext.createBufferSource();
+        const source = TTSRequest.audioContext.createBufferSource();
         source.buffer = buffer;
         source.connect(TTSRequest.audioContext.destination);
         source.onended = resolve;

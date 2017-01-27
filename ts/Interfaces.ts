@@ -2,7 +2,7 @@ import Constants from "./Constants";
 
 export interface IRequestOptions {
     query?: string;
-    event?: {name: string, data?: IStringMap}
+    event?: {name: string, data?: IStringMap};
     sessionId?: string;
     lang?: Constants.AVAILABLE_LANGUAGES;
 }

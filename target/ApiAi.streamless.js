@@ -120,7 +120,7 @@ exports.ApiAiRequestError = ApiAiRequestError;
 "use strict";
 
 var Errors_1 = __webpack_require__(0);
-var XhrRequest_1 = __webpack_require__(2);
+var XhrRequest_1 = __webpack_require__(3);
 var Request = (function () {
     function Request(apiAiClient, options) {
         this.apiAiClient = apiAiClient;
@@ -128,7 +128,7 @@ var Request = (function () {
         this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
         this.requestMethod = XhrRequest_1.default.Method.POST;
         this.headers = {
-            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
+            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
         };
         this.options.lang = this.apiAiClient.getApiLang();
         this.options.sessionId = this.apiAiClient.getSessionId();
@@ -167,6 +167,43 @@ exports.default = Request;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Constants;
+(function (Constants) {
+    var AVAILABLE_LANGUAGES;
+    (function (AVAILABLE_LANGUAGES) {
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
+    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
+    Constants.VERSION = "2.0.0-beta.8";
+    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    Constants.DEFAULT_API_VERSION = "20150910";
+    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    // @todo: make configurable, ideally fix non-working v1
+    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
+})(Constants || (Constants = {}));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Constants;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -270,9 +307,10 @@ var XhrRequest = (function () {
     };
     XhrRequest.createXMLHTTPObject = function () {
         var xmlhttp = null;
-        for (var i = 0; i < XhrRequest.XMLHttpFactories.length; i++) {
+        for (var _i = 0, _a = XhrRequest.XMLHttpFactories; _i < _a.length; _i++) {
+            var i = _a[_i];
             try {
-                xmlhttp = XhrRequest.XMLHttpFactories[i]();
+                xmlhttp = i();
             }
             catch (e) {
                 continue;
@@ -303,43 +341,6 @@ exports.default = XhrRequest;
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Constants;
-(function (Constants) {
-    var AVAILABLE_LANGUAGES;
-    (function (AVAILABLE_LANGUAGES) {
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    Constants.VERSION = "2.0.0-beta.8";
-    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_API_VERSION = "20150910";
-    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
-    // @todo: make configurable, ideally fix non-working v1
-    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
-})(Constants || (Constants = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Constants;
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -355,14 +356,11 @@ exports.ApiAiClient = ApiAiClient_1.ApiAiClient;
 
 "use strict";
 
-var Constants_1 = __webpack_require__(3);
+var Constants_1 = __webpack_require__(2);
 var Errors_1 = __webpack_require__(0);
 var EventRequest_1 = __webpack_require__(6);
 var TextRequest_1 = __webpack_require__(8);
 var TTSRequest_1 = __webpack_require__(7);
-// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
-var XhrRequest_1 = __webpack_require__(2);
-exports.XhrRequest = XhrRequest_1.default;
 var ApiAiClient = (function () {
     function ApiAiClient(options) {
         if (!options || !options.accessToken) {
@@ -478,10 +476,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Constants_1 = __webpack_require__(3);
-var XhrRequest_1 = __webpack_require__(2);
-var Request_1 = __webpack_require__(1);
+var Constants_1 = __webpack_require__(2);
 var Errors_1 = __webpack_require__(0);
+var XhrRequest_1 = __webpack_require__(3);
+var Request_1 = __webpack_require__(1);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
     function TTSRequest(apiAiClient, options) {
@@ -512,8 +510,8 @@ var TTSRequest = (function (_super) {
             v: this.apiAiClient.getApiVersion()
         };
         var headers = {
-            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
-            "Accept-language": "en-US"
+            "Accept-language": "en-US",
+            "Authorization": "Bearer " + this.apiAiClient.getAccessToken()
         };
         return this.makeRequest(this.uri, params, headers, { responseType: TTSRequest.RESPONSE_TYPE_ARRAYBUFFER })
             .then(this.resolveTTSPromise)

@@ -6,26 +6,27 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai'],
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
-      'spec/**/*.spec.ts'
+      'spec/**/*.spec.ts',
     ],
     exclude: [],
     preprocessors: {
-      'spec/**/*.spec.ts': ['webpack']
+      'spec/**/*.spec.ts': ['webpack'],
     },
     webpack: {
       module: webpackConfig.module,
-      resolve: webpackConfig.resolve
+      resolve: webpackConfig.resolve,
     },
     phantomjsLauncher: {
-      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+      // Have phantomjs exit if a ResourceError is encountered
+      // (useful if karma exits without killing phantom)
       // exitOnResourceError: true,
       base: 'PhantomJS',
       flags: [
         '--web-security=false',
         '--load-images=true',
         '--ignore-ssl-errors=yes',
-        '--ssl-protocol=any'
-      ]
+        '--ssl-protocol=any',
+      ],
     },
     reporters: ['progress'],
     port: 9876,
@@ -34,6 +35,6 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['PhantomJS'],
     singleRun: false,
-    concurrency: Infinity
+    concurrency: Infinity,
   });
 };

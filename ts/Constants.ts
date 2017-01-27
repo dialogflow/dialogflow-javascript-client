@@ -1,9 +1,9 @@
 namespace Constants {
 
     export enum AVAILABLE_LANGUAGES {
-        EN = <any> "en", DE = <any> "de", ES = <any> "es", PT_BR = <any> "pt-BR", ZH_HK = <any> "zh-HK",
-        ZH_CN = <any> "zh-CN", ZH_TW = <any> "zh-TW", NL = <any> "nl", FR = <any> "fr", IT = <any> "it",
-        JA = <any> "ja", KO = <any> "ko", PT = <any> "pt", RU = <any> "ru", UK = <any> "uk"
+        EN = "en" as any, DE = "de" as any, ES = "es" as any, PT_BR = "pt-BR" as any, ZH_HK = "zh-HK" as any,
+        ZH_CN = "zh-CN" as any, ZH_TW = "zh-TW" as any, NL = "nl" as any, FR = "fr" as any, IT = "it" as any,
+        JA = "ja" as any, KO = "ko" as any, PT = "pt" as any, RU = "ru" as any, UK = "uk" as any
     }
 
     export const VERSION: string = "2.0.0-beta.8";

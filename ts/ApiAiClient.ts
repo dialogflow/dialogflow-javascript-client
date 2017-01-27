@@ -1,11 +1,12 @@
 import Constants from "./Constants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
-import { IApiClientOptions, IRequestOptions, IServerResponse, IStreamClientOptions, IStringMap, IStreamClientConstructor, IStreamClient } from './Interfaces';
 import TextRequest from "./Request/TextRequest";
 import { TTSRequest } from "./Request/TTSRequest";
 // import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
-export {default as XhrRequest} from "./XhrRequest";
+
+import { IApiClientOptions, IRequestOptions, IServerResponse, IStreamClient, IStreamClientConstructor,
+    IStreamClientOptions, IStringMap } from "./Interfaces";
 
 export class ApiAiClient {
 
@@ -16,7 +17,7 @@ export class ApiAiClient {
     private accessToken: string;
     private streamClientClass: IStreamClientConstructor;
 
-    constructor (options: IApiClientOptions) {
+    constructor(options: IApiClientOptions) {
 
         if (!options || !options.accessToken) {
             throw new ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
@@ -31,7 +32,7 @@ export class ApiAiClient {
 
     }
 
-    public textRequest (query, options: IRequestOptions = {}): Promise<IServerResponse> {
+    public textRequest(query, options: IRequestOptions = {}): Promise<IServerResponse> {
         if (!query) {
             throw new ApiAiClientConfigurationError("Query should not be empty");
         }
@@ -39,16 +40,16 @@ export class ApiAiClient {
         return new TextRequest(this, options).perform();
     }
 
-    public eventRequest (eventName, eventData: IStringMap = {},
-        options: IRequestOptions = {}): Promise<IServerResponse> {
+    public eventRequest(eventName, eventData: IStringMap = {},
+                        options: IRequestOptions = {}): Promise<IServerResponse> {
         if (!eventName) {
             throw new ApiAiClientConfigurationError("Event name can not be empty");
         }
-        options.event = {name: eventName, data: eventData}
+        options.event = {name: eventName, data: eventData};
         return new EventRequest(this, options).perform();
     }
 
-    public ttsRequest (query) {
+    public ttsRequest(query) {
         if (!query) {
             throw new ApiAiClientConfigurationError("Query should not be empty");
         }
@@ -61,7 +62,7 @@ export class ApiAiClient {
 
     public createStreamClient(streamClientOptions: IStreamClientOptions = {}): IStreamClient {
         if (this.streamClientClass) {
-        
+
             streamClientOptions.token = this.getAccessToken();
             streamClientOptions.sessionId =  this.getSessionId();
             streamClientOptions.lang = this.getApiLang();
@@ -72,19 +73,19 @@ export class ApiAiClient {
         }
     }
 
-    public getAccessToken (): string {
+    public getAccessToken(): string {
         return this.accessToken;
     }
 
-    public getApiVersion (): string {
+    public getApiVersion(): string {
         return (this.apiVersion) ? this.apiVersion : Constants.DEFAULT_API_VERSION;
     }
 
-    public getApiLang (): Constants.AVAILABLE_LANGUAGES {
+    public getApiLang(): Constants.AVAILABLE_LANGUAGES {
         return (this.apiLang) ? this.apiLang : Constants.DEFAULT_CLIENT_LANG;
     }
 
-    public getApiBaseUrl (): string {
+    public getApiBaseUrl(): string {
         return (this.apiBaseUrl) ? this.apiBaseUrl : Constants.DEFAULT_BASE_URL;
     }
 
@@ -101,7 +102,7 @@ export class ApiAiClient {
      * @returns {string}
      */
     private guid(): string {
-        let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         return s4() + s4() + "-" + s4() + "-" + s4() + "-" +
             s4() + "-" + s4() + s4() + s4();
     }

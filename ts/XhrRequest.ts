@@ -8,7 +8,7 @@ import {IStringMap} from "./Interfaces";
  */
 class XhrRequest {
     // Method that performs the ajax request
-    public static ajax (
+    public static ajax(
         method: XhrRequest.Method,
         url: string,
         args: IStringMap = null,
@@ -17,10 +17,10 @@ class XhrRequest {
     ): Promise<any> {
 
         // Creating a promise
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
 
             // Instantiates the XMLHttpRequest
-            let client: XMLHttpRequest = XhrRequest.createXMLHTTPObject();
+            const client: XMLHttpRequest = XhrRequest.createXMLHTTPObject();
             let uri: string = url;
             let payload = null;
 
@@ -28,7 +28,7 @@ class XhrRequest {
             if (args && (method === XhrRequest.Method.GET)) {
                 uri += "?";
                 let argcount = 0;
-                for (let key in args) {
+                for (const key in args) {
                     if (args.hasOwnProperty(key)) {
                         if (argcount++) {
                             uri += "&";
@@ -44,7 +44,7 @@ class XhrRequest {
                 payload = JSON.stringify(args);
             }
 
-            for (let key in options) {
+            for (const key in options) {
                 if (key in client) {
                     client[key] = options[key];
                 }
@@ -56,7 +56,7 @@ class XhrRequest {
             // Add given headers
 
             if (headers) {
-                for (let key in headers) {
+                for (const key in headers) {
                     if (headers.hasOwnProperty(key)) {
                         client.setRequestHeader(key, headers[key]);
                     }
@@ -81,26 +81,26 @@ class XhrRequest {
 
     }
 
-    public static get (url, payload: IStringMap = null, headers: IStringMap = null, options = {}): Promise<any> {
+    public static get(url, payload: IStringMap = null, headers: IStringMap = null, options = {}): Promise<any> {
         return XhrRequest.ajax(XhrRequest.Method.GET, url, payload, headers, options);
     }
 
-    public static post (url: string, payload: IStringMap = null, headers: IStringMap = null,
-                        options = {}): Promise<any> {
+    public static post(url: string, payload: IStringMap = null, headers: IStringMap = null,
+                       options = {}): Promise<any> {
         return XhrRequest.ajax(XhrRequest.Method.POST, url, payload, headers, options);
     }
 
-    public static put (url: string, payload: IStringMap = null, headers: IStringMap = null,
-                       options = {}): Promise<any>  {
+    public static put(url: string, payload: IStringMap = null, headers: IStringMap = null,
+                      options = {}): Promise<any>  {
         return XhrRequest.ajax(XhrRequest.Method.PUT, url, payload, headers, options);
     }
 
-    public static delete (url: string, payload: IStringMap = null, headers: IStringMap = null,
-                          options = {}): Promise<any>  {
+    public static delete(url: string, payload: IStringMap = null, headers: IStringMap = null,
+                         options = {}): Promise<any>  {
         return XhrRequest.ajax(XhrRequest.Method.DELETE, url, payload, headers, options);
     }
 
-    private static XMLHttpFactories = [
+    private static XMLHttpFactories: Function[] = [
         () => new XMLHttpRequest(),
         () => new ActiveXObject("Msxml2.XMLHTTP"),
         () => new ActiveXObject("Msxml3.XMLHTTP"),
@@ -109,24 +109,25 @@ class XhrRequest {
 
     private static createXMLHTTPObject(): XMLHttpRequest {
         let xmlhttp: XMLHttpRequest = null;
-        for (let i = 0; i < XhrRequest.XMLHttpFactories.length; i++) {
+        for (const i of XhrRequest.XMLHttpFactories) {
             try {
-                xmlhttp = XhrRequest.XMLHttpFactories[i]();
+                xmlhttp = i();
             } catch (e) {
                 continue;
             }
             break;
         }
+
         return xmlhttp;
     }
 }
 
 namespace XhrRequest {
     export enum Method {
-        GET = <any> "GET",
-        POST = <any> "POST",
-        PUT = <any> "PUT",
-        DELETE = <any> "DELETE"
+        GET = "GET" as any,
+        POST = "POST" as any,
+        PUT = "PUT" as any,
+        DELETE = "DELETE" as any
     }
 }
 

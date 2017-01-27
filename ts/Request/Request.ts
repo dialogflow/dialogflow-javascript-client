@@ -13,7 +13,7 @@ abstract class Request {
 
         let error = null;
         try {
-            let serverResponse: IServerResponse = JSON.parse(xhr.responseText);
+            const serverResponse: IServerResponse = JSON.parse(xhr.responseText);
             if (serverResponse.status && serverResponse.status.errorDetails) {
                 error = new ApiAiRequestError(serverResponse.status.errorDetails, serverResponse.status.code);
             } else {
@@ -29,12 +29,12 @@ abstract class Request {
     protected requestMethod;
     protected headers;
 
-    constructor (protected apiAiClient: ApiAiClient, protected options: IRequestOptions) {
+    constructor(protected apiAiClient: ApiAiClient, protected options: IRequestOptions) {
 
         this.uri = this.apiAiClient.getApiBaseUrl() + "query?v=" + this.apiAiClient.getApiVersion();
         this.requestMethod = XhrRequest.Method.POST;
         this.headers = {
-            "Authorization": "Bearer " + this.apiAiClient.getAccessToken(),
+            Authorization: "Bearer " + this.apiAiClient.getAccessToken(),
         };
 
         this.options.lang = this.apiAiClient.getApiLang();
@@ -42,12 +42,11 @@ abstract class Request {
 
     }
 
-    public perform (overrideOptions = null): Promise<IServerResponse> {
+    public perform(overrideOptions = null): Promise<IServerResponse> {
 
-        let options = overrideOptions ? overrideOptions : this.options;
+        const options = overrideOptions ? overrideOptions : this.options;
 
-        return XhrRequest.ajax(this.requestMethod, this.uri, <IStringMap> options, this.headers)
-        // return XhrRequest.post(this.uri, <IStringMap> this.options, this.headers)
+        return XhrRequest.ajax(this.requestMethod, this.uri, options as IStringMap, this.headers)
             .then(Request.handleSuccess.bind(this))
             .catch(Request.handleError.bind(this));
     }

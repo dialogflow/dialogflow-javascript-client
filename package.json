@@ -12,6 +12,7 @@
     "@types/es6-promise": "0.0.32",
     "@types/mocha": "^2.2.38",
     "awesome-typescript-loader": "^3.0.0-beta.18",
+    "babel-polyfill": "^6.22.0",
     "chai": "^3.5.0",
     "eslint": "^3.14.1",
     "eslint-config-google": "^0.7.1",

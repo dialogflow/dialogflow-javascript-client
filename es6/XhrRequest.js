@@ -9,16 +9,16 @@ class XhrRequest {
     // Method that performs the ajax request
     static ajax(method, url, args = null, headers = null, options = {}) {
         // Creating a promise
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             // Instantiates the XMLHttpRequest
-            let client = XhrRequest.createXMLHTTPObject();
+            const client = XhrRequest.createXMLHTTPObject();
             let uri = url;
             let payload = null;
             // Add given payload to get request
             if (args && (method === XhrRequest.Method.GET)) {
                 uri += "?";
                 let argcount = 0;
-                for (let key in args) {
+                for (const key in args) {
                     if (args.hasOwnProperty(key)) {
                         if (argcount++) {
                             uri += "&";
@@ -34,7 +34,7 @@ class XhrRequest {
                 headers["Content-Type"] = "application/json";
                 payload = JSON.stringify(args);
             }
-            for (let key in options) {
+            for (const key in options) {
                 if (key in client) {
                     client[key] = options[key];
                 }
@@ -44,7 +44,7 @@ class XhrRequest {
             client.open(XhrRequest.Method[method], uri, true);
             // Add given headers
             if (headers) {
-                for (let key in headers) {
+                for (const key in headers) {
                     if (headers.hasOwnProperty(key)) {
                         client.setRequestHeader(key, headers[key]);
                     }
@@ -80,9 +80,9 @@ class XhrRequest {
     }
     static createXMLHTTPObject() {
         let xmlhttp = null;
-        for (let i = 0; i < XhrRequest.XMLHttpFactories.length; i++) {
+        for (const i of XhrRequest.XMLHttpFactories) {
             try {
-                xmlhttp = XhrRequest.XMLHttpFactories[i]();
+                xmlhttp = i();
             }
             catch (e) {
                 continue;
