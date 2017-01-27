@@ -7,4 +7,3 @@ Installation:
 Running (webpack-dev-server on localhost:8080 by default):
 
 `$ npm start`
-

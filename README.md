@@ -1,3 +1,14 @@
+# Installation
+
+You can use this library as common pre-built .js ([choose there](target)).
+
+.streamless version does not have bundled ApiAiStreamClient inside and because of that have smaller size.
+
+Or you can install it with nodejs and that import as es6 (or .ts) module. See below. 
+
+`npm install api-ai-javascript@2.0.0-beta.12`
+
+
 # Usage
 
 ## .textRequest
