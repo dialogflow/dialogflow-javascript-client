@@ -1,10 +1,10 @@
 {
   "name": "api-ai-javascript-typescript-demo-project",
-  "version": "2.0.0-beta.10",
+  "version": "2.0.0-beta.12",
   "description": "Javascript SDK for https://api.ai/ typescript demo project",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
-    "api-ai-javascript": "^2.0.0-beta.10",
+    "api-ai-javascript": "^2.0.0-beta.12",
     "awesome-typescript-loader": "^3.0.0-beta.18",
     "typescript": "^2.1.5",
     "webpack": "^2.2.0",

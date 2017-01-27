@@ -1,6 +1,6 @@
 {
   "name": "api-ai-javascript",
-  "version": "2.0.0-beta.10",
+  "version": "2.0.0-beta.12",
   "description": "Javascript SDK for https://api.ai/",
   "main": "index",
   "dependencies": {
@@ -48,18 +48,6 @@
     "chatbots",
     "conversational",
     "UX"
-  ],
-  "files": [
-    "es6",
-    "ts",
-    "ApiAiClient.ts",
-    "ApiAiClient.js",
-    "ApiAiStreamClient.ts",
-    "ApiAiStreamClient.js",
-    "declarations.d.ts",
-    "index.ts",
-    "index.js",
-    "README.md"
   ],
   "author": "Eugeny Shingarev",
   "license": "Apache-2.0",
