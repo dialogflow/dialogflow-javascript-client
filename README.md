@@ -77,8 +77,8 @@ const client = new ApiAiClient('YOUR_ACCESS_TOKEN', {streamClientClass: ApiAiStr
 client
 
 .textRequest('Hello!')
-    .then((response) => /* do something */ )
-    .catch((error) => /* do something here too */)
+    .then((response) => {/* do something */})
+    .catch((error) => {/* do something here too */})
 
 ```
 
@@ -112,6 +112,12 @@ Code above should work for both TypeScript and simple ES6
 `$ npm test`
 
 ## Changelog
+
+## 2.0.0-beta.13
+* IStreamClient is aligned with StreamClient needs, thanks to @muuki88 (#26)
+* Callbacks in IStremClientOptions are now typed properly
+* Added IStreamClient.getGain(): GainNode (#25) to allow set up gain of listener
+* Fixed UTF8 requests, thanks to @elaval (#24)
 
 ## 2.0.0-beta.12
 

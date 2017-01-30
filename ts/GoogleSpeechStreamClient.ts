@@ -14,4 +14,16 @@ export class GoogleSpeechStreamClient implements IStreamClient {
         // noop
     }
 
+    public stopListening(): void {
+        // noop
+    }
+
+    public open(): void {
+        // noop
+    }
+
+    public close(): void {
+        // noop
+    }
+
 }

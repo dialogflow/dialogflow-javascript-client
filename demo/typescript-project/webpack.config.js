@@ -9,7 +9,7 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'deploy'),
-        publicPath: "/",
+        publicPath: "/deploy",
         filename: 'index.js'
     },
     plugins: [

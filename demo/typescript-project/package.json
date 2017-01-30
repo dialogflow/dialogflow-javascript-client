@@ -1,6 +1,6 @@
 {
   "name": "api-ai-javascript-typescript-demo-project",
-  "version": "2.0.0-beta.12",
+  "version": "2.0.0-beta.13",
   "description": "Javascript SDK for https://api.ai/ typescript demo project",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",

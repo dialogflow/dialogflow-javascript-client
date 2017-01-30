@@ -3,6 +3,7 @@ import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
 import TextRequest from "./Request/TextRequest";
 import { TTSRequest } from "./Request/TTSRequest";
+export * from "./Interfaces";
 export class ApiAiClient {
     constructor(options) {
         if (!options || !options.accessToken) {

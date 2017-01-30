@@ -8,6 +8,8 @@ import { TTSRequest } from "./Request/TTSRequest";
 import { IApiClientOptions, IRequestOptions, IServerResponse, IStreamClient, IStreamClientConstructor,
     IStreamClientOptions, IStringMap } from "./Interfaces";
 
+export * from "./Interfaces";
+
 export class ApiAiClient {
 
     private apiLang: Constants.AVAILABLE_LANGUAGES;

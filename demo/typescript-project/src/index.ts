@@ -1,8 +1,7 @@
-import {ApiAiClient} from "api-ai-javascript/ApiAiClient";
+import {ApiAiEnabledApplication} from "./Application";
+const app = new ApiAiEnabledApplication();
 
-const ACCESS_TOKEN = "ACCESS_TOKEN";
-const client = new ApiAiClient({accessToken: ACCESS_TOKEN});
+app.init("ACCESS_TOKEN");
 
-client.textRequest("Hello!")
-    .then(JSON.stringify).then(alert)
-    .catch(JSON.stringify).then(alert);
+
+window["app"] = app;

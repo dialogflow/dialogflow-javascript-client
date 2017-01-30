@@ -1,9 +1,11 @@
 interface Navigator {
-    Resampler: any
+    Resampler: any;
 }
 interface AudioContext {
-    createResampleProcessor: Function
+    createResampleProcessor: Function;
+    createEndOfSpeechProcessor: Function;
 }
 interface Window {
-    speechSynthesis: any
+    speechSynthesis: any;
+    webkitURL: any;
 }

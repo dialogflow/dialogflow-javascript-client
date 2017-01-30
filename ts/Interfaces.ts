@@ -6,6 +6,7 @@ export interface IRequestOptions {
     sessionId?: string;
     lang?: Constants.AVAILABLE_LANGUAGES;
 }
+
 export interface IServerResponse {
     id?: string;
     result?: {
@@ -23,7 +24,9 @@ export interface IServerResponse {
         errorType: string
     };
 }
+
 export interface IStringMap { [s: string]: string; }
+
 export interface IApiClientOptions {
     lang?: Constants.AVAILABLE_LANGUAGES;
     version?: string;
@@ -32,12 +35,20 @@ export interface IApiClientOptions {
     streamClientClass?: IStreamClientConstructor;
     accessToken: string;
 }
+
 export interface IStreamClientConstructor {
     new (options: IStreamClientOptions): IStreamClient;
 }
+
 export interface IStreamClient {
+    init(): void;
+    open(): void;
+    close(): void;
     startListening(): void;
+    stopListening(): void;
+    getGainNode?(): GainNode;
 }
+
 export interface IStreamClientOptions {
     server?: string;
     token?: string;
@@ -45,12 +56,35 @@ export interface IStreamClientOptions {
     lang?: Constants.AVAILABLE_LANGUAGES;
     contentType?: string;
     readingInterval?: string;
-    onOpen?: Function;
-    onClose?: Function;
-    onInit?: Function;
-    onStartListening?: Function;
-    onStopListening?: Function;
-    onResults?: Function;
-    onEvent?: Function;
-    onError?: Function;
+    onOpen?: () => void;
+    onClose?: () => void;
+    onInit?: () => void;
+    onStartListening?: () => void;
+    onStopListening?: () => void;
+    onResults?: (data: IServerResponse) => void;
+    onEvent?: (eventCode: IStreamClient.EVENT, message: string) => void;
+    onError?: (errorCode: IStreamClient.ERROR, message: string) => void;
+}
+
+export namespace IStreamClient {
+    export enum ERROR {
+        ERR_NETWORK,
+        ERR_AUDIO,
+        ERR_SERVER,
+        ERR_CLIENT
+    }
+    export enum EVENT {
+        MSG_WAITING_MICROPHONE,
+        MSG_MEDIA_STREAM_CREATED,
+        MSG_INIT_RECORDER,
+        MSG_RECORDING,
+        MSG_SEND,
+        MSG_SEND_EMPTY,
+        MSG_SEND_EOS_OR_JSON,
+        MSG_WEB_SOCKET,
+        MSG_WEB_SOCKET_OPEN,
+        MSG_WEB_SOCKET_CLOSE,
+        MSG_STOP,
+        MSG_CONFIG_CHANGED
+    }
 }

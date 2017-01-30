@@ -1,5 +1,6 @@
-import Recorder from "./Recorder";
+import {IStreamClient, IStreamClientOptions} from "../Interfaces";
 import {Processors} from "./Processors";
+import Recorder from "./Recorder";
 
 /**
  * this is mostly copy-paste of v1 API.AI JS SDK.
@@ -7,34 +8,36 @@ import {Processors} from "./Processors";
  */
 class StreamClient {
 
-    private static CONTENT_TYPE : string = "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
-    private static INTERVAL : number = 250;
+    private static CONTENT_TYPE: string =
+        "content-type=audio/x-raw,+layout=(string)interleaved,+rate=(int)16000,+format=(string)S16LE,+channels=(int)1";
+    private static INTERVAL: number = 250;
     private static TAG_END_OF_SENTENCE: string = "EOS";
 
     private audioContext: AudioContext;
     private mediaStreamSource: MediaStreamAudioSourceNode;
     private userSpeechAnalyser: AnalyserNode;
+    private gainNode: GainNode;
     private recorder: Recorder;
     private resampleProcessor;
     private intervalKey: number;
     private ws: WebSocket;
 
-    //config
+    // config
     private server; private token; private sessionId; private lang; private contentType;
     private readingInterval;
 
-    //callbacks
+    // callbacks
     private onOpen; private onClose; private onInit; private onStartListening;
     private onStopListening; private onResults; private onEvent; private onError;
 
-    constructor(config: any = {}) {
+    constructor(config: IStreamClientOptions = {}) {
 
         Processors.bindProcessors();
-        
-        this.server = config.server || '';
-        this.token = config.token || '';
-        this.sessionId = config.sessionId || '';
-        this.lang = config.lang || 'en';
+
+        this.server = config.server || "";
+        this.token = config.token || "";
+        this.sessionId = config.sessionId || "";
+        this.lang = config.lang || "en";
         this.contentType = config.contentType || StreamClient.CONTENT_TYPE;
         this.readingInterval = config.readingInterval || StreamClient.INTERVAL;
 
@@ -47,123 +50,149 @@ class StreamClient {
         this.onEvent = config.onEvent && config.onEvent.bind(this) || _noop;
         this.onError = config.onError && config.onError.bind(this) || _noop;
 
-        function _noop() {}
+        function _noop() {
+            // noop
+        }
     }
 
-    init() {
-        this.onEvent(StreamClient.Events.MSG_WAITING_MICROPHONE, "Waiting for approval to access your microphone ...");
+    public init() {
+        this.onEvent(IStreamClient.EVENT.MSG_WAITING_MICROPHONE, "Waiting for approval to access your microphone ...");
         try {
             window.AudioContext = window.AudioContext || webkitAudioContext;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            window.URL = window.URL || window['webkitURL'];
+            navigator.getUserMedia =
+                navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            window.URL = window.URL || window.webkitURL;
             this.audioContext = new AudioContext();
         } catch (e) {
             // Firefox 24: TypeError: AudioContext is not a constructor
             // Set media.webaudio.enabled = true (in about:config) to fix this.
-            this.onError(StreamClient.ERROR.ERR_CLIENT, "Error initializing Web Audio browser: " + JSON.stringify(e));
+            this.onError(IStreamClient.ERROR.ERR_CLIENT, "Error initializing Web Audio browser: " + JSON.stringify(e));
         }
 
         if (navigator.getUserMedia) {
             navigator.getUserMedia({audio: true}, this.startUserMedia.bind(this, this.onInit), (e) => {
-                this.onError(StreamClient.ERROR.ERR_CLIENT, "No live audio input in this browser: " + JSON.stringify(e));
+                this.onError(
+                    IStreamClient.ERROR.ERR_CLIENT, "No live audio input in this browser: " + JSON.stringify(e)
+                );
             });
         } else {
-            this.onError(StreamClient.ERROR.ERR_CLIENT, "No user media support");
+            this.onError(IStreamClient.ERROR.ERR_CLIENT, "No user media support");
         }
 
     }
 
-    startUserMedia(onInit, stream) {
-        this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
-        //this.onEvent(MSG_MEDIA_STREAM_CREATED, 'Media stream created');
-
-        this.userSpeechAnalyser = this.audioContext.createAnalyser();
-
-        this.mediaStreamSource.connect(this.userSpeechAnalyser);
-
-        this.recorder = new Recorder(this.mediaStreamSource);
-        this.onEvent(StreamClient.Events.MSG_INIT_RECORDER, 'Recorder initialized');
-
-        onInit && onInit();
+    public getGainNode(): GainNode {
+        return this.gainNode;
     }
 
-    isInitialise() {
-        return !!this.recorder;
-    }
-
-    sendJson(json) {
-        this.socketSend(JSON.stringify(json));
-        this.socketSend(StreamClient.TAG_END_OF_SENTENCE);
-    };
-
-    startListening () {
+    public startListening() {
 
         if (!this.recorder) {
-            this.onError(StreamClient.ERROR.ERR_AUDIO, 'Recorder undefined');
+            this.onError(IStreamClient.ERROR.ERR_AUDIO, "Recorder undefined");
             return;
         }
         if (!this.ws) {
-            this.onError(StreamClient.ERROR.ERR_AUDIO, 'No web socket connection');
+            this.onError(IStreamClient.ERROR.ERR_AUDIO, "No web socket connection");
             return;
         }
 
-        let _useVad = (endOfSpeechCallback) => {
-            this.resampleProcessor = this.audioContext['createResampleProcessor'](256, 1, 1, 16000);
+        const isUseVad = (endOfSpeechCallback) => {
+            this.resampleProcessor = this.audioContext.createResampleProcessor(256, 1, 1, 16000);
 
             this.mediaStreamSource.connect(this.resampleProcessor);
 
-            var endOfSpeechProcessor = this.audioContext['createEndOfSpeechProcessor'](256);
+            const endOfSpeechProcessor = this.audioContext.createEndOfSpeechProcessor(256);
             endOfSpeechProcessor.endOfSpeechCallback = endOfSpeechCallback;
             this.resampleProcessor.connect(endOfSpeechProcessor);
         };
 
-        _useVad(() => this.stopListening());
+        isUseVad(() => this.stopListening());
 
-        this.ws.send("{'timezone':'America/New_York', 'lang':'" + this.lang + "', 'sessionId':'" + this.sessionId + "'}");
+        this.ws
+            .send("{'timezone':'America/New_York', 'lang':'" + this.lang + "', 'sessionId':'" + this.sessionId + "'}");
 
         this.intervalKey = setInterval(() => {
             this.recorder.export16kMono((blob) => {
                 this.socketSend(blob);
                 this.recorder.clear();
-            }, 'audio/x-raw');
+            }, "audio/x-raw");
         }, this.readingInterval);
         // Start recording
         this.recorder.record();
-        this.onStartListening();// call interface method
+        this.onStartListening(); // call interface method
 
     };
 
-    stopListening () {
-        this.resampleProcessor && this.resampleProcessor.disconnect();
+    public stopListening() {
+        if (this.resampleProcessor) {
+            this.resampleProcessor.disconnect();
+        }
 
         // Stop the regular sending of audio
         clearInterval(this.intervalKey);
 
-        var recorder = this.recorder;
+        const recorder = this.recorder;
         if (!recorder) {
-            this.onError(StreamClient.ERROR.ERR_AUDIO, 'Recorder undefined');
+            this.onError(IStreamClient.ERROR.ERR_AUDIO, "Recorder undefined");
             return;
         }
 
         // Stop recording
         recorder.stop();
-        this.onEvent(StreamClient.Events.MSG_STOP, 'Stopped recording');
+        this.onEvent(IStreamClient.EVENT.MSG_STOP, "Stopped recording");
         // Push the remaining audio to the server
         recorder.export16kMono((blob) => {
             this.socketSend(blob);
             this.socketSend(StreamClient.TAG_END_OF_SENTENCE);
             recorder.clear();
-        }, 'audio/x-raw');
+        }, "audio/x-raw");
         this.onStopListening();
     };
 
-    isOpen() {
-        return !!this.ws;
+    public open() {
+        if (!this.recorder) {
+            this.init();
+        } else {
+            this.openWebSocket();
+        }
     };
 
-    private openWebSocket(){
+    public close() {
+        // Stop the regular sending of audio (if present)
+        clearInterval(this.intervalKey);
+        if (this.recorder) {
+            this.recorder.stop();
+            this.recorder.clear();
+            this.onEvent(IStreamClient.EVENT.MSG_STOP, "Stopped recording");
+        }
+        if (this.ws) {
+            this.ws.close();
+            this.ws = null;
+        }
+    };
+
+    private startUserMedia(onInit, stream) {
+        this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
+        this.onEvent(IStreamClient.EVENT.MSG_MEDIA_STREAM_CREATED, "Media stream created");
+
+        this.userSpeechAnalyser = this.audioContext.createAnalyser();
+        this.gainNode = this.audioContext.createGain();
+
+        this.mediaStreamSource.connect(this.userSpeechAnalyser);
+        this.mediaStreamSource.connect(this.gainNode);
+        this.gainNode.connect(this.audioContext.destination);
+
+        this.recorder = new Recorder(this.mediaStreamSource);
+        this.onEvent(IStreamClient.EVENT.MSG_INIT_RECORDER, "Recorder initialized");
+
+        if (onInit) {
+            onInit();
+        }
+    }
+
+    private openWebSocket() {
         if (!this.recorder) {
-            this.onError(StreamClient.ERROR.ERR_AUDIO, "Recorder undefined");
+            this.onError(IStreamClient.ERROR.ERR_AUDIO, "Recorder undefined");
             return;
         }
 
@@ -174,34 +203,34 @@ class StreamClient {
         try {
             this.ws = this.createWebSocket();
         } catch (e) {
-            this.onError(StreamClient.ERROR.ERR_CLIENT, "No web socket support in this browser!");
+            this.onError(IStreamClient.ERROR.ERR_CLIENT, "No web socket support in this browser!");
         }
 
     };
 
     private createWebSocket() {
-        var url = this.server + '?' + this.contentType + '&access_token=' + this.token;
-        var ws = new WebSocket(url);
+        const url = this.server + "?" + this.contentType + "&access_token=" + this.token;
+        const ws = new WebSocket(url);
 
         ws.onmessage = (e) => {
-            var data = e.data;
-            this.onEvent(StreamClient.Events.MSG_WEB_SOCKET, data);
+            const data = e.data;
+            this.onEvent(IStreamClient.EVENT.MSG_WEB_SOCKET, data);
 
             if (data instanceof Object && !(data instanceof Blob)) {
-                this.onError(StreamClient.ERROR.ERR_SERVER, 'WebSocket: onEvent: got Object that is not a Blob');
+                this.onError(IStreamClient.ERROR.ERR_SERVER, "WebSocket: onEvent: got Object that is not a Blob");
             } else if (data instanceof Blob) {
-                this.onError(StreamClient.ERROR.ERR_SERVER, 'WebSocket: got Blob');
+                this.onError(IStreamClient.ERROR.ERR_SERVER, "WebSocket: got Blob");
             } else {
-                this.onResults(JSON.parse(data));// call interface method
+                this.onResults(JSON.parse(data)); // call interface method
             }
         };
 
         // Start recording only if the socket becomes open
-        ws.onopen = (e) => { 
+        ws.onopen = (e) => {
             // send first request for initialisation dialogue
-            //ws.send("{'timezone':'America/New_York', 'lang':'en'}");
-            this.onOpen();// call interface method
-            this.onEvent(StreamClient.Events.MSG_WEB_SOCKET_OPEN, e);
+            // ws.send("{'timezone':'America/New_York', 'lang':'en'}");
+            this.onOpen(); // call interface method
+            this.onEvent(IStreamClient.EVENT.MSG_WEB_SOCKET_OPEN, e);
         };
 
         // This can happen if the blob was too big
@@ -213,103 +242,54 @@ class StreamClient {
         ws.onclose = (e) => {
             // The server closes the connection (only?)
             // when its endpointer triggers.
-            this.onClose();// call interface method
-            this.onEvent(StreamClient.Events.MSG_WEB_SOCKET_CLOSE, e.code + "/" + e.reason + "/" + e.wasClean);
+            this.onClose(); // call interface method
+            this.onEvent(IStreamClient.EVENT.MSG_WEB_SOCKET_CLOSE, e.code + "/" + e.reason + "/" + e.wasClean);
         };
 
         ws.onerror = (e: any) => {
-            this.onError(StreamClient.ERROR.ERR_NETWORK, JSON.stringify(e.data));
+            this.onError(IStreamClient.ERROR.ERR_NETWORK, JSON.stringify(e.data));
         };
 
         return ws;
     }
 
-    open() {
-
-        if (!this.recorder) {
-            this.init();
-        } else {
-            this.openWebSocket();
-        }
-
-    };
-
-    close () {
-        // Stop the regular sending of audio (if present)
-        clearInterval(this.intervalKey);
-        if (this.recorder) {
-            this.recorder.stop();
-            this.recorder.clear();
-            this.onEvent(StreamClient.Events.MSG_STOP, 'Stopped recording');
-        }
-        if (this.ws) {
-            this.ws.close();
-            this.ws = null;
-        }
-    };
-
-
-    socketSend(item) {
+    private socketSend(item) {
         if (!this.ws) {
-            this.onError(StreamClient.ERROR.ERR_CLIENT, 'No web socket connection: failed to send: ' + item);
+            this.onError(IStreamClient.ERROR.ERR_CLIENT, "No web socket connection: failed to send: " + item);
             return;
         }
 
-        var state = this.ws.readyState;
-        if (state != 1) {
-            var errorMsg = 'WebSocket: ';
+        const state = this.ws.readyState;
+        if (state !== 1) {
+            let errorMsg = "WebSocket: ";
             switch (state) {
                 case 0: // CONNECTING
-                    errorMsg += 'The connection is not yet open.';
+                    errorMsg += "The connection is not yet open.";
                     break;
-                //case 1:break;// OPEN
-                case 2:// CLOSING
-                    errorMsg += 'The connection is in the process of closing.';
+                // case 1:break;// OPEN
+                case 2: // CLOSING
+                    errorMsg += "The connection is in the process of closing.";
                     break;
-                case 3:// CLOSED
-                    errorMsg += 'The connection is closed or couldn\'t be opened.';
+                case 3: // CLOSED
+                    errorMsg += "The connection is closed or couldn\'t be opened.";
                     break;
+                default:
+                    // noop
             }
-            errorMsg += ' readyState=' + state + ' (!=1) failed to send: ' + item;
-            this.onError(StreamClient.ERROR.ERR_NETWORK, errorMsg);
+            errorMsg += " readyState=" + state + " (!=1) failed to send: " + item;
+            this.onError(IStreamClient.ERROR.ERR_NETWORK, errorMsg);
         }
 
         // If item isn't an audio blob it's the EOS tag or json data (string)
         if (!(item instanceof Blob)) {
             this.ws.send(item);
-            this.onEvent(StreamClient.Events.MSG_SEND_EOS_OR_JSON, 'Send string: ' + item);
+            this.onEvent(IStreamClient.EVENT.MSG_SEND_EOS_OR_JSON, "Send string: " + item);
         } else if (item.size > 0) {
             this.ws.send(item);
-            this.onEvent(StreamClient.Events.MSG_SEND, 'Send: blob: ' + item.type + ', ' + item.size);
+            this.onEvent(IStreamClient.EVENT.MSG_SEND, "Send: blob: " + item.type + ", " + item.size);
         } else {
-            this.onEvent(StreamClient.Events.MSG_SEND_EMPTY, 'Send: blob: ' + item.type + ', EMPTY');
+            this.onEvent(IStreamClient.EVENT.MSG_SEND_EMPTY, "Send: blob: " + item.type + ", EMPTY");
         }
-    };
-
-
-
-}
-
-module StreamClient {
-    export enum ERROR {
-        ERR_NETWORK,
-        ERR_AUDIO,
-        ERR_SERVER,
-        ERR_CLIENT
-    }
-    export enum Events {
-        MSG_WAITING_MICROPHONE,
-        MSG_MEDIA_STREAM_CREATED,
-        MSG_INIT_RECORDER,
-        MSG_RECORDING,
-        MSG_SEND,
-        MSG_SEND_EMPTY,
-        MSG_SEND_EOS_OR_JSON,
-        MSG_WEB_SOCKET,
-        MSG_WEB_SOCKET_OPEN,
-        MSG_WEB_SOCKET_CLOSE,
-        MSG_STOP,
-        MSG_CONFIG_CHANGED
     }
 }
 
