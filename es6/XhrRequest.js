@@ -31,7 +31,7 @@ class XhrRequest {
                 if (!headers) {
                     headers = {};
                 }
-                headers["Content-Type"] = "application/json";
+                headers["Content-Type"] = "application/json; charset=utf-8";
                 payload = JSON.stringify(args);
             }
             for (const key in options) {

@@ -246,7 +246,7 @@ var XhrRequest = (function () {
                 if (!headers) {
                     headers = {};
                 }
-                headers["Content-Type"] = "application/json";
+                headers["Content-Type"] = "application/json; charset=utf-8";
                 payload = JSON.stringify(args);
             }
             for (var key in options) {
