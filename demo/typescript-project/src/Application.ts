@@ -12,6 +12,7 @@ export class ApiAiEnabledApplication {
     private isListening: boolean = false;
 
     public init(accessToken: string): ApiAiEnabledApplication {
+
         this.apiAiClient = new ApiAiClient({accessToken, streamClientClass: ApiAiStreamClient});
         this.apiAiStreamClient = this.apiAiClient.createStreamClient({
             onInit: () => {
@@ -23,9 +24,11 @@ export class ApiAiEnabledApplication {
             },
             onStartListening: () => {
                 console.log("> ON START LISTENING");
+                this.setIsListening(true);
             },
             onStopListening: () => {
                 console.log("> ON STOP LISTENING");
+                this.setIsListening(false);
             },
             onResults: (data) => {
                 console.log("> ON RESULTS");
@@ -38,6 +41,7 @@ export class ApiAiEnabledApplication {
                 console.log("> ON ERROR: ", errorCode, message, "[error: ", IStreamClient.ERROR[errorCode], "]");
             }
         });
+
         this.apiAiStreamClient.init();
         this.button = document.getElementById(ApiAiEnabledApplication.BUTTON_ID) as HTMLButtonElement;
         this.button.addEventListener("click", this.handleClick.bind(this));
@@ -61,12 +65,13 @@ export class ApiAiEnabledApplication {
     private handleClick() {
         if (!this.isListening) {
             this.apiAiStreamClient.startListening();
-            this.isListening = true;
-            this.button.innerText = "Stop listening";
         } else {
             this.apiAiStreamClient.stopListening();
-            this.isListening = false;
-            this.button.innerText = "Start listening";
         }
+    }
+
+    private setIsListening(isListening: boolean) {
+        this.isListening = isListening;
+        this.button.innerText = (isListening) ? "Stop listening" : "Start listening";
     }
 }

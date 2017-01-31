@@ -16,7 +16,6 @@ class StreamClient {
     private audioContext: AudioContext;
     private mediaStreamSource: MediaStreamAudioSourceNode;
     private userSpeechAnalyser: AnalyserNode;
-    private gainNode: GainNode;
     private recorder: Recorder;
     private resampleProcessor;
     private intervalKey: number;
@@ -81,10 +80,6 @@ class StreamClient {
 
     }
 
-    public getGainNode(): GainNode {
-        return this.gainNode;
-    }
-
     public startListening() {
 
         if (!this.recorder) {
@@ -93,6 +88,11 @@ class StreamClient {
         }
         if (!this.ws) {
             this.onError(IStreamClient.ERROR.ERR_AUDIO, "No web socket connection");
+            return;
+        }
+
+        if (this.ws.readyState === WebSocket.CLOSED) {
+            this.onError(IStreamClient.ERROR.ERR_NETWORK, "WebSocket is in 'closed' state");
             return;
         }
 
@@ -172,16 +172,11 @@ class StreamClient {
     };
 
     private startUserMedia(onInit, stream) {
+
         this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
         this.onEvent(IStreamClient.EVENT.MSG_MEDIA_STREAM_CREATED, "Media stream created");
-
         this.userSpeechAnalyser = this.audioContext.createAnalyser();
-        this.gainNode = this.audioContext.createGain();
-
         this.mediaStreamSource.connect(this.userSpeechAnalyser);
-        this.mediaStreamSource.connect(this.gainNode);
-        this.gainNode.connect(this.audioContext.destination);
-
         this.recorder = new Recorder(this.mediaStreamSource);
         this.onEvent(IStreamClient.EVENT.MSG_INIT_RECORDER, "Recorder initialized");
 

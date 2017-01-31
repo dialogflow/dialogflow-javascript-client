@@ -38,5 +38,8 @@ module.exports = {
             path.resolve(__dirname, 'app')
         ],
         extensions: ['.ts', '.js']
+    },
+    devServer: {
+        port: 8000
     }
 };

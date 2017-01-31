@@ -46,7 +46,6 @@ export interface IStreamClient {
     close(): void;
     startListening(): void;
     stopListening(): void;
-    getGainNode?(): GainNode;
 }
 
 export interface IStreamClientOptions {

@@ -113,6 +113,10 @@ Code above should work for both TypeScript and simple ES6
 
 ## Changelog
 
+## 2.0.0-beta.14
+* minor fixes
+* GainNode removed (for now) as non-working in current setup
+
 ## 2.0.0-beta.13
 * IStreamClient is aligned with StreamClient needs, thanks to @muuki88 (#26)
 * Callbacks in IStremClientOptions are now typed properly
