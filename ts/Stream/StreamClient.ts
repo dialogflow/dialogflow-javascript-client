@@ -15,6 +15,7 @@ class StreamClient {
 
     private audioContext: AudioContext;
     private mediaStreamSource: MediaStreamAudioSourceNode;
+    private gainNode: GainNode;
     private userSpeechAnalyser: AnalyserNode;
     private recorder: Recorder;
     private resampleProcessor;
@@ -175,7 +176,14 @@ class StreamClient {
 
         this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
         this.onEvent(IStreamClient.EVENT.MSG_MEDIA_STREAM_CREATED, "Media stream created");
+
+        // create audio nodes
+        this.gainNode = this.audioContext.createGain();
         this.userSpeechAnalyser = this.audioContext.createAnalyser();
+
+        // connect: input ~> gain ~> userSpeechAnalyser ~> output
+        this.mediaStreamSource.connect(this.gainNode);
+        this.gainNode.connect(this.userSpeechAnalyser);
         this.mediaStreamSource.connect(this.userSpeechAnalyser);
         this.recorder = new Recorder(this.mediaStreamSource);
         this.onEvent(IStreamClient.EVENT.MSG_INIT_RECORDER, "Recorder initialized");
