@@ -8,7 +8,7 @@ You can use this library as common pre-built .js ([choose there](target)).
 
 Or you can install it with nodejs and that import as es6 (or .ts) module. See below. 
 
-`npm install api-ai-javascript@2.0.0-beta.13`
+`npm install api-ai-javascript@2.0.0-beta.14`
 
 
 # Usage
