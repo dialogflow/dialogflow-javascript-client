@@ -30,7 +30,7 @@ class StreamClient {
     private onOpen; private onClose; private onInit; private onStartListening;
     private onStopListening; private onResults; private onEvent; private onError;
 
-    constructor(config: IStreamClientOptions = {}) {
+    constructor(private config: IStreamClientOptions = {}) {
 
         Processors.bindProcessors();
 
@@ -178,7 +178,7 @@ class StreamClient {
         this.onEvent(IStreamClient.EVENT.MSG_MEDIA_STREAM_CREATED, "Media stream created");
 
         // create audio nodes
-        this.gainNode = this.audioContext.createGain();
+        this.gainNode = this.createGainNode();
         this.userSpeechAnalyser = this.audioContext.createAnalyser();
 
         // connect: input ~> gain ~> userSpeechAnalyser ~> output
@@ -191,6 +191,12 @@ class StreamClient {
         if (onInit) {
             onInit();
         }
+    }
+
+    private createGainNode(): GainNode {
+        const gainNode = this.audioContext.createGain();
+        gainNode.gain.value = this.config.gain || gainNode.gain.defaultValue;
+        return gainNode;
     }
 
     private openWebSocket() {
