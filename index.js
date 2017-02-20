@@ -1,1 +1,1 @@
-export * from "./srces6/_build";
+export * from "./es6/_build";
