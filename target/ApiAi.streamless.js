@@ -73,6 +73,41 @@ var ApiAi =
 
 "use strict";
 
+var ApiAiConstants;
+(function (ApiAiConstants) {
+    var AVAILABLE_LANGUAGES;
+    (function (AVAILABLE_LANGUAGES) {
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
+        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
+    })(AVAILABLE_LANGUAGES = ApiAiConstants.AVAILABLE_LANGUAGES || (ApiAiConstants.AVAILABLE_LANGUAGES = {}));
+    ApiAiConstants.VERSION = "2.0.0-beta.15";
+    ApiAiConstants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    ApiAiConstants.DEFAULT_API_VERSION = "20150910";
+    ApiAiConstants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    // @todo: make configurable, ideally fix non-working v1
+    ApiAiConstants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
+})(ApiAiConstants = exports.ApiAiConstants || (exports.ApiAiConstants = {}));
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -114,12 +149,12 @@ exports.ApiAiRequestError = ApiAiRequestError;
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var Errors_1 = __webpack_require__(0);
+var Errors_1 = __webpack_require__(1);
 var XhrRequest_1 = __webpack_require__(3);
 var Request = (function () {
     function Request(apiAiClient, options) {
@@ -163,43 +198,6 @@ var Request = (function () {
 }());
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Request;
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Constants;
-(function (Constants) {
-    var AVAILABLE_LANGUAGES;
-    (function (AVAILABLE_LANGUAGES) {
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["DE"] = "de"] = "DE";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ES"] = "es"] = "ES";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT_BR"] = "pt-BR"] = "PT_BR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_HK"] = "zh-HK"] = "ZH_HK";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_CN"] = "zh-CN"] = "ZH_CN";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["ZH_TW"] = "zh-TW"] = "ZH_TW";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["NL"] = "nl"] = "NL";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["FR"] = "fr"] = "FR";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["IT"] = "it"] = "IT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["JA"] = "ja"] = "JA";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["KO"] = "ko"] = "KO";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
-        AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    Constants.VERSION = "2.0.0-beta.8";
-    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_API_VERSION = "20150910";
-    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
-    // @todo: make configurable, ideally fix non-working v1
-    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
-})(Constants || (Constants = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Constants;
 
 
 /***/ }),
@@ -346,8 +344,10 @@ exports.default = XhrRequest;
 
 "use strict";
 
-var ApiAiClient_1 = __webpack_require__(5);
-exports.ApiAiClient = ApiAiClient_1.ApiAiClient;
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(__webpack_require__(5));
 
 
 /***/ }),
@@ -359,21 +359,23 @@ exports.ApiAiClient = ApiAiClient_1.ApiAiClient;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-var Constants_1 = __webpack_require__(2);
-var Errors_1 = __webpack_require__(0);
+var ApiAiConstants_1 = __webpack_require__(0);
+var Errors_1 = __webpack_require__(1);
 var EventRequest_1 = __webpack_require__(7);
 var TextRequest_1 = __webpack_require__(9);
 var TTSRequest_1 = __webpack_require__(8);
 __export(__webpack_require__(6));
+var ApiAiConstants_2 = __webpack_require__(0);
+exports.ApiAiConstants = ApiAiConstants_2.ApiAiConstants;
 var ApiAiClient = (function () {
     function ApiAiClient(options) {
         if (!options || !options.accessToken) {
             throw new Errors_1.ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
         this.accessToken = options.accessToken;
-        this.apiLang = options.lang || Constants_1.default.DEFAULT_CLIENT_LANG;
-        this.apiVersion = options.version || Constants_1.default.DEFAULT_API_VERSION;
-        this.apiBaseUrl = options.baseUrl || Constants_1.default.DEFAULT_BASE_URL;
+        this.apiLang = options.lang || ApiAiConstants_1.ApiAiConstants.DEFAULT_CLIENT_LANG;
+        this.apiVersion = options.version || ApiAiConstants_1.ApiAiConstants.DEFAULT_API_VERSION;
+        this.apiBaseUrl = options.baseUrl || ApiAiConstants_1.ApiAiConstants.DEFAULT_BASE_URL;
         this.sessionId = options.sessionId || this.guid();
         this.streamClientClass = options.streamClientClass || null;
     }
@@ -419,13 +421,13 @@ var ApiAiClient = (function () {
         return this.accessToken;
     };
     ApiAiClient.prototype.getApiVersion = function () {
-        return (this.apiVersion) ? this.apiVersion : Constants_1.default.DEFAULT_API_VERSION;
+        return (this.apiVersion) ? this.apiVersion : ApiAiConstants_1.ApiAiConstants.DEFAULT_API_VERSION;
     };
     ApiAiClient.prototype.getApiLang = function () {
-        return (this.apiLang) ? this.apiLang : Constants_1.default.DEFAULT_CLIENT_LANG;
+        return (this.apiLang) ? this.apiLang : ApiAiConstants_1.ApiAiConstants.DEFAULT_CLIENT_LANG;
     };
     ApiAiClient.prototype.getApiBaseUrl = function () {
-        return (this.apiBaseUrl) ? this.apiBaseUrl : Constants_1.default.DEFAULT_BASE_URL;
+        return (this.apiBaseUrl) ? this.apiBaseUrl : ApiAiConstants_1.ApiAiConstants.DEFAULT_BASE_URL;
     };
     ApiAiClient.prototype.setSessionId = function (sessionId) {
         this.sessionId = sessionId;
@@ -491,7 +493,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(1);
+var Request_1 = __webpack_require__(2);
 var EventRequest = (function (_super) {
     __extends(EventRequest, _super);
     function EventRequest() {
@@ -513,10 +515,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Constants_1 = __webpack_require__(2);
-var Errors_1 = __webpack_require__(0);
+var ApiAiConstants_1 = __webpack_require__(0);
+var Errors_1 = __webpack_require__(1);
 var XhrRequest_1 = __webpack_require__(3);
-var Request_1 = __webpack_require__(1);
+var Request_1 = __webpack_require__(2);
 var TTSRequest = (function (_super) {
     __extends(TTSRequest, _super);
     function TTSRequest(apiAiClient, options) {
@@ -530,7 +532,7 @@ var TTSRequest = (function (_super) {
             throw new Errors_1.ApiAiRequestError(reason);
         };
         // this.requestMethod = XhrRequest.Method.GET;
-        _this.uri = Constants_1.default.DEFAULT_TTS_HOST;
+        _this.uri = ApiAiConstants_1.ApiAiConstants.DEFAULT_TTS_HOST;
         var AudioContext = window.AudioContext || webkitAudioContext;
         if (!TTSRequest.audioContext) {
             TTSRequest.audioContext = new AudioContext();
@@ -593,7 +595,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Request_1 = __webpack_require__(1);
+var Request_1 = __webpack_require__(2);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {

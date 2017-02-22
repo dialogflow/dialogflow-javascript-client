@@ -1,1 +1,1 @@
-export {ApiAiClient} from "./ApiAiClient";
+export * from "./ApiAiClient";

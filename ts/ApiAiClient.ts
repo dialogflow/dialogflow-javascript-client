@@ -1,4 +1,4 @@
-import Constants from "./Constants";
+import { ApiAiConstants } from "./ApiAiConstants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
 import TextRequest from "./Request/TextRequest";
@@ -9,10 +9,11 @@ import { IApiClientOptions, IRequestOptions, IServerResponse, IStreamClient, ISt
     IStreamClientOptions, IStringMap } from "./Interfaces";
 
 export * from "./Interfaces";
+export {ApiAiConstants} from "./ApiAiConstants";
 
 export class ApiAiClient {
 
-    private apiLang: Constants.AVAILABLE_LANGUAGES;
+    private apiLang: ApiAiConstants.AVAILABLE_LANGUAGES;
     private apiVersion: string;
     private apiBaseUrl: string;
     private sessionId: string;
@@ -26,9 +27,9 @@ export class ApiAiClient {
         }
 
         this.accessToken = options.accessToken;
-        this.apiLang = options.lang || Constants.DEFAULT_CLIENT_LANG;
-        this.apiVersion = options.version || Constants.DEFAULT_API_VERSION;
-        this.apiBaseUrl = options.baseUrl || Constants.DEFAULT_BASE_URL;
+        this.apiLang = options.lang || ApiAiConstants.DEFAULT_CLIENT_LANG;
+        this.apiVersion = options.version || ApiAiConstants.DEFAULT_API_VERSION;
+        this.apiBaseUrl = options.baseUrl || ApiAiConstants.DEFAULT_BASE_URL;
         this.sessionId = options.sessionId || this.guid();
         this.streamClientClass = options.streamClientClass || null;
 
@@ -80,15 +81,15 @@ export class ApiAiClient {
     }
 
     public getApiVersion(): string {
-        return (this.apiVersion) ? this.apiVersion : Constants.DEFAULT_API_VERSION;
+        return (this.apiVersion) ? this.apiVersion : ApiAiConstants.DEFAULT_API_VERSION;
     }
 
-    public getApiLang(): Constants.AVAILABLE_LANGUAGES {
-        return (this.apiLang) ? this.apiLang : Constants.DEFAULT_CLIENT_LANG;
+    public getApiLang(): ApiAiConstants.AVAILABLE_LANGUAGES {
+        return (this.apiLang) ? this.apiLang : ApiAiConstants.DEFAULT_CLIENT_LANG;
     }
 
     public getApiBaseUrl(): string {
-        return (this.apiBaseUrl) ? this.apiBaseUrl : Constants.DEFAULT_BASE_URL;
+        return (this.apiBaseUrl) ? this.apiBaseUrl : ApiAiConstants.DEFAULT_BASE_URL;
     }
 
     public setSessionId(sessionId: string) {

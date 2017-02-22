@@ -1,4 +1,4 @@
-import {Client} from "../Client";
+import {ApiAiClient} from "../ApiAiClient";
 import {IRequestOptions} from "../Interfaces";
 import Request from "./Request";
 
@@ -7,7 +7,7 @@ import Request from "./Request";
  */
 
 class VoiceRequest extends Request {
-    constructor(client: Client, options: IRequestOptions = {}) {
+    constructor(client: ApiAiClient, options: IRequestOptions = {}) {
         super(client, options);
 
     }

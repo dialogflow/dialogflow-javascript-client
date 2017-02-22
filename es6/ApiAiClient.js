@@ -1,18 +1,19 @@
-import Constants from "./Constants";
+import { ApiAiConstants } from "./ApiAiConstants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
 import TextRequest from "./Request/TextRequest";
 import { TTSRequest } from "./Request/TTSRequest";
 export * from "./Interfaces";
+export { ApiAiConstants } from "./ApiAiConstants";
 export class ApiAiClient {
     constructor(options) {
         if (!options || !options.accessToken) {
             throw new ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
         }
         this.accessToken = options.accessToken;
-        this.apiLang = options.lang || Constants.DEFAULT_CLIENT_LANG;
-        this.apiVersion = options.version || Constants.DEFAULT_API_VERSION;
-        this.apiBaseUrl = options.baseUrl || Constants.DEFAULT_BASE_URL;
+        this.apiLang = options.lang || ApiAiConstants.DEFAULT_CLIENT_LANG;
+        this.apiVersion = options.version || ApiAiConstants.DEFAULT_API_VERSION;
+        this.apiBaseUrl = options.baseUrl || ApiAiConstants.DEFAULT_BASE_URL;
         this.sessionId = options.sessionId || this.guid();
         this.streamClientClass = options.streamClientClass || null;
     }
@@ -54,13 +55,13 @@ export class ApiAiClient {
         return this.accessToken;
     }
     getApiVersion() {
-        return (this.apiVersion) ? this.apiVersion : Constants.DEFAULT_API_VERSION;
+        return (this.apiVersion) ? this.apiVersion : ApiAiConstants.DEFAULT_API_VERSION;
     }
     getApiLang() {
-        return (this.apiLang) ? this.apiLang : Constants.DEFAULT_CLIENT_LANG;
+        return (this.apiLang) ? this.apiLang : ApiAiConstants.DEFAULT_CLIENT_LANG;
     }
     getApiBaseUrl() {
-        return (this.apiBaseUrl) ? this.apiBaseUrl : Constants.DEFAULT_BASE_URL;
+        return (this.apiBaseUrl) ? this.apiBaseUrl : ApiAiConstants.DEFAULT_BASE_URL;
     }
     setSessionId(sessionId) {
         this.sessionId = sessionId;

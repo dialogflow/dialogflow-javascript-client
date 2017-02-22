@@ -1,4 +1,4 @@
-import Constants from "../Constants";
+import { ApiAiConstants } from "../ApiAiConstants";
 import { ApiAiClientConfigurationError, ApiAiRequestError } from "../Errors";
 import XhrRequest from "../XhrRequest";
 import Request from "./Request";
@@ -13,7 +13,7 @@ export class TTSRequest extends Request {
             throw new ApiAiRequestError(reason);
         };
         // this.requestMethod = XhrRequest.Method.GET;
-        this.uri = Constants.DEFAULT_TTS_HOST;
+        this.uri = ApiAiConstants.DEFAULT_TTS_HOST;
         const AudioContext = window.AudioContext || webkitAudioContext;
         if (!TTSRequest.audioContext) {
             TTSRequest.audioContext = new AudioContext();

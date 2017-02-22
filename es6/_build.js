@@ -1,2 +1,2 @@
-export { ApiAiClient } from "./ApiAiClient";
+export * from "./ApiAiClient";
 export { ApiAiStreamClient } from "./ApiAiStreamClient";

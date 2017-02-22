@@ -1,5 +1,5 @@
-var Constants;
-(function (Constants) {
+export var ApiAiConstants;
+(function (ApiAiConstants) {
     var AVAILABLE_LANGUAGES;
     (function (AVAILABLE_LANGUAGES) {
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["EN"] = "en"] = "EN";
@@ -17,12 +17,11 @@ var Constants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["PT"] = "pt"] = "PT";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
-    })(AVAILABLE_LANGUAGES = Constants.AVAILABLE_LANGUAGES || (Constants.AVAILABLE_LANGUAGES = {}));
-    Constants.VERSION = "2.0.0-beta.8";
-    Constants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
-    Constants.DEFAULT_API_VERSION = "20150910";
-    Constants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
+    })(AVAILABLE_LANGUAGES = ApiAiConstants.AVAILABLE_LANGUAGES || (ApiAiConstants.AVAILABLE_LANGUAGES = {}));
+    ApiAiConstants.VERSION = "2.0.0-beta.15";
+    ApiAiConstants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
+    ApiAiConstants.DEFAULT_API_VERSION = "20150910";
+    ApiAiConstants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
     // @todo: make configurable, ideally fix non-working v1
-    Constants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
-})(Constants || (Constants = {}));
-export default Constants;
+    ApiAiConstants.DEFAULT_TTS_HOST = "https://api.api.ai/api/tts";
+})(ApiAiConstants || (ApiAiConstants = {}));

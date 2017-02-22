@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack && webpack --env.streamless && webpack --env.compress && webpack --env.streamless --env.compress && rimraf ./srces6 && tsc -p ./tsconfig.es6src.json",
+    "build": "webpack && webpack --env.streamless && webpack --env.compress && webpack --env.streamless --env.compress && rimraf ./es6 && tsc -p ./tsconfig.es6.json",
     "test": "karma start"
   },
   "repository": {

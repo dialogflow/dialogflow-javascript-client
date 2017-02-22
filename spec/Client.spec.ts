@@ -1,5 +1,5 @@
 import {ApiAiClient} from "../ts/ApiAiClient";
-import Constants from "../ts/Constants";
+import {ApiAiConstants} from "../ts/ApiAiConstants";
 
 const ACCESS_TOKEN = "AT";
 const expect = chai.expect;
@@ -23,9 +23,9 @@ describe("ApiAi.Client", () => {
     });
 
     it("should use valid credentials", () => {
-        expect(client.getApiLang()).to.eq(Constants.DEFAULT_CLIENT_LANG);
-        expect(client.getApiVersion()).to.eq(Constants.DEFAULT_API_VERSION);
-        expect(client.getApiBaseUrl()).to.eq(Constants.DEFAULT_BASE_URL);
+        expect(client.getApiLang()).to.eq(ApiAiConstants.DEFAULT_CLIENT_LANG);
+        expect(client.getApiVersion()).to.eq(ApiAiConstants.DEFAULT_API_VERSION);
+        expect(client.getApiBaseUrl()).to.eq(ApiAiConstants.DEFAULT_BASE_URL);
         expect(client.getAccessToken()).to.eq(ACCESS_TOKEN);
     });
 
@@ -35,13 +35,13 @@ describe("ApiAi.Client", () => {
         const sessionId = "test";
         const innerClient = new ApiAiClient({
             accessToken: ACCESS_TOKEN,
-            lang: Constants.AVAILABLE_LANGUAGES.DE,
+            lang: ApiAiConstants.AVAILABLE_LANGUAGES.DE,
             baseUrl,
             sessionId,
             version
         });
 
-        expect(innerClient.getApiLang()).to.eq(Constants.AVAILABLE_LANGUAGES.DE);
+        expect(innerClient.getApiLang()).to.eq(ApiAiConstants.AVAILABLE_LANGUAGES.DE);
         expect(innerClient.getApiVersion()).to.eq(version);
         expect(innerClient.getApiBaseUrl()).to.eq(baseUrl);
         expect(innerClient.getAccessToken()).to.eq(ACCESS_TOKEN);

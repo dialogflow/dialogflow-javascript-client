@@ -1,10 +1,10 @@
-import Constants from "./Constants";
+import {ApiAiConstants} from "./ApiAiConstants";
 
 export interface IRequestOptions {
     query?: string;
     event?: {name: string, data?: IStringMap};
     sessionId?: string;
-    lang?: Constants.AVAILABLE_LANGUAGES;
+    lang?: ApiAiConstants.AVAILABLE_LANGUAGES;
 }
 
 export interface IServerResponse {
@@ -28,7 +28,7 @@ export interface IServerResponse {
 export interface IStringMap { [s: string]: string; }
 
 export interface IApiClientOptions {
-    lang?: Constants.AVAILABLE_LANGUAGES;
+    lang?: ApiAiConstants.AVAILABLE_LANGUAGES;
     version?: string;
     baseUrl?: string;
     sessionId?: string;
@@ -52,7 +52,7 @@ export interface IStreamClientOptions {
     server?: string;
     token?: string;
     sessionId?: string;
-    lang?: Constants.AVAILABLE_LANGUAGES;
+    lang?: ApiAiConstants.AVAILABLE_LANGUAGES;
     contentType?: string;
     readingInterval?: string;
     onOpen?: () => void;

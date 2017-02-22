@@ -49,9 +49,6 @@ class StreamClient {
             this.onError(IStreamClient.ERROR.ERR_CLIENT, "No user media support");
         }
     }
-    getGainNode() {
-        return this.gainNode;
-    }
     startListening() {
         if (!this.recorder) {
             this.onError(IStreamClient.ERROR.ERR_AUDIO, "Recorder undefined");
@@ -59,6 +56,10 @@ class StreamClient {
         }
         if (!this.ws) {
             this.onError(IStreamClient.ERROR.ERR_AUDIO, "No web socket connection");
+            return;
+        }
+        if (this.ws.readyState === WebSocket.CLOSED) {
+            this.onError(IStreamClient.ERROR.ERR_NETWORK, "WebSocket is in 'closed' state");
             return;
         }
         const isUseVad = (endOfSpeechCallback) => {
@@ -132,10 +133,7 @@ class StreamClient {
         this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
         this.onEvent(IStreamClient.EVENT.MSG_MEDIA_STREAM_CREATED, "Media stream created");
         this.userSpeechAnalyser = this.audioContext.createAnalyser();
-        this.gainNode = this.audioContext.createGain();
         this.mediaStreamSource.connect(this.userSpeechAnalyser);
-        this.mediaStreamSource.connect(this.gainNode);
-        this.gainNode.connect(this.audioContext.destination);
         this.recorder = new Recorder(this.mediaStreamSource);
         this.onEvent(IStreamClient.EVENT.MSG_INIT_RECORDER, "Recorder initialized");
         if (onInit) {

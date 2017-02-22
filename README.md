@@ -96,11 +96,11 @@ Code above should work for both TypeScript and simple ES6
 
 *Note:* If you are going to build es5 version of your bundle with ApiAiClient inside, please add some typings for promises (e.g. @types/es6-promise)
 
-You also can import and use all defined interfaces:
+You also can import and use all defined interfaces and ApiAiConstants:
 
 ```javascript
-import {IRequestOptions, IServerResponse} from "api-ai-javascript/ApiAiClient"
-
+import {IRequestOptions, IServerResponse, ApiAiConstants} from "api-ai-javascript/ApiAiClient"
+const lang = ApiAiConstants.AVAILABLE_LANGUAGES.EN;
 ```
 
 You can find full list of interfaces [here](ts/Interfaces.ts)
@@ -124,6 +124,7 @@ You can find full list of interfaces [here](ts/Interfaces.ts)
 
 ## 2.0.0-beta.15
 * minor fixes, minor readme updates
+* exported constants
 
 ## 2.0.0-beta.14
 * minor fixes
