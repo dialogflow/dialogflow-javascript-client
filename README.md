@@ -17,7 +17,7 @@ Or you can install it with nodejs and that import as es6 (or .ts) module. See be
 
 ```javascript
 
-const client = new ApiAi.ApiAiClient('YOUR_ACCESS_TOKEN');
+const client = new ApiAi.ApiAiClient({accessToken: 'YOUR_ACCESS_TOKEN'});
 let promise = client.textRequest(longTextRequest);
 
 promise
@@ -96,6 +96,15 @@ Code above should work for both TypeScript and simple ES6
 
 *Note:* If you are going to build es5 version of your bundle with ApiAiClient inside, please add some typings for promises (e.g. @types/es6-promise)
 
+You also can import and use all defined interfaces:
+
+```javascript
+import {IRequestOptions, IServerResponse} from "api-ai-javascript/ApiAiClient"
+
+```
+
+You can find full list of interfaces [here](ts/Interfaces.ts)
+
 # Development
 
 * Checkout from this repository, do not forget to switch to "v2" branch
@@ -112,6 +121,9 @@ Code above should work for both TypeScript and simple ES6
 `$ npm test`
 
 ## Changelog
+
+## 2.0.0-beta.15
+* minor fixes, minor readme updates
 
 ## 2.0.0-beta.14
 * minor fixes
