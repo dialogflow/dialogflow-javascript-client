@@ -73,7 +73,7 @@ This SDK written with Typescript and all it's sources are available in this pack
 
 import {ApiAiClient, ApiAiStreamClient} from "api-ai-javascript";
 
-const client = new ApiAiClient('YOUR_ACCESS_TOKEN', {streamClientClass: ApiAiStreamClient});
+const client = new ApiAiClient({accessToken: 'YOUR_ACCESS_TOKEN', streamClientClass: ApiAiStreamClient});
 client
 
 .textRequest('Hello!')
@@ -87,7 +87,7 @@ Or (to include only http client, without stream, to save some extra kilobytes ):
 ```javascript
 import {ApiAiClient} from "api-ai-javascript/ApiAiClient"
 
-const client = new ApiAiClient('YOUR_ACCESS_TOKEN');
+const client = new ApiAiClient({accessToken: 'YOUR_ACCESS_TOKEN'});
 
 ```
 
