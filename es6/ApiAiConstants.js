@@ -18,7 +18,7 @@ export var ApiAiConstants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(AVAILABLE_LANGUAGES = ApiAiConstants.AVAILABLE_LANGUAGES || (ApiAiConstants.AVAILABLE_LANGUAGES = {}));
-    ApiAiConstants.VERSION = "2.0.0-beta.15";
+    ApiAiConstants.VERSION = "2.0.0-beta.16";
     ApiAiConstants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     ApiAiConstants.DEFAULT_API_VERSION = "20150910";
     ApiAiConstants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;

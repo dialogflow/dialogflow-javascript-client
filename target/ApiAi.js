@@ -93,7 +93,7 @@ var ApiAiConstants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(AVAILABLE_LANGUAGES = ApiAiConstants.AVAILABLE_LANGUAGES || (ApiAiConstants.AVAILABLE_LANGUAGES = {}));
-    ApiAiConstants.VERSION = "2.0.0-beta.15";
+    ApiAiConstants.VERSION = "2.0.0-beta.16";
     ApiAiConstants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     ApiAiConstants.DEFAULT_API_VERSION = "20150910";
     ApiAiConstants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
@@ -513,9 +513,9 @@ var XhrRequest = (function () {
 }());
 XhrRequest.XMLHttpFactories = [
     function () { return new XMLHttpRequest(); },
-    function () { return new ActiveXObject("Msxml2.XMLHTTP"); },
-    function () { return new ActiveXObject("Msxml3.XMLHTTP"); },
-    function () { return new ActiveXObject("Microsoft.XMLHTTP"); }
+    function () { return new window["ActiveXObject"]("Msxml2.XMLHTTP"); },
+    function () { return new window["ActiveXObject"]("Msxml3.XMLHTTP"); },
+    function () { return new window["ActiveXObject"]("Microsoft.XMLHTTP"); }
 ];
 (function (XhrRequest) {
     var Method;
@@ -979,6 +979,7 @@ exports.default = Recorder;
 
 "use strict";
 
+// import Resampler from "./Resampler";
 var RecorderWorker = (function () {
     function RecorderWorker() {
     }
@@ -1051,38 +1052,41 @@ var RecorderWorker = (function () {
                     view.setUint8(offset + i, string.charCodeAt(i));
                 }
             }
-            function encodeWAV(samples) {
+            /* function encodeWAV(samples) {
                 var buffer = new ArrayBuffer(44 + samples.length * 2);
                 var view = new DataView(buffer);
-                /* RIFF identifier */
+
+                // RIFF identifier
                 _writeString(view, 0, 'RIFF');
-                /* file length */
+                // file length
                 view.setUint32(4, 32 + samples.length * 2, true);
-                /* RIFF type */
+                // RIFF type
                 _writeString(view, 8, 'WAVE');
-                /* format chunk identifier */
+                // format chunk identifier
                 _writeString(view, 12, 'fmt ');
-                /* format chunk length */
+                // format chunk length
                 view.setUint32(16, 16, true);
-                /* sample format (raw) */
+                // sample format (raw)
                 view.setUint16(20, 1, true);
-                /* channel count */
+                // channel count
                 view.setUint16(22, 2, true);
-                /* sample rate */
+                // sample rate
                 view.setUint32(24, sampleRate, true);
-                /* byte rate (sample rate * block align) */
+                // byte rate (sample rate * block align)
                 view.setUint32(28, sampleRate * 4, true);
-                /* block align (channel count * bytes per sample) */
+                // block align (channel count * bytes per sample)
                 view.setUint16(32, 4, true);
-                /* bits per sample */
+                // bits per sample
                 view.setUint16(34, 16, true);
-                /* data chunk identifier */
-                _writeString(view, 36, 'data');
-                /* data chunk length */
+                // data chunk identifier
+                _writeString(view, 36, "data");
+                // data chunk length
                 view.setUint32(40, samples.length * 2, true);
+
                 _floatTo16BitPCM(view, 44, samples);
+
                 return view;
-            }
+            } */
             function encodeRAW(samples) {
                 var buffer = new ArrayBuffer(samples.length * 2);
                 var view = new DataView(buffer);

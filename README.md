@@ -122,6 +122,9 @@ You can find full list of interfaces [here](ts/Interfaces.ts)
 
 ## Changelog
 
+## 2.0.0-beta.16
+* some linting (ionic2 compatibility issues)
+
 ## 2.0.0-beta.15
 * minor fixes, minor readme updates
 * exported constants

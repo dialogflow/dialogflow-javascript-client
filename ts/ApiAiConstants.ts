@@ -5,7 +5,7 @@ export namespace ApiAiConstants {
     JA = "ja" as any, KO = "ko" as any, PT = "pt" as any, RU = "ru" as any, UK = "uk" as any
   }
 
-  export const VERSION: string = "2.0.0-beta.15";
+  export const VERSION: string = "2.0.0-beta.16";
   export const DEFAULT_BASE_URL: string = "https://api.api.ai/v1/";
   export const DEFAULT_API_VERSION: string = "20150910";
   export const DEFAULT_CLIENT_LANG: AVAILABLE_LANGUAGES = AVAILABLE_LANGUAGES.EN;

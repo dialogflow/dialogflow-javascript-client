@@ -102,9 +102,9 @@ class XhrRequest {
 
     private static XMLHttpFactories: Function[] = [
         () => new XMLHttpRequest(),
-        () => new ActiveXObject("Msxml2.XMLHTTP"),
-        () => new ActiveXObject("Msxml3.XMLHTTP"),
-        () => new ActiveXObject("Microsoft.XMLHTTP")
+        () => new window["ActiveXObject"]("Msxml2.XMLHTTP"),
+        () => new window["ActiveXObject"]("Msxml3.XMLHTTP"),
+        () => new window["ActiveXObject"]("Microsoft.XMLHTTP")
     ];
 
     private static createXMLHTTPObject(): XMLHttpRequest {
