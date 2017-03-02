@@ -16,7 +16,7 @@ class Request {
         return Promise.resolve(JSON.parse(xhr.responseText));
     }
     static handleError(xhr) {
-        let error = null;
+        let error = new ApiAiRequestError(null);
         try {
             const serverResponse = JSON.parse(xhr.responseText);
             if (serverResponse.status && serverResponse.status.errorDetails) {

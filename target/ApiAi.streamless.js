@@ -94,7 +94,7 @@ var ApiAiConstants;
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["RU"] = "ru"] = "RU";
         AVAILABLE_LANGUAGES[AVAILABLE_LANGUAGES["UK"] = "uk"] = "UK";
     })(AVAILABLE_LANGUAGES = ApiAiConstants.AVAILABLE_LANGUAGES || (ApiAiConstants.AVAILABLE_LANGUAGES = {}));
-    ApiAiConstants.VERSION = "2.0.0-beta.16";
+    ApiAiConstants.VERSION = "2.0.0-beta.18";
     ApiAiConstants.DEFAULT_BASE_URL = "https://api.api.ai/v1/";
     ApiAiConstants.DEFAULT_API_VERSION = "20150910";
     ApiAiConstants.DEFAULT_CLIENT_LANG = AVAILABLE_LANGUAGES.EN;
@@ -180,7 +180,7 @@ var Request = (function () {
         return Promise.resolve(JSON.parse(xhr.responseText));
     };
     Request.handleError = function (xhr) {
-        var error = null;
+        var error = new Errors_1.ApiAiRequestError(null);
         try {
             var serverResponse = JSON.parse(xhr.responseText);
             if (serverResponse.status && serverResponse.status.errorDetails) {
