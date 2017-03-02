@@ -3,7 +3,7 @@
     "target": "ES5",
     "sourceMap": true,
     "typeRoots": ["node_modules/@types/"],
-    "types": ["es6-promise", "webaudioapi", "webrtc", "mocha", "chai"]
+    "types": ["es6-promise", "webaudioapi", "mocha", "chai"]
   },
   "files": [
     "declarations.d.ts"

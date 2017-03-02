@@ -73,6 +73,7 @@ var ApiAi =
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
 var ApiAiConstants;
 (function (ApiAiConstants) {
     var AVAILABLE_LANGUAGES;
@@ -108,11 +109,17 @@ var ApiAiConstants;
 
 "use strict";
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var ApiAiBaseError = (function (_super) {
     __extends(ApiAiBaseError, _super);
     function ApiAiBaseError(message) {
@@ -154,6 +161,7 @@ exports.ApiAiRequestError = ApiAiRequestError;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
 var Errors_1 = __webpack_require__(1);
 var XhrRequest_1 = __webpack_require__(3);
 var Request = (function () {
@@ -196,7 +204,6 @@ var Request = (function () {
     };
     return Request;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Request;
 
 
@@ -206,6 +213,7 @@ exports.default = Request;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * quick ts implementation of example from
  * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
@@ -334,7 +342,6 @@ XhrRequest.XMLHttpFactories = [
         Method[Method["DELETE"] = "DELETE"] = "DELETE";
     })(Method = XhrRequest.Method || (XhrRequest.Method = {}));
 })(XhrRequest || (XhrRequest = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = XhrRequest;
 
 
@@ -347,6 +354,7 @@ exports.default = XhrRequest;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(5));
 
 
@@ -359,6 +367,7 @@ __export(__webpack_require__(5));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 var ApiAiConstants_1 = __webpack_require__(0);
 var Errors_1 = __webpack_require__(1);
 var EventRequest_1 = __webpack_require__(7);
@@ -455,6 +464,7 @@ exports.ApiAiClient = ApiAiClient;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
 var IStreamClient;
 (function (IStreamClient) {
     var ERROR;
@@ -488,11 +498,17 @@ var IStreamClient;
 
 "use strict";
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var Request_1 = __webpack_require__(2);
 var EventRequest = (function (_super) {
     __extends(EventRequest, _super);
@@ -510,11 +526,17 @@ exports.EventRequest = EventRequest;
 
 "use strict";
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var ApiAiConstants_1 = __webpack_require__(0);
 var Errors_1 = __webpack_require__(1);
 var XhrRequest_1 = __webpack_require__(3);
@@ -590,11 +612,17 @@ exports.TTSRequest = TTSRequest;
 
 "use strict";
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var Request_1 = __webpack_require__(2);
 var TextRequest = (function (_super) {
     __extends(TextRequest, _super);
@@ -603,7 +631,6 @@ var TextRequest = (function (_super) {
     }
     return TextRequest;
 }(Request_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextRequest;
 
 
