@@ -23,7 +23,7 @@ abstract class Request {
       error = new ApiAiRequestError(xhr.statusText, xhr.status);
     }
 
-    return Promise.reject(error);
+    return Promise.reject<ApiAiRequestError>(error);
   }
 
   protected uri;
