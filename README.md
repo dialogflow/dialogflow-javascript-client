@@ -122,6 +122,8 @@ You can find full list of interfaces [here](ts/Interfaces.ts)
 
 ## Changelog
 
+## 2.0.0-beta.19
+* minor typings changes
 ## 2.0.0-beta.18
 * some minor typings changes
 
