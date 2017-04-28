@@ -13,7 +13,7 @@ export interface IServerResponse {
         action: string,
         resolvedQuery: string,
         speech: string;
-        fulfilment?: {
+        fulfillment?: {
             speech: string
         }
     };
