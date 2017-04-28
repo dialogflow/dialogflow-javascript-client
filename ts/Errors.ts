@@ -1,4 +1,4 @@
-abstract class ApiAiBaseError extends Error {
+export abstract class ApiAiBaseError extends Error {
 
     public abstract name: string;
     public stack: string;
