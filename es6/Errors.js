@@ -1,4 +1,4 @@
-class ApiAiBaseError extends Error {
+export class ApiAiBaseError extends Error {
     constructor(message) {
         super(message);
         this.message = message;

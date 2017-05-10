@@ -7,9 +7,9 @@ var ApiAi =
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -130,6 +130,7 @@ var ApiAiBaseError = (function (_super) {
     }
     return ApiAiBaseError;
 }(Error));
+exports.ApiAiBaseError = ApiAiBaseError;
 var ApiAiClientConfigurationError = (function (_super) {
     __extends(ApiAiClientConfigurationError, _super);
     function ApiAiClientConfigurationError(message) {
@@ -246,13 +247,13 @@ var IStreamClient;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
 /**
  * this module is full copy-paste from v1 sdk. It should be like that while we send 'resempler' to worker as
  * 'function body'
  * @todo: re-make as normal class
  * @private
  */
-
 Object.defineProperty(exports, "__esModule", { value: true });
 function _resamplerJs() {
     function Resampler(fromSampleRate, toSampleRate, channels, outputBufferSize, noReturn) {
