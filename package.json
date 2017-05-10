@@ -27,9 +27,9 @@
     "rimraf": "^2.6.1",
     "sinon": "^1.17.3",
     "tslint": "^4.5.1",
-    "typescript": "^2.2.1",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1"
+    "typescript": "^2.3.2",
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
     "start": "webpack-dev-server",
