@@ -4,7 +4,7 @@
     "outDir": "es6",
     "sourceMap": false,
     "typeRoots": ["node_modules/@types/"],
-    "types": ["webaudioapi"],
+    "types": [],
     "declaration": false
   },
   "files": [

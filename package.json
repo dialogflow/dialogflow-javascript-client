@@ -4,7 +4,6 @@
   "description": "Javascript SDK for https://api.ai/",
   "main": "index",
   "dependencies": {
-    "@types/webaudioapi": "0.0.27"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
