@@ -19,12 +19,12 @@ const promise = client.textRequest(longTextRequest);
 
 promise
     .then(handleResponse)
-    .catch(heandleError);
+    .catch(handleError);
 
 function handleResponse(serverResponse) {
         console.log(serverResponse);
 }
-function heandleError(serverError) {
+function handleError(serverError) {
         console.log(serverError);
 }
 
