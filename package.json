@@ -1,6 +1,6 @@
 {
   "name": "api-ai-javascript",
-  "version": "2.0.0-beta.20",
+  "version": "2.0.0-beta.21",
   "description": "Javascript SDK for https://api.ai/",
   "main": "index",
   "dependencies": {
@@ -32,8 +32,8 @@
     "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack && webpack --env.streamless && webpack --env.compress && webpack --env.streamless --env.compress && rimraf ./es6 && tsc -p ./tsconfig.es6.json",
+    "start": "webpack-dev-server --port 8002",
+    "build": "webpack && webpack --env.compress && rimraf ./es6 && tsc -p ./tsconfig.es6.json",
     "test": "karma start"
   },
   "repository": {

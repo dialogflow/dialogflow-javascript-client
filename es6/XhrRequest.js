@@ -99,7 +99,7 @@ XhrRequest.XMLHttpFactories = [
     () => new window["ActiveXObject"]("Microsoft.XMLHTTP")
 ];
 (function (XhrRequest) {
-    var Method;
+    let Method;
     (function (Method) {
         Method[Method["GET"] = "GET"] = "GET";
         Method[Method["POST"] = "POST"] = "POST";

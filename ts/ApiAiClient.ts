@@ -2,11 +2,9 @@ import { ApiAiConstants } from "./ApiAiConstants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
 import TextRequest from "./Request/TextRequest";
-import { TTSRequest } from "./Request/TTSRequest";
-// import {UserEntitiesRequest} from "./Request/UserEntitiesRequest";
+// import { TTSRequest } from "./Request/TTSRequest";
 
-import { IApiClientOptions, IRequestOptions, IServerResponse, IStreamClient, IStreamClientConstructor,
-    IStreamClientOptions, IStringMap } from "./Interfaces";
+import { IApiClientOptions, IRequestOptions, IServerResponse, IStringMap } from "./Interfaces";
 
 export * from "./Interfaces";
 export {ApiAiConstants} from "./ApiAiConstants";
@@ -18,7 +16,6 @@ export class ApiAiClient {
     private apiBaseUrl: string;
     private sessionId: string;
     private accessToken: string;
-    private streamClientClass: IStreamClientConstructor;
 
     constructor(options: IApiClientOptions) {
 
@@ -31,8 +28,6 @@ export class ApiAiClient {
         this.apiVersion = options.version || ApiAiConstants.DEFAULT_API_VERSION;
         this.apiBaseUrl = options.baseUrl || ApiAiConstants.DEFAULT_BASE_URL;
         this.sessionId = options.sessionId || this.guid();
-        this.streamClientClass = options.streamClientClass || null;
-
     }
 
     public textRequest(query, options: IRequestOptions = {}): Promise<IServerResponse> {
@@ -52,29 +47,17 @@ export class ApiAiClient {
         return new EventRequest(this, options).perform();
     }
 
-    public ttsRequest(query) {
+    // @todo: implement local tts request
+    /*public ttsRequest(query) {
         if (!query) {
             throw new ApiAiClientConfigurationError("Query should not be empty");
         }
         return new TTSRequest(this).makeTTSRequest(query);
-    }
+    }*/
 
     /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
     }*/
-
-    public createStreamClient(streamClientOptions: IStreamClientOptions = {}): IStreamClient {
-        if (this.streamClientClass) {
-
-            streamClientOptions.token = this.getAccessToken();
-            streamClientOptions.sessionId =  this.getSessionId();
-            streamClientOptions.lang = this.getApiLang();
-
-            return new this.streamClientClass(streamClientOptions);
-        } else {
-            throw new ApiAiClientConfigurationError("No StreamClient implementation given to ApiAi Client constructor");
-        }
-    }
 
     public getAccessToken(): string {
         return this.accessToken;

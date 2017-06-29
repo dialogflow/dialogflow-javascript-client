@@ -1,2 +1,2 @@
 /// <reference path="declarations.d.ts"/>
-export * from "./ts/_build";
+export * from "./ts/ApiAiClient";

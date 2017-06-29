@@ -68,23 +68,6 @@
   function setResponseOnNode(response, node) {
     node.innerHTML = response ? response : "[empty response]";
     node.setAttribute('data-actual-response', response);
-    var speaking = false;
-    
-    function speakNode() {
-      if (!response || speaking) {
-        return;
-      }
-      speaking = true;
-      tts(response)
-        .then(function () {speaking = false})
-        .catch(function (err) {
-          speaking = false;
-          Materialize.toast(err, 2000, 'red lighten-1');
-        });
-    }
-
-    node.addEventListener("click", speakNode);
-    speakNode();
   }
 
   function setResponseJSON(response) {

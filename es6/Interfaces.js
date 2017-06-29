@@ -1,13 +1,13 @@
 export var IStreamClient;
 (function (IStreamClient) {
-    var ERROR;
+    let ERROR;
     (function (ERROR) {
         ERROR[ERROR["ERR_NETWORK"] = 0] = "ERR_NETWORK";
         ERROR[ERROR["ERR_AUDIO"] = 1] = "ERR_AUDIO";
         ERROR[ERROR["ERR_SERVER"] = 2] = "ERR_SERVER";
         ERROR[ERROR["ERR_CLIENT"] = 3] = "ERR_CLIENT";
     })(ERROR = IStreamClient.ERROR || (IStreamClient.ERROR = {}));
-    var EVENT;
+    let EVENT;
     (function (EVENT) {
         EVENT[EVENT["MSG_WAITING_MICROPHONE"] = 0] = "MSG_WAITING_MICROPHONE";
         EVENT[EVENT["MSG_MEDIA_STREAM_CREATED"] = 1] = "MSG_MEDIA_STREAM_CREATED";

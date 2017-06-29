@@ -9,6 +9,6 @@
   },
   "files": [
     "declarations.d.ts",
-    "ts/_build.ts"
+    "ts/ApiAiClient.ts"
   ]
 }

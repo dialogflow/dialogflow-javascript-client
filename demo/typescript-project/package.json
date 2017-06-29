@@ -4,7 +4,7 @@
   "description": "Javascript SDK for https://api.ai/ typescript demo project",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
-    "api-ai-javascript": "^2.0.0-beta.20",
+    "api-ai-javascript": "^2.0.0-beta.21",
     "awesome-typescript-loader": "^3.0.8",
     "typescript": "^2.2.1",
     "webpack": "^2.2.1",

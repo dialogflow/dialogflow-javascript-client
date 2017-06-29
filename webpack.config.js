@@ -8,15 +8,11 @@ let libraryTarget = 'var';
 let outputFile = libraryName;
 let sourceMaps = true;
 let plugins = [];
-let entry = "_build.ts";
+let entry = "ApiAiClient.ts";
 
 module.exports = function(env) {
   if (!env) {
     env = {};
-  }
-  if (env && env.streamless) {
-    outputFile += '.streamless';
-    entry = "_build.streamless.ts"
   }
 
   // handle minification

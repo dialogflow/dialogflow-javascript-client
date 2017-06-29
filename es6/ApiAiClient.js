@@ -2,7 +2,6 @@ import { ApiAiConstants } from "./ApiAiConstants";
 import { ApiAiClientConfigurationError } from "./Errors";
 import { EventRequest } from "./Request/EventRequest";
 import TextRequest from "./Request/TextRequest";
-import { TTSRequest } from "./Request/TTSRequest";
 export * from "./Interfaces";
 export { ApiAiConstants } from "./ApiAiConstants";
 export class ApiAiClient {
@@ -15,7 +14,6 @@ export class ApiAiClient {
         this.apiVersion = options.version || ApiAiConstants.DEFAULT_API_VERSION;
         this.apiBaseUrl = options.baseUrl || ApiAiConstants.DEFAULT_BASE_URL;
         this.sessionId = options.sessionId || this.guid();
-        this.streamClientClass = options.streamClientClass || null;
     }
     textRequest(query, options = {}) {
         if (!query) {
@@ -31,26 +29,16 @@ export class ApiAiClient {
         options.event = { name: eventName, data: eventData };
         return new EventRequest(this, options).perform();
     }
-    ttsRequest(query) {
+    // @todo: implement local tts request
+    /*public ttsRequest(query) {
         if (!query) {
             throw new ApiAiClientConfigurationError("Query should not be empty");
         }
         return new TTSRequest(this).makeTTSRequest(query);
-    }
+    }*/
     /*public userEntitiesRequest(options: IRequestOptions = {}): UserEntitiesRequest {
         return new UserEntitiesRequest(this, options);
     }*/
-    createStreamClient(streamClientOptions = {}) {
-        if (this.streamClientClass) {
-            streamClientOptions.token = this.getAccessToken();
-            streamClientOptions.sessionId = this.getSessionId();
-            streamClientOptions.lang = this.getApiLang();
-            return new this.streamClientClass(streamClientOptions);
-        }
-        else {
-            throw new ApiAiClientConfigurationError("No StreamClient implementation given to ApiAi Client constructor");
-        }
-    }
     getAccessToken() {
         return this.accessToken;
     }
