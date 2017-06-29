@@ -15,6 +15,7 @@ class StreamClient {
 
     private audioContext: AudioContext;
     private mediaStreamSource: MediaStreamAudioSourceNode;
+    private gainNode: GainNode;
     private userSpeechAnalyser: AnalyserNode;
     private recorder: Recorder;
     private resampleProcessor;
@@ -29,7 +30,7 @@ class StreamClient {
     private onOpen; private onClose; private onInit; private onStartListening;
     private onStopListening; private onResults; private onEvent; private onError;
 
-    constructor(config: IStreamClientOptions = {}) {
+    constructor(private config: IStreamClientOptions = {}) {
 
         Processors.bindProcessors();
 
@@ -175,7 +176,14 @@ class StreamClient {
 
         this.mediaStreamSource = this.audioContext.createMediaStreamSource(stream);
         this.onEvent(IStreamClient.EVENT.MSG_MEDIA_STREAM_CREATED, "Media stream created");
+
+        // create audio nodes
+        this.gainNode = this.createGainNode();
         this.userSpeechAnalyser = this.audioContext.createAnalyser();
+
+        // connect: input ~> gain ~> userSpeechAnalyser ~> output
+        this.mediaStreamSource.connect(this.gainNode);
+        this.gainNode.connect(this.userSpeechAnalyser);
         this.mediaStreamSource.connect(this.userSpeechAnalyser);
         this.recorder = new Recorder(this.mediaStreamSource);
         this.onEvent(IStreamClient.EVENT.MSG_INIT_RECORDER, "Recorder initialized");
@@ -183,6 +191,12 @@ class StreamClient {
         if (onInit) {
             onInit();
         }
+    }
+
+    private createGainNode(): GainNode {
+        const gainNode = this.audioContext.createGain();
+        gainNode.gain.value = this.config.gain || gainNode.gain.defaultValue;
+        return gainNode;
     }
 
     private openWebSocket() {

@@ -55,6 +55,12 @@ export interface IStreamClientOptions {
     lang?: ApiAiConstants.AVAILABLE_LANGUAGES;
     contentType?: string;
     readingInterval?: string;
+    /**
+     * Set the applied gain for the processed audio stream.
+     *
+     * @type {number}
+     */
+    gain?: number;
     onOpen?: () => void;
     onClose?: () => void;
     onInit?: () => void;
