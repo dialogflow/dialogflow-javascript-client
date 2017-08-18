@@ -112,3 +112,14 @@ You can find full list of interfaces [here](ts/Interfaces.ts)
 * StreamClient class is no longer available inside main ApiAiClient class and now should be passed directly in ApiAiClient constructor: `const client = new ApiAiClient("ACCESS_TOKEN", {streamClientClass: ApiAiStreamClient})`.That was made to allow building your applications without streamclient at all (streamclient now takes about 70% of whole library). And also there will be other implementation of streamClient in the future
 ### Non-breaking changes:
 * Demo updated
+
+## How to make contributions?
+Please read and follow the steps in the [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+See [LICENSE](LICENSE).
+
+## Terms
+Your use of this sample is subject to, and by using or downloading the sample files you agree to comply with, the [Google APIs Terms of Service](https://developers.google.com/terms/).
+
+This is not an official Google product.
