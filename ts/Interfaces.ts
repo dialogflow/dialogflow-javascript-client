@@ -31,6 +31,16 @@ export interface IServerResponse {
         speech: string;
         fulfillment?: {
             speech: string
+        },
+        contexts?: [string],
+        parameters?: {
+            [index: string]: string;
+        },
+        metadata?: {
+            intentId: string,
+            intentName: string,
+            webhookForSlotFillingUsed: boolean,
+            webhookUsed: boolean,
         }
     };
     status: {
