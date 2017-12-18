@@ -30,7 +30,11 @@ export interface IServerResponse {
         resolvedQuery: string,
         speech: string;
         fulfillment?: {
-            speech: string
+            speech: string,
+            messages?: {
+                type: number,
+                speech: string,
+            }
         }
     };
     status: {
