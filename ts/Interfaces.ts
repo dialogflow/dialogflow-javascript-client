@@ -21,6 +21,7 @@ export interface IRequestOptions {
     event?: {name: string, data?: IStringMap};
     sessionId?: string;
     lang?: ApiAiConstants.AVAILABLE_LANGUAGES;
+    originalRequest?: {source: string, data?: IStringMap};
 }
 
 export interface IServerResponse {
