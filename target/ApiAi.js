@@ -1,19 +1,3 @@
-/**
- * Copyright 2017 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
 var ApiAi =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -89,6 +73,21 @@ var ApiAi =
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 var ApiAiConstants;
 (function (ApiAiConstants) {
@@ -123,10 +122,28 @@ var ApiAiConstants;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -134,7 +151,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ApiAiBaseError = (function (_super) {
+var ApiAiBaseError = /** @class */ (function (_super) {
     __extends(ApiAiBaseError, _super);
     function ApiAiBaseError(message) {
         var _this = _super.call(this, message) || this;
@@ -145,7 +162,7 @@ var ApiAiBaseError = (function (_super) {
     return ApiAiBaseError;
 }(Error));
 exports.ApiAiBaseError = ApiAiBaseError;
-var ApiAiClientConfigurationError = (function (_super) {
+var ApiAiClientConfigurationError = /** @class */ (function (_super) {
     __extends(ApiAiClientConfigurationError, _super);
     function ApiAiClientConfigurationError(message) {
         var _this = _super.call(this, message) || this;
@@ -155,7 +172,7 @@ var ApiAiClientConfigurationError = (function (_super) {
     return ApiAiClientConfigurationError;
 }(ApiAiBaseError));
 exports.ApiAiClientConfigurationError = ApiAiClientConfigurationError;
-var ApiAiRequestError = (function (_super) {
+var ApiAiRequestError = /** @class */ (function (_super) {
     __extends(ApiAiRequestError, _super);
     function ApiAiRequestError(message, code) {
         if (code === void 0) { code = null; }
@@ -176,10 +193,25 @@ exports.ApiAiRequestError = ApiAiRequestError;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Errors_1 = __webpack_require__(1);
 var XhrRequest_1 = __webpack_require__(7);
-var Request = (function () {
+var Request = /** @class */ (function () {
     function Request(apiAiClient, options) {
         this.apiAiClient = apiAiClient;
         this.options = options;
@@ -228,6 +260,21 @@ exports.default = Request;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -239,7 +286,7 @@ var TextRequest_1 = __webpack_require__(6);
 __export(__webpack_require__(4));
 var ApiAiConstants_2 = __webpack_require__(0);
 exports.ApiAiConstants = ApiAiConstants_2.ApiAiConstants;
-var ApiAiClient = (function () {
+var ApiAiClient = /** @class */ (function () {
     function ApiAiClient(options) {
         if (!options || !options.accessToken) {
             throw new Errors_1.ApiAiClientConfigurationError("Access token is required for new ApiAi.Client instance");
@@ -315,6 +362,21 @@ exports.ApiAiClient = ApiAiClient;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 var IStreamClient;
 (function (IStreamClient) {
@@ -349,10 +411,28 @@ var IStreamClient;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -361,7 +441,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Request_1 = __webpack_require__(2);
-var EventRequest = (function (_super) {
+var EventRequest = /** @class */ (function (_super) {
     __extends(EventRequest, _super);
     function EventRequest() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -377,10 +457,28 @@ exports.EventRequest = EventRequest;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -389,7 +487,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Request_1 = __webpack_require__(2);
-var TextRequest = (function (_super) {
+var TextRequest = /** @class */ (function (_super) {
     __extends(TextRequest, _super);
     function TextRequest() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -405,6 +503,21 @@ exports.default = TextRequest;
 
 "use strict";
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * quick ts implementation of example from
@@ -413,7 +526,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @todo: test (?)
  * @todo: add node.js implementation with node's http inside. Just to make SDK cross-platform
  */
-var XhrRequest = (function () {
+var XhrRequest = /** @class */ (function () {
     function XhrRequest() {
     }
     // Method that performs the ajax request

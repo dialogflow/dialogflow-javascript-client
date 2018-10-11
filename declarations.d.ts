@@ -52,7 +52,7 @@ interface MediaStreamAudioSourceNode extends AudioNode {
 }
 
 interface MediaStreamAudioDestinationNode extends AudioNode {
-    stream: MediaStream;
+    readonly stream: MediaStream;
 }
 
 interface AudioBuffer {
