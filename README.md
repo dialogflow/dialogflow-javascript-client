@@ -1,5 +1,9 @@
 
-# Installation
+# DEPRECATED
+
+| Deprecated |
+|-------|
+| This Dialogflow client library and Dialogflow API V1 [have been deprecated and will be shut down on October 23th, 2019](https://blog.dialogflow.com/post/migrate-to-dialogflow-api-v2/). Please [migrate to Dialogflow API V2](https://cloud.google.com/dialogflow-enterprise/docs/migrating). |
 
 You can use this library as common pre-built .js ([choose there](target)).
 
