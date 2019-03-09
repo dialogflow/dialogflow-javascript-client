@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
 export var ApiAiConstants;
 (function (ApiAiConstants) {
     let AVAILABLE_LANGUAGES;
